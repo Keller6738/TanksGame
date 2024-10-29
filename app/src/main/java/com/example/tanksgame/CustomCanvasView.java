@@ -12,11 +12,14 @@ import android.os.Handler;
 
 public class CustomCanvasView extends View {
     private Paint paint;
-    private float circleX = 200; // Initial X position
-    private float circleY = 200; // Initial Y position
-    private static final float CIRCLE_RADIUS = 100; // Radius of the circle
+    private float rectX = 100; // Initial X position of the rectangle
+    private float rectY = 200; // Y position of the rectangle
+    private static final float RECT_WIDTH = 200; // Width of the rectangle
+    private static final float RECT_HEIGHT = 100; // Height of the rectangle
     private Handler handler;
     private Runnable runnable;
+    private boolean isMoving = false; // Track if the button is pressed
+    private float rotationAngle = 0; // Rotation angle for the rectangle
 
     public CustomCanvasView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -25,11 +28,9 @@ public class CustomCanvasView extends View {
 
     private void init() {
         paint = new Paint();
-        paint.setColor(Color.BLUE); // Initial color
+        paint.setColor(Color.BLUE); // Color for the rectangle
         paint.setAntiAlias(true);
         handler = new Handler(Looper.getMainLooper());
-
-        // Start the periodic movement
         startAnimation();
     }
 
@@ -37,10 +38,16 @@ public class CustomCanvasView extends View {
         runnable = new Runnable() {
             @Override
             public void run() {
-                // Update the position of the circle
-                circleX += 10; // Move to the right
-                if (circleX > getWidth()) { // Reset if off-screen
-                    circleX = 0;
+                if (isMoving) {
+                    rectX += 10; // Move to the right
+                    if (rectX > getWidth()) { // Reset if off-screen
+                        rectX = 0;
+                    }
+                } else {
+                    rotationAngle += 5; // Rotate the rectangle
+                    if (rotationAngle >= 360) {
+                        rotationAngle = 0; // Reset angle
+                    }
                 }
                 invalidate(); // Request redraw
                 handler.postDelayed(this, 50); // Repeat every 100ms
@@ -52,23 +59,15 @@ public class CustomCanvasView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        // Draw the circle with updated position
-        canvas.drawCircle(circleX, circleY, CIRCLE_RADIUS, paint);
+        canvas.save();
+        // Rotate around the center of the rectangle
+        canvas.rotate(rotationAngle, rectX + RECT_WIDTH / 2, rectY + RECT_HEIGHT / 2);
+        // Draw the rectangle
+        canvas.drawRect(rectX, rectY, rectX + RECT_WIDTH, rectY + RECT_HEIGHT, paint);
+        canvas.restore();
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            // Update circle position on touch (optional)
-            updateCirclePosition(event.getX(), event.getY());
-            return true;
-        }
-        return false;
-    }
-
-    public void updateCirclePosition(float x, float y) {
-        circleX = x;
-        circleY = y;
-        invalidate(); // Re-trigger onDraw to reflect changes
+    public void setMoving(boolean moving) {
+        isMoving = moving; // Update movement state
     }
 }
