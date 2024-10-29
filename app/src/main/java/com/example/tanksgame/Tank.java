@@ -23,19 +23,17 @@ public class Tank extends CanvasComponent {
 
         tank = true;
 
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                Log.d("x, y, angle", x + ", " + y + ", " + angle);
-                if (isMoving) {
-                    move();
-                } else {
-                    turn();
-                }
-                invalidate(); // Request redraw
-                handler.postDelayed(this, 50);
+        runnable = () -> {
+            Log.d("x, y, angle", x + ", " + y + ", " + angle);
+            if (isMoving) {
+                move();
+            } else {
+                turn();
             }
+            invalidate(); // Request redraw
+            handler.postDelayed(runnable, 50);
         };
+
 
         wheelsPaint = new Paint();
         wheelsPaint.setAntiAlias(true);
