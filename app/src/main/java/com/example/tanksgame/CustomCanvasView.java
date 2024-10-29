@@ -12,14 +12,17 @@ import android.os.Handler;
 
 public class CustomCanvasView extends View {
     private Paint paint;
-    private float rectX = 100; // Initial X position of the rectangle
-    private float rectY = 200; // Y position of the rectangle
-    private static final float RECT_WIDTH = 200; // Width of the rectangle
-    private static final float RECT_HEIGHT = 100; // Height of the rectangle
+    private float tankX = 100; // Initial X position of the tank
+    private float tankY = 400; // Y position of the tank
+    private static final float TANK_WIDTH = 200; // Width of the tank body
+    private static final float TANK_HEIGHT = 100; // Height of the tank body
+    private static final float TREAD_WIDTH = 40; // Width of the treads
+    private static final float CANNON_LENGTH = 80; // Length of the cannon
+    private float rotationAngle = 0; // Rotation angle for the cannon
+
     private Handler handler;
     private Runnable runnable;
-    private boolean isMoving = false; // Track if the button is pressed
-    private float rotationAngle = 0; // Rotation angle for the rectangle
+    private boolean isMoving = false;
 
     public CustomCanvasView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -28,7 +31,7 @@ public class CustomCanvasView extends View {
 
     private void init() {
         paint = new Paint();
-        paint.setColor(Color.BLUE); // Color for the rectangle
+        paint.setColor(Color.GREEN); // Color for the tank
         paint.setAntiAlias(true);
         handler = new Handler(Looper.getMainLooper());
         startAnimation();
@@ -39,9 +42,9 @@ public class CustomCanvasView extends View {
             @Override
             public void run() {
                 if (isMoving) {
-                    rectX += 10; // Move to the right
-                    if (rectX > getWidth()) { // Reset if off-screen
-                        rectX = 0;
+                    tankX += 10; // Move to the right
+                    if (tankX > getWidth()) { // Reset if off-screen
+                        tankX = 0;
                     }
                 } else {
                     rotationAngle += 5; // Rotate the rectangle
@@ -59,11 +62,27 @@ public class CustomCanvasView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        // Save the canvas state
         canvas.save();
-        // Rotate around the center of the rectangle
-        canvas.rotate(rotationAngle, rectX + RECT_WIDTH / 2, rectY + RECT_HEIGHT / 2);
-        // Draw the rectangle
-        canvas.drawRect(rectX, rectY, rectX + RECT_WIDTH, rectY + RECT_HEIGHT, paint);
+
+        // Rotate around the center of the tank
+        canvas.rotate(rotationAngle, tankX + TANK_WIDTH / 2, tankY + TANK_HEIGHT / 2);
+
+        // Draw tank body
+        paint.setColor(Color.GREEN);
+        canvas.drawRect(tankX, tankY, tankX + TANK_WIDTH, tankY + TANK_HEIGHT, paint);
+
+        // Draw tank treads
+        paint.setColor(Color.DKGRAY);
+        canvas.drawRect(tankX, tankY + TANK_HEIGHT, tankX + TANK_WIDTH, tankY + TANK_HEIGHT + TREAD_WIDTH, paint);
+
+        // Draw cannon
+        paint.setColor(Color.GREEN);
+        canvas.drawRect(tankX + TANK_WIDTH / 2 - 10, tankY - CANNON_LENGTH,
+                tankX + TANK_WIDTH / 2 + 10, tankY, paint); // Draw cannon
+
+        // Restore the canvas state
         canvas.restore();
     }
 
