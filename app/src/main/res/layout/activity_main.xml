@@ -16,4 +16,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.example.tanksgame.CustomCanvasView
+        android:id="@+id/customCanvasView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F0F0F0"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
