@@ -1,17 +1,16 @@
 package com.example.tanksgame;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.util.AttributeSet;
+
 public class Rocket extends CanvasComponent {
-    public Rocket(Color kColor, double initX, double initY, int angle) {
-        super(kColor, initX, initY, angle);
+    public Rocket(Color kColor, double initX, double initY, int angle, Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
 
     @Override
-    public void dutyCycle() {
-        move();
-        draw();
-    }
+    protected void onDraw(Canvas canvas) {
 
-    @Override
-    public void draw() {
     }
 }
