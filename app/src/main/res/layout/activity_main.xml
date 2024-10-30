@@ -7,13 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.example.tanksgame.CustomCanvasView
-        android:id="@+id/customCanvasView"
+    <com.example.tanksgame.Tank
+        android:id="@+id/tank"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F0F0F0"
-        tools:layout_editor_absoluteX="-16dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:background="#F0F0F0" />
 
     <Button
         android:id="@+id/moveButton"

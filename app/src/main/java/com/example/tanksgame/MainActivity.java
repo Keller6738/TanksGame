@@ -1,5 +1,7 @@
 package com.example.tanksgame;
 
+import static com.example.tanksgame.Color.BLUE;
+
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,7 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
-    private CustomCanvasView customCanvasView;
+    private Tank tank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +26,10 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        customCanvasView = findViewById(R.id.customCanvasView);
+        tank = findViewById(R.id.tank);
+        tank.setColor(BLUE);
+        tank.setInitX(50);
+        tank.setInitY(200);
 
         View moveButton = findViewById(R.id.moveButton);
 
@@ -33,11 +38,11 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        customCanvasView.setMoving(true); // Start moving
+                        tank.toggleMobility(); // Start moving
                         return true; // Consume event
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        customCanvasView.setMoving(false); // Stop moving
+                        tank.toggleMobility(); // Stop moving
                         return true; // Consume event
                 }
                 return false; // Don't consume other events
