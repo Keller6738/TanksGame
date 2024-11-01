@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         tank = findViewById(R.id.tank);
         tank.setColor(BLUE);
+        tank.setPaintColor();
         tank.setInitX(50);
         tank.setInitY(200);
 

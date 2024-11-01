@@ -1,6 +1,10 @@
 package com.example.tanksgame;
 
+import static android.graphics.Color.BLACK;
 import static android.graphics.Color.BLUE;
+import static android.graphics.Color.GREEN;
+import static android.graphics.Color.RED;
+import static android.graphics.Color.YELLOW;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -39,10 +43,28 @@ public class Tank extends CanvasComponent {
 
     private void init() {
         paint = new Paint();
-        paint.setColor(BLUE);
         paint.setAntiAlias(true);
 
         dutyCycle(runnable);
+    }
+
+    public void setPaintColor() {
+        switch (kColor) {
+            case BLUE:
+                paint.setColor(BLUE);
+                break;
+            case RED:
+                paint.setColor(RED);
+                break;
+            case GREEN:
+                paint.setColor(GREEN);
+                break;
+            case YELLOW:
+                paint.setColor(YELLOW);
+                break;
+            default:
+                paint.setColor(BLACK);
+        }
     }
 
     public void turn() {
@@ -71,12 +93,10 @@ public class Tank extends CanvasComponent {
         canvas.rotate(angle + 90, centerX, centerY);
 
         // Draw tank body
-        paint.setColor(android.graphics.Color.GREEN);
         canvas.drawRect((float) x, (float) y,
                 (float) x + TANK_WIDTH, (float) y + TANK_HEIGHT, paint);
 
         // Draw cannon
-        paint.setColor(android.graphics.Color.GREEN);
         canvas.drawRect(centerX - 10, (float) y - CANNON_LENGTH,
                 centerX + 10, (float) y, paint); // Adjust cannon position
 
