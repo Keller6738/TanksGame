@@ -9,13 +9,12 @@ import static android.graphics.Color.YELLOW;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.Log;
 
 public class Tank extends CanvasComponent {
     private boolean isMoving = false;
-    private Paint paint;
-    private final Runnable runnable;
 
     private static final float TANK_WIDTH = 75; // Width of the tank body
     private static final float TANK_HEIGHT = 100; // Height of the tank body
@@ -41,32 +40,6 @@ public class Tank extends CanvasComponent {
         init();
     }
 
-    private void init() {
-        paint = new Paint();
-        paint.setAntiAlias(true);
-
-        dutyCycle(runnable);
-    }
-
-    public void setPaintColor() {
-        switch (kColor) {
-            case BLUE:
-                paint.setColor(BLUE);
-                break;
-            case RED:
-                paint.setColor(RED);
-                break;
-            case GREEN:
-                paint.setColor(GREEN);
-                break;
-            case YELLOW:
-                paint.setColor(YELLOW);
-                break;
-            default:
-                paint.setColor(BLACK);
-        }
-    }
-
     public void turn() {
         this.angle += 5;
         if (angle >= 360) {
@@ -77,6 +50,11 @@ public class Tank extends CanvasComponent {
     public void toggleMobility() {
         this.isMoving = !this.isMoving;
     }
+
+    public Point getCannonTip() {
+        return new Point((int) (x + TANK_WIDTH / 2), (int) (y + TANK_HEIGHT / 2));
+    }
+
 
     @Override
     protected void onDraw(Canvas canvas) {

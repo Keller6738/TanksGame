@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">TanksGame</string>
     <string name="move">Move</string>
+    <string name="fire_rocket">Fire Rocket</string>
 </resources>

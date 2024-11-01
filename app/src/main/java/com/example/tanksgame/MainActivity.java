@@ -2,9 +2,12 @@ package com.example.tanksgame;
 
 import static com.example.tanksgame.Color.BLUE;
 
+import android.graphics.Point;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
     private Tank tank;
+    private Rocket rocket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,5 +53,30 @@ public class MainActivity extends AppCompatActivity {
                 return false; // Don't consume other events
             }
         });
+
+        View fireButton = findViewById(R.id.fireButton);
+
+        fireButton.setOnClickListener(v -> launchRocket());
+    }
+
+    private void launchRocket() {
+        if (rocket == null) {
+            // Inflate the rocket view from rocket_layout.xml
+            LayoutInflater inflater = LayoutInflater.from(this);
+            ViewGroup mainLayout = findViewById(R.id.main); // Main layout to add the rocket to
+            rocket = (Rocket) inflater.inflate(R.layout.rocket_layout, mainLayout, false);
+
+            // Add the rocket to the main layout
+            mainLayout.addView(rocket);
+        }
+
+        // Position the rocket at the cannon tip
+        Point cannonTip = tank.getCannonTip();
+        rocket.setInitX(cannonTip.x);
+        rocket.setInitY(cannonTip.y);
+        rocket.angle = tank.angle; // Assume cannon points upwards
+
+        // Make the rocket visible and start moving it
+        rocket.setVisibility(View.VISIBLE);
     }
 }
