@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.example.tanksgame.Tank
+    <com.example.tanksgame.canvas.Tank
         android:id="@+id/tank"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
