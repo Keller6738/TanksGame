@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public abstract class CanvasComponent extends View {
+    protected boolean tank;
     protected Color kColor;
     protected double x, y;
     protected int angle;
@@ -79,8 +80,8 @@ public abstract class CanvasComponent extends View {
         double angleInRadians = Math.toRadians(angle);
 
         // Calculate movement based purely on angle
-        this.x += 10 * Math.cos(angleInRadians);
-        this.y += 10 * Math.sin(angleInRadians);
+        this.x += (tank? 10 : 15) * Math.cos(angleInRadians);
+        this.y += (tank? 10 : 15) * Math.sin(angleInRadians);
     }
 
     protected void dutyCycle(Runnable runnable) {

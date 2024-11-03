@@ -12,6 +12,8 @@ public class Rocket extends CanvasComponent {
     public Rocket(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        tank = false;
+
         runnable = new Runnable() {
             @Override
             public void run() {
