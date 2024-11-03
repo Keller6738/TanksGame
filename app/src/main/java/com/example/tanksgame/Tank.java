@@ -13,10 +13,10 @@ public class Tank extends CanvasComponent {
 
     private final Paint wheelsPaint;
 
-    private static final float TANK_WIDTH = 55; // Width of the tank body
-    private static final float TANK_HEIGHT = 100;
-    private static final float WHEEL_WIDTH = 25; // Width of the tank body
-    private static final float CANNON_LENGTH = 40; // Length of the cannon
+    private static final float TANK_WIDTH = 100; // Width of the tank body
+    private static final float TANK_HEIGHT = 45;
+    private static final float WHEEL_WIDTH = 20; // Width of the tank body
+    private static final float CANNON_LENGTH = 35; // Length of the cannon
 
     public Tank(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -54,7 +54,7 @@ public class Tank extends CanvasComponent {
     }
 
     public Point getCannonTip() {
-        return new Point((int) (x + TANK_WIDTH / 2), (int) (y + TANK_HEIGHT / 2));
+        return new Point((int) (x + TANK_WIDTH / 2), (int) (y - CANNON_LENGTH));
     }
 
 
@@ -66,26 +66,28 @@ public class Tank extends CanvasComponent {
         canvas.save();
 
         // Calculate the center of the tank
-        float centerX = (float) x + TANK_WIDTH / 2;
-        float centerY = (float) y + TANK_HEIGHT / 2;
+        float topLeftX = (float) x - TANK_WIDTH / 2;
+        float topLeftY = (float) y + TANK_HEIGHT / 2;
+        float bottomRightX = (float) x + TANK_HEIGHT / 2;
+        float bottomRightY = (float) y - TANK_HEIGHT / 2;
 
         // Rotate the canvas around the center of the tank
-        canvas.rotate(angle + 90, centerX, centerY);
+        canvas.rotate(angle, (float) x, (float) y);
 
         // Draw tank body
-        canvas.drawRect((float) x, (float) y,
-                (float) x + TANK_WIDTH, (float) y + TANK_HEIGHT, paint);
+        canvas.drawRect(topLeftX, topLeftY,
+                bottomRightX, bottomRightY, paint);
 
         // Draw cannon
-        canvas.drawRect(centerX - 10, (float) y - CANNON_LENGTH,
-                centerX + 10, (float) y, paint); // Adjust cannon position
+        canvas.drawRect(bottomRightX, (float) y + 10,
+                bottomRightX + CANNON_LENGTH, (float) y - 10, paint); // Adjust cannon position
 
         //Draw wheels
-        canvas.drawRect((float) x + TANK_WIDTH, (float) y,
-                (float) x + TANK_WIDTH + WHEEL_WIDTH, (float) y + TANK_HEIGHT, wheelsPaint);
+        canvas.drawRect(topLeftX, topLeftY + WHEEL_WIDTH,
+                bottomRightX, topLeftY, wheelsPaint);
 
-        canvas.drawRect((float) x, (float) y,
-                (float) x - WHEEL_WIDTH, (float) y + TANK_HEIGHT, wheelsPaint);
+        canvas.drawRect(topLeftX, bottomRightY,
+                bottomRightX, bottomRightY - WHEEL_WIDTH, wheelsPaint);
 
         // Restore the canvas state
         canvas.restore();
