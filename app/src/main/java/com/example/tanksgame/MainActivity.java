@@ -1,8 +1,8 @@
 package com.example.tanksgame;
 
 import static com.example.tanksgame.Color.BLUE;
+import static com.example.tanksgame.canvas.Rocket.ROCKET_LENGTH;
 
-import android.graphics.Point;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,6 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.tanksgame.canvas.Rocket;
+import com.example.tanksgame.canvas.Tank;
 
 public class MainActivity extends AppCompatActivity {
     private Tank tank;
@@ -32,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         tank = findViewById(R.id.tank);
         tank.setColor(BLUE);
-        tank.setPaintColor();
+        tank.configurePaintColor();
         tank.setInitX(50);
         tank.setInitY(200);
 
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        launchRocket();
                         tank.toggleMobility(); // Start moving
                         return true; // Consume event
                     case MotionEvent.ACTION_UP:
@@ -60,21 +64,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void launchRocket() {
-        if (rocket == null) {
-            // Inflate the rocket view from rocket_layout.xml
-            LayoutInflater inflater = LayoutInflater.from(this);
-            ViewGroup mainLayout = findViewById(R.id.main); // Main layout to add the rocket to
-            rocket = (Rocket) inflater.inflate(R.layout.rocket_layout, mainLayout, false);
+        // Inflate the rocket view from rocket_layout.xml
+        LayoutInflater inflater = LayoutInflater.from(this);
+        ViewGroup mainLayout = findViewById(R.id.main); // Main layout to add the rocket to
+        rocket = (Rocket) inflater.inflate(R.layout.rocket_layout, mainLayout, false);
 
-            // Add the rocket to the main layout
-            mainLayout.addView(rocket);
-        }
+        // Add the rocket to the main layout
+        mainLayout.addView(rocket);
 
         // Position the rocket at the cannon tip
-        Point cannonTip = tank.getCannonTip();
-        rocket.setInitX(cannonTip.x);
-        rocket.setInitY(cannonTip.y);
-        rocket.angle = tank.angle; // Assume cannon points upwards
+        double cannonTip = tank.getCannonTip();
+        rocket.setInitX(cannonTip + ROCKET_LENGTH / 2);
+        rocket.setInitY(tank.getCanvasY());
+        rocket.setAngle(tank.getAngle());
+        rocket.setColor(tank.getColor());
+        rocket.configurePaintColor();
 
         // Make the rocket visible and start moving it
         rocket.setVisibility(View.VISIBLE);
