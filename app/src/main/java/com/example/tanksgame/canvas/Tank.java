@@ -1,10 +1,9 @@
-package com.example.tanksgame;
+package com.example.tanksgame.canvas;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -17,6 +16,7 @@ public class Tank extends CanvasComponent {
     private static final float TANK_HEIGHT = 45;
     private static final float WHEEL_WIDTH = 20; // Width of the tank body
     private static final float CANNON_LENGTH = 35; // Length of the cannon
+    private static final float CANNON_WIDTH = 20; // Length of the cannon
 
     public Tank(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -31,7 +31,7 @@ public class Tank extends CanvasComponent {
                 turn();
             }
             invalidate(); // Request redraw
-            handler.postDelayed(runnable, 50);
+            handler.postDelayed(runnable, 10);
         };
 
 
@@ -43,7 +43,7 @@ public class Tank extends CanvasComponent {
     }
 
     public void turn() {
-        this.angle += 5;
+        this.angle += 2;
         if (angle >= 360) {
             angle = 0; // Reset angle
         }
@@ -53,10 +53,9 @@ public class Tank extends CanvasComponent {
         this.isMoving = !this.isMoving;
     }
 
-    public Point getCannonTip() {
-        return new Point((int) (x + TANK_WIDTH / 2), (int) (y - CANNON_LENGTH));
+    public double getCannonTip() {
+        return x + TANK_HEIGHT / 2 + CANNON_LENGTH;
     }
-
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -79,8 +78,8 @@ public class Tank extends CanvasComponent {
                 bottomRightX, bottomRightY, paint);
 
         // Draw cannon
-        canvas.drawRect(bottomRightX, (float) y + 10,
-                bottomRightX + CANNON_LENGTH, (float) y - 10, paint); // Adjust cannon position
+        canvas.drawRect(bottomRightX, (float) y + CANNON_WIDTH / 2,
+                bottomRightX + CANNON_LENGTH, (float) y - CANNON_WIDTH / 2, paint); // Adjust cannon position
 
         //Draw wheels
         canvas.drawRect(topLeftX, topLeftY + WHEEL_WIDTH,

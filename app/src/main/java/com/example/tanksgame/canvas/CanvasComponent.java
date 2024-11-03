@@ -1,4 +1,4 @@
-package com.example.tanksgame;
+package com.example.tanksgame.canvas;
 
 import static android.graphics.Color.BLACK;
 import static android.graphics.Color.BLUE;
@@ -13,6 +13,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.example.tanksgame.Color;
 
 public abstract class CanvasComponent extends View {
     protected boolean tank;
@@ -44,11 +46,23 @@ public abstract class CanvasComponent extends View {
         return kColor;
     }
 
+    public double getCanvasX() {
+        return x;
+    }
+
+    public double getCanvasY() {
+        return y;
+    }
+
+    public int getAngle() {
+        return angle;
+    }
+
     public void setColor(Color color) {
         kColor = color;
     }
 
-    public void setPaintColor() {
+    public void configurePaintColor() {
         switch (kColor) {
             case BLUE:
                 paint.setColor(BLUE);
@@ -80,8 +94,8 @@ public abstract class CanvasComponent extends View {
         double angleInRadians = Math.toRadians(angle);
 
         // Calculate movement based purely on angle
-        this.x += (tank? 10 : 15) * Math.cos(angleInRadians);
-        this.y += (tank? 10 : 15) * Math.sin(angleInRadians);
+        this.x += (tank? 3 : 5) * Math.cos(angleInRadians);
+        this.y += (tank? 3 : 5) * Math.sin(angleInRadians);
     }
 
     protected void dutyCycle(Runnable runnable) {
