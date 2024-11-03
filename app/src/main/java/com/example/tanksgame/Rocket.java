@@ -14,14 +14,11 @@ public class Rocket extends CanvasComponent {
 
         tank = false;
 
-        runnable = new Runnable() {
-            @Override
-            public void run() {
+        runnable = () -> {
                 Log.d("x, y", x + ", " + y);
                 move();
                 invalidate(); // Request redraw
-                handler.postDelayed(this, 50);
-            }
+                handler.postDelayed(runnable, 50);
         };
 
         init();
