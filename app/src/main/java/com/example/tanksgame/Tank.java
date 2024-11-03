@@ -1,13 +1,8 @@
 package com.example.tanksgame;
 
-import static android.graphics.Color.BLACK;
-import static android.graphics.Color.BLUE;
-import static android.graphics.Color.GREEN;
-import static android.graphics.Color.RED;
-import static android.graphics.Color.YELLOW;
-
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.util.AttributeSet;
@@ -16,12 +11,17 @@ import android.util.Log;
 public class Tank extends CanvasComponent {
     private boolean isMoving = false;
 
-    private static final float TANK_WIDTH = 75; // Width of the tank body
-    private static final float TANK_HEIGHT = 100; // Height of the tank body
+    private final Paint wheelsPaint;
+
+    private static final float TANK_WIDTH = 55; // Width of the tank body
+    private static final float TANK_HEIGHT = 100;
+    private static final float WHEEL_WIDTH = 25; // Width of the tank body
     private static final float CANNON_LENGTH = 40; // Length of the cannon
 
     public Tank(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        tank = true;
 
         runnable = new Runnable() {
             @Override
@@ -36,6 +36,10 @@ public class Tank extends CanvasComponent {
                 handler.postDelayed(this, 50);
             }
         };
+
+        wheelsPaint = new Paint();
+        wheelsPaint.setAntiAlias(true);
+        wheelsPaint.setColor(Color.rgb(0, 0, 0));
 
         init();
     }
@@ -77,6 +81,13 @@ public class Tank extends CanvasComponent {
         // Draw cannon
         canvas.drawRect(centerX - 10, (float) y - CANNON_LENGTH,
                 centerX + 10, (float) y, paint); // Adjust cannon position
+
+        //Draw wheels
+        canvas.drawRect((float) x + TANK_WIDTH, (float) y,
+                (float) x + TANK_WIDTH + WHEEL_WIDTH, (float) y + TANK_HEIGHT, wheelsPaint);
+
+        canvas.drawRect((float) x, (float) y,
+                (float) x - WHEEL_WIDTH, (float) y + TANK_HEIGHT, wheelsPaint);
 
         // Restore the canvas state
         canvas.restore();
