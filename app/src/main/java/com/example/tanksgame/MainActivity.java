@@ -4,6 +4,8 @@ import static com.example.tanksgame.Color.BLUE;
 import static com.example.tanksgame.canvas.Rocket.ROCKET_LENGTH;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,9 +20,12 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.tanksgame.canvas.Rocket;
 import com.example.tanksgame.canvas.Tank;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     private Tank tank;
-    private Rocket rocket;
+    private ArrayList<Rocket> rockets;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,21 @@ public class MainActivity extends AppCompatActivity {
         tank.configurePaintColor();
         tank.setInitX(50);
         tank.setInitY(200);
+
+        rockets = new ArrayList<>();
+
+        handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(() -> {
+            if (!rockets.isEmpty()) {
+                for (Rocket rocket : rockets) {
+                    if (rocket.atEdge()) {
+                        ViewGroup mainLayout = findViewById(R.id.main);
+                        mainLayout.removeView(rocket);
+                        rocket.cancelRunnable();
+                    }
+                }
+            }
+        }, 1);
 
         View moveButton = findViewById(R.id.moveButton);
 
@@ -64,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void launchRocket() {
+        Rocket rocket;
         // Inflate the rocket view from rocket_layout.xml
         LayoutInflater inflater = LayoutInflater.from(this);
         ViewGroup mainLayout = findViewById(R.id.main); // Main layout to add the rocket to
@@ -82,5 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Make the rocket visible and start moving it
         rocket.setVisibility(View.VISIBLE);
+
+        rockets.add(rocket);
     }
 }

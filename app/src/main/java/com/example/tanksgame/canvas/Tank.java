@@ -24,7 +24,7 @@ public class Tank extends CanvasComponent {
         tank = true;
 
         runnable = () -> {
-            Log.d("x, y, angle", x + ", " + y + ", " + angle);
+            Log.d("tank", x + ", " + y + ", " + angle);
             if (isMoving) {
                 move();
             } else {
@@ -54,7 +54,7 @@ public class Tank extends CanvasComponent {
     }
 
     public double getCannonTip() {
-        return x + TANK_HEIGHT / 2 + CANNON_LENGTH;
+        return x + TANK_WIDTH / 2 + CANNON_LENGTH;
     }
 
     @Override

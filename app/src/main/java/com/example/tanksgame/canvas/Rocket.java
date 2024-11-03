@@ -19,7 +19,7 @@ public class Rocket extends CanvasComponent {
         tank = false;
 
         runnable = () -> {
-                Log.d("x, y", x + ", " + y);
+                Log.d("rocket", x + ", " + y);
                 move();
                 invalidate(); // Request redraw
                 handler.postDelayed(runnable, 10);
@@ -34,6 +34,14 @@ public class Rocket extends CanvasComponent {
 
     public void setAngle(int angle) {
         this.angle = angle;
+    }
+
+    public boolean atEdge() {
+        return x > getHeight() || y > getWidth();
+    }
+
+    public void cancelRunnable() {
+        handler.post(() ->{});
     }
 
     @Override
