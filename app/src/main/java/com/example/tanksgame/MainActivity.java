@@ -1,15 +1,8 @@
 package com.example.tanksgame;
 
-import static com.example.tanksgame.Color.BLUE;
-import static com.example.tanksgame.canvas.Rocket.ROCKET_LENGTH;
-
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,15 +10,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.tanksgame.canvas.Rocket;
-import com.example.tanksgame.canvas.Tank;
-
-import java.util.ArrayList;
+import com.example.tanksgame.canvas.TanksCanvas;
 
 public class MainActivity extends AppCompatActivity {
-    private Tank tank;
-    private ArrayList<Rocket> rockets;
-    private Handler handler;
+    TanksCanvas tanksCanvas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,26 +26,8 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        tank = findViewById(R.id.tank);
-        tank.setColor(BLUE);
-        tank.configurePaintColor();
-        tank.setInitX(50);
-        tank.setInitY(200);
-
-        rockets = new ArrayList<>();
-
-        handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(() -> {
-            if (!rockets.isEmpty()) {
-                for (Rocket rocket : rockets) {
-                    if (rocket.atEdge()) {
-                        ViewGroup mainLayout = findViewById(R.id.main);
-                        mainLayout.removeView(rocket);
-                        rocket.cancelRunnable();
-                    }
-                }
-            }
-        }, 1);
+        tanksCanvas = findViewById(R.id.tanks);
+        tanksCanvas.setTanksAmount(2);
 
         View moveButton = findViewById(R.id.moveButton);
 
@@ -66,44 +36,15 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        launchRocket();
-                        tank.toggleMobility(); // Start moving
+                        tanksCanvas.toggleTanksMobility();
                         return true; // Consume event
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        tank.toggleMobility(); // Stop moving
+                        tanksCanvas.toggleTanksMobility();
                         return true; // Consume event
                 }
                 return false; // Don't consume other events
             }
         });
-
-        View fireButton = findViewById(R.id.fireButton);
-
-        fireButton.setOnClickListener(v -> launchRocket());
-    }
-
-    private void launchRocket() {
-        Rocket rocket;
-        // Inflate the rocket view from rocket_layout.xml
-        LayoutInflater inflater = LayoutInflater.from(this);
-        ViewGroup mainLayout = findViewById(R.id.main); // Main layout to add the rocket to
-        rocket = (Rocket) inflater.inflate(R.layout.rocket_layout, mainLayout, false);
-
-        // Add the rocket to the main layout
-        mainLayout.addView(rocket);
-
-        // Position the rocket at the cannon tip
-        double cannonTip = tank.getCannonTip();
-        rocket.setInitX(cannonTip + ROCKET_LENGTH / 2);
-        rocket.setInitY(tank.getCanvasY());
-        rocket.setAngle(tank.getAngle());
-        rocket.setColor(tank.getColor());
-        rocket.configurePaintColor();
-
-        // Make the rocket visible and start moving it
-        rocket.setVisibility(View.VISIBLE);
-
-        rockets.add(rocket);
     }
 }
