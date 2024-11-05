@@ -1,61 +1,39 @@
 package com.example.tanksgame.canvas;
 
-import android.content.Context;
+import static android.graphics.Color.rgb;
+
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.AttributeSet;
-import android.util.Log;
+
+import com.example.tanksgame.Color;
 
 public class Rocket extends CanvasComponent {
-    private final Paint topPaint;
+    private final Paint m_topPaint;
 
     public static final float ROCKET_LENGTH = 30; // Adjust as needed
     private static final float ROCKET_WIDTH = 20; // Adjust as needed
 
-    public Rocket(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public Rocket(Color color, double initX, double initY, int initAngle) {
+        super(false, color, initX, initY, initAngle);
 
-        tank = false;
-
-        runnable = () -> {
-                Log.d("rocket", x + ", " + y);
-                move();
-                invalidate(); // Request redraw
-                handler.postDelayed(runnable, 10);
-        };
-
-        topPaint = new Paint();
-        topPaint.setColor(Color.rgb(20, 30, 70));
-        topPaint.setAntiAlias(true);
-
-        init();
+        m_topPaint = new Paint();
+        m_topPaint.setColor(rgb(20, 30, 70));
+        m_topPaint.setAntiAlias(true);
     }
 
-    public void setAngle(int angle) {
-        this.angle = angle;
-    }
+//    public boolean atEdge() {
+//        return x > getWidth() || y > getHeight();
+//    }
 
-    public boolean atEdge() {
-        return x > getHeight() || y > getWidth();
-    }
-
-    public void cancelRunnable() {
-        handler.post(() ->{});
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
+    void draw(Canvas canvas) {
         // Save the canvas state
         canvas.save();
 
-        canvas.rotate(angle, (float) x, (float) y);
+        canvas.rotate(m_angle, (float) m_x, (float) m_y);
 
-        canvas.drawRect((float) x - ROCKET_LENGTH / 2, (float) y + ROCKET_WIDTH / 2,
-                (float) x + ROCKET_LENGTH / 2, (float) y - ROCKET_WIDTH / 2, paint);
-        canvas.drawCircle((float) x + ROCKET_LENGTH / 2, (float) y, 10, topPaint);
+        canvas.drawRect((float) m_x - ROCKET_LENGTH / 2, (float) m_y + ROCKET_WIDTH / 2,
+                (float) m_x + ROCKET_LENGTH / 2, (float) m_y - ROCKET_WIDTH / 2, m_basicBrash);
+        canvas.drawCircle((float) m_x + ROCKET_LENGTH / 2, (float) m_y, 10, m_topPaint);
 
         // Restore the canvas state
         canvas.restore();
