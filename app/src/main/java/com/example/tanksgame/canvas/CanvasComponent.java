@@ -66,12 +66,16 @@ public abstract class CanvasComponent {
         return m_angle;
     }
 
-    void move() {
+    void move(boolean movableX, boolean movableY) {
         // Convert the angle to radians for use with Math functions
         double angleInRadians = Math.toRadians(m_angle);
 
         // Calculate movement based purely on angle
-        this.m_x += (isTank ? 3 : 5) * Math.cos(angleInRadians);
-        this.m_y += (isTank ? 3 : 5) * Math.sin(angleInRadians);
+        if (movableX) {
+            this.m_x += (isTank ? 2 : 5) * Math.cos(angleInRadians);
+        }
+        if (movableY) {
+            this.m_y += (isTank ? 2 : 5) * Math.sin(angleInRadians);
+        }
     }
 }

@@ -12,8 +12,8 @@ public class Tank extends CanvasComponent {
 
     private boolean isMoving = false;
 
-    private static final float TANK_WIDTH = 100; // Width of the tank body
-    private static final float TANK_HEIGHT = 45;
+    private static final float TANK_HEIGHT = 100; // Width of the tank body
+    private static final float TANK_WIDTH = 45;
     private static final float WHEEL_WIDTH = 20; // Width of the tank body
     private static final float CANNON_LENGTH = 35; // Length of the cannon
     private static final float CANNON_WIDTH = 20; // Length of the cannon
@@ -42,7 +42,7 @@ public class Tank extends CanvasComponent {
     }
 
     public double getCannonTip() {
-        return m_x + TANK_WIDTH / 2 + CANNON_LENGTH;
+        return m_x + TANK_HEIGHT / 2 + CANNON_LENGTH;
     }
 
     void draw(Canvas canvas) {
@@ -50,10 +50,10 @@ public class Tank extends CanvasComponent {
         canvas.save();
 
         // Calculate the center of the tank
-        float topLeftX = (float) m_x - TANK_WIDTH / 2;
-        float topLeftY = (float) m_y + TANK_HEIGHT / 2;
-        float bottomRightX = (float) m_x + TANK_HEIGHT / 2;
-        float bottomRightY = (float) m_y - TANK_HEIGHT / 2;
+        float topLeftX = (float) m_x - TANK_HEIGHT / 2;
+        float topLeftY = (float) m_y + TANK_WIDTH / 2;
+        float bottomRightX = (float) m_x + TANK_WIDTH / 2;
+        float bottomRightY = (float) m_y - TANK_WIDTH / 2;
 
         // Rotate the canvas around the center of the tank
         canvas.rotate(m_angle, (float) m_x, (float) m_y);
