@@ -11,6 +11,7 @@ public class Tank extends CanvasComponent {
     private final Paint m_wheelsPaint;
 
     private boolean isMoving = false;
+    private boolean toggleTurningDirection = false;
 
     private static final float TANK_HEIGHT = 100; // Width of the tank body
     private static final float TANK_WIDTH = 45;
@@ -31,14 +32,24 @@ public class Tank extends CanvasComponent {
     }
 
     void turn() {
-        this.m_angle += 2;
-        if (m_angle >= 360) {
-            m_angle = 0; // Reset angle
+        if (!toggleTurningDirection) {
+            this.m_angle += 2;
+            if (m_angle >= 360) {
+                m_angle = 0; // Reset angle
+            }
+        } else{
+            this.m_angle -= 2;
+            if (m_angle <= 0) {
+                m_angle = 360; // Reset angle
+            }
         }
     }
 
     void toggleMobility() {
-        this.isMoving = !this.isMoving;
+        isMoving = !isMoving;
+        if (!isMoving) {
+            toggleTurningDirection = !toggleTurningDirection;
+        }
     }
 
     public double getCannonTip() {
