@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         tanksCanvas = findViewById(R.id.tanks);
-        tanksCanvas.setTanksAmount(2);
+        tanksCanvas.setTanksAmount(1);
 
         View moveButton = findViewById(R.id.moveButton);
 
@@ -36,11 +36,11 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        tanksCanvas.toggleTanksMobility();
+                        tanksCanvas.toggleTankMobility(0);
                         return true; // Consume event
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        tanksCanvas.toggleTanksMobility();
+                        tanksCanvas.toggleTankMobility(0);
                         return true; // Consume event
                 }
                 return false; // Don't consume other events
