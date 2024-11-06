@@ -8,23 +8,23 @@ import android.graphics.Paint;
 import com.example.tanksgame.Color;
 
 public class Tank extends CanvasComponent {
-    private final Paint m_wheelsPaint;
+    private final Paint m_wheelsBrush;
 
     private boolean isMoving = false;
     private boolean toggleTurningDirection = false;
 
-    private static final float TANK_HEIGHT = 100; // Width of the tank body
-    private static final float TANK_WIDTH = 45;
+    private static final float TANK_HEIGHT = 100; // Height of the tank body
+    private static final float TANK_WIDTH = 45; // Width of the tank body
     private static final float WHEEL_WIDTH = 20; // Width of the tank body
     private static final float CANNON_LENGTH = 35; // Length of the cannon
-    private static final float CANNON_WIDTH = 20; // Length of the cannon
+    private static final float CANNON_WIDTH = 20; // Width of the cannon
 
     public Tank(Color color, double initX, double initY, int initAngle) {
         super(true, color, initX, initY, initAngle);
 
-        m_wheelsPaint = new Paint();
-        m_wheelsPaint.setAntiAlias(true);
-        m_wheelsPaint.setColor(rgb(0, 0, 0));
+        m_wheelsBrush = new Paint();
+        m_wheelsBrush.setAntiAlias(true);
+        m_wheelsBrush.setColor(rgb(0, 0, 0));
     }
 
     public boolean isMoving() {
@@ -33,12 +33,12 @@ public class Tank extends CanvasComponent {
 
     void turn() {
         if (!toggleTurningDirection) {
-            this.m_angle += 2;
+            this.m_angle += 3;
             if (m_angle >= 360) {
                 m_angle = 0; // Reset angle
             }
-        } else{
-            this.m_angle -= 2;
+        } else {
+            this.m_angle -= 3;
             if (m_angle <= 0) {
                 m_angle = 360; // Reset angle
             }
@@ -52,10 +52,15 @@ public class Tank extends CanvasComponent {
         }
     }
 
-    public double getCannonTip() {
-        return m_x + TANK_HEIGHT / 2 + CANNON_LENGTH;
+    public double getCannonTipX() {
+        return (m_x + TANK_HEIGHT / 2 + CANNON_LENGTH) * Math.cos(Math.toRadians(m_angle));
     }
 
+    public double getCannonTipY() {
+        return (m_y + TANK_WIDTH / 2 + WHEEL_WIDTH) * Math.sin(Math.toRadians(m_angle));
+    }
+
+    @Override
     void draw(Canvas canvas) {
         // Save the canvas state
         canvas.save();
@@ -79,10 +84,10 @@ public class Tank extends CanvasComponent {
 
         //Draw wheels
         canvas.drawRect(topLeftX, topLeftY + WHEEL_WIDTH,
-                bottomRightX, topLeftY, m_wheelsPaint);
+                bottomRightX, topLeftY, m_wheelsBrush);
 
         canvas.drawRect(topLeftX, bottomRightY,
-                bottomRightX, bottomRightY - WHEEL_WIDTH, m_wheelsPaint);
+                bottomRightX, bottomRightY - WHEEL_WIDTH, m_wheelsBrush);
 
         // Restore the canvas state
         canvas.restore();

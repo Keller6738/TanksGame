@@ -6,6 +6,7 @@ import static android.graphics.Color.GREEN;
 import static android.graphics.Color.RED;
 import static android.graphics.Color.YELLOW;
 
+import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import com.example.tanksgame.Color;
@@ -72,10 +73,12 @@ public abstract class CanvasComponent {
 
         // Calculate movement based purely on angle
         if (movableX) {
-            this.m_x += (isTank ? 2 : 5) * Math.cos(angleInRadians);
+            this.m_x += (isTank ? 3 : 7) * Math.cos(angleInRadians);
         }
         if (movableY) {
-            this.m_y += (isTank ? 2 : 5) * Math.sin(angleInRadians);
+            this.m_y += (isTank ? 3 : 7) * Math.sin(angleInRadians);
         }
     }
+
+    abstract void draw(Canvas canvas);
 }
