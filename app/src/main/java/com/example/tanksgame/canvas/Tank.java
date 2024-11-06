@@ -13,6 +13,8 @@ public class Tank extends CanvasComponent {
     private boolean isMoving = false;
     private boolean toggleTurningDirection = false;
 
+    private static final int TURNING_RATE = 5;
+
     private static final float TANK_HEIGHT = 100; // Height of the tank body
     private static final float TANK_WIDTH = 45; // Width of the tank body
     private static final float WHEEL_WIDTH = 20; // Width of the tank body
@@ -33,12 +35,12 @@ public class Tank extends CanvasComponent {
 
     void turn() {
         if (!toggleTurningDirection) {
-            this.m_angle += 3;
+            this.m_angle += TURNING_RATE;
             if (m_angle >= 360) {
                 m_angle = 0; // Reset angle
             }
         } else {
-            this.m_angle -= 3;
+            this.m_angle -= TURNING_RATE;
             if (m_angle <= 0) {
                 m_angle = 360; // Reset angle
             }

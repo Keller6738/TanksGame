@@ -73,10 +73,10 @@ public abstract class CanvasComponent {
 
         // Calculate movement based purely on angle
         if (movableX) {
-            this.m_x += (isTank ? 3 : 7) * Math.cos(angleInRadians);
+            this.m_x += (isTank ? 5 : 7) * Math.cos(angleInRadians);
         }
         if (movableY) {
-            this.m_y += (isTank ? 3 : 7) * Math.sin(angleInRadians);
+            this.m_y += (isTank ? 5 : 7) * Math.sin(angleInRadians);
         }
     }
 
