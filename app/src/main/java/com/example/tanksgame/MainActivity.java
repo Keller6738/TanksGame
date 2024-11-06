@@ -1,5 +1,8 @@
 package com.example.tanksgame;
 
+import static android.view.MotionEvent.ACTION_CANCEL;
+import static android.view.MotionEvent.ACTION_DOWN;
+import static android.view.MotionEvent.ACTION_UP;
 import static com.example.tanksgame.Color.BLUE;
 
 import android.os.Bundle;
@@ -38,9 +41,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_CANCEL:
+                    case ACTION_DOWN:
+                        canvas.toggleTankMobility(0);
+                        canvas.launchRocket(
+                                new Rocket(
+                                        BLUE,
+                                        canvas.getTankX(0),
+                                        canvas.getTankY(0),
+                                        canvas.getTankAngle(0)
+                                )
+                        );
+                        return true;
+                    case ACTION_UP:
+                    case ACTION_CANCEL:
                         canvas.toggleTankMobility(0);
                         return true; // Consume event
                 }
@@ -53,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         fireButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if (event.getAction() == ACTION_DOWN) {
                     canvas.launchRocket(
                             new Rocket(
                                     BLUE,
