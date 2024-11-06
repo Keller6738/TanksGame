@@ -13,7 +13,7 @@ public class Tank extends CanvasComponent {
     private boolean isMoving = false;
     private boolean toggleTurningDirection = false;
 
-    private static final int TURNING_RATE = 5;
+    private static final int TURNING_RATE = 3;
 
     private static final float TANK_HEIGHT = 100; // Height of the tank body
     private static final float TANK_WIDTH = 45; // Width of the tank body
