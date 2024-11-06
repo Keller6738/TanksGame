@@ -54,14 +54,6 @@ public class Tank extends CanvasComponent {
         }
     }
 
-    public double getCannonTipX() {
-        return (m_x + TANK_HEIGHT / 2 + CANNON_LENGTH) * Math.cos(Math.toRadians(m_angle));
-    }
-
-    public double getCannonTipY() {
-        return (m_y + TANK_WIDTH / 2 + WHEEL_WIDTH) * Math.sin(Math.toRadians(m_angle));
-    }
-
     @Override
     void draw(Canvas canvas) {
         // Save the canvas state
