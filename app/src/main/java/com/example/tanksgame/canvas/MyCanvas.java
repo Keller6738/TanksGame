@@ -6,6 +6,8 @@ import static com.example.tanksgame.Color.RED;
 import static com.example.tanksgame.Color.YELLOW;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -14,6 +16,8 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+
+import com.example.tanksgame.R;
 
 import java.util.ArrayList;
 
@@ -27,6 +31,9 @@ public class MyCanvas extends View {
     private Runnable m_rocketsRunnable;
     private final HandlerThread rocketsThread = new HandlerThread("rockets thread");
     private final Handler m_rocketsHandler;
+
+    private final Bitmap tankBitmap;
+    private final Bitmap rocketBitmap;
 
     private static final Tank kBlueTank = new Tank(BLUE, 100, 100, 0);
     private static final Tank kRedTank = new Tank(RED, 200, 200, 0);
@@ -45,6 +52,9 @@ public class MyCanvas extends View {
 
         rocketsThread.start();
         m_rocketsHandler = new Handler(rocketsThread.getLooper());
+
+        tankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_tank);
+        rocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_rocket);
     }
 
     public void setTanksAmount(int tanksAmount) {
@@ -130,10 +140,10 @@ public class MyCanvas extends View {
     @Override
     public void onDraw(@NonNull Canvas canvas) {
         for (Tank tank : m_tanks) {
-            tank.draw(canvas);
+            tank.draw(canvas, tankBitmap);
         }
         for (Rocket rocket : rockets) {
-            rocket.draw(canvas);
+            rocket.draw(canvas, rocketBitmap);
         }
     }
 }

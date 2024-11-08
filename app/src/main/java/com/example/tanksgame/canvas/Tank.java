@@ -2,6 +2,8 @@ package com.example.tanksgame.canvas;
 
 import static android.graphics.Color.rgb;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
@@ -12,6 +14,8 @@ public class Tank extends CanvasComponent {
 
     private boolean isMoving = false;
     private boolean toggleTurningDirection = false;
+
+    private Bitmap tank;
 
     private static final int TURNING_RATE = 3;
 
@@ -55,33 +59,18 @@ public class Tank extends CanvasComponent {
     }
 
     @Override
-    void draw(Canvas canvas) {
+    void draw(Canvas canvas, Bitmap tankBitmap) {
         // Save the canvas state
         canvas.save();
 
-        // Calculate the center of the tank
-        float topLeftX = (float) m_x - TANK_HEIGHT / 2;
-        float topLeftY = (float) m_y + TANK_WIDTH / 2;
-        float bottomRightX = (float) m_x + TANK_WIDTH / 2;
-        float bottomRightY = (float) m_y - TANK_WIDTH / 2;
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(tankBitmap, tankBitmap.getWidth() / 2, tankBitmap.getHeight() / 2, true);
+
+        int scaledWidth = scaledBitmap.getWidth(), scaledHeight = scaledBitmap.getHeight();
 
         // Rotate the canvas around the center of the tank
         canvas.rotate(m_angle, (float) m_x, (float) m_y);
 
-        // Draw tank body
-        canvas.drawRect(topLeftX, topLeftY,
-                bottomRightX, bottomRightY, m_basicBrash);
-
-        // Draw cannon
-        canvas.drawRect(bottomRightX, (float) m_y + CANNON_WIDTH / 2,
-                bottomRightX + CANNON_LENGTH, (float) m_y - CANNON_WIDTH / 2, m_basicBrash); // Adjust cannon position
-
-        //Draw wheels
-        canvas.drawRect(topLeftX, topLeftY + WHEEL_WIDTH,
-                bottomRightX, topLeftY, m_wheelsBrush);
-
-        canvas.drawRect(topLeftX, bottomRightY,
-                bottomRightX, bottomRightY - WHEEL_WIDTH, m_wheelsBrush);
+        canvas.drawBitmap(scaledBitmap, (float) m_x - (float) scaledWidth / 2, (float) m_y - (float) scaledHeight / 2, null);
 
         // Restore the canvas state
         canvas.restore();

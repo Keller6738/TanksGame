@@ -6,6 +6,7 @@ import static android.graphics.Color.GREEN;
 import static android.graphics.Color.RED;
 import static android.graphics.Color.YELLOW;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
@@ -80,5 +81,5 @@ public abstract class CanvasComponent {
         }
     }
 
-    abstract void draw(Canvas canvas);
+    abstract void draw(Canvas canvas, Bitmap component);
 }
