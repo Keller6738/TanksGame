@@ -60,25 +60,5 @@ public class MainActivity extends AppCompatActivity {
                 return false; // Don't consume other events
             }
         });
-
-        View fireButton = findViewById(R.id.fireButton);
-
-        fireButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                if (event.getAction() == ACTION_DOWN) {
-                    canvas.launchRocket(
-                            new Rocket(
-                                    BLUE,
-                                    canvas.getTankX(0),
-                                    canvas.getTankY(0),
-                                    canvas.getTankAngle(0)
-                            )
-                    );
-                    return true; // Consume event
-                }
-                return false;
-            }
-        });
     }
 }

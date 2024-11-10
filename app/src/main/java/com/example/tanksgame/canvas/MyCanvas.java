@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -23,17 +24,18 @@ import java.util.ArrayList;
 
 public class MyCanvas extends View {
     private Tank[] m_tanks;
-    private final ArrayList<Rocket> rockets;
+    private final ArrayList<Rocket> m_rockets;
 
     private Runnable m_tanksRunnable;
     private final Handler m_tanksHandler;
 
     private Runnable m_rocketsRunnable;
-    private final HandlerThread rocketsThread = new HandlerThread("rockets thread");
+    private final HandlerThread m_rocketsThread = new HandlerThread("rockets thread");
     private final Handler m_rocketsHandler;
 
-    private final Bitmap tankBitmap;
-    private final Bitmap rocketBitmap;
+    private final Bitmap m_tankBitmap;
+    private final Bitmap m_fireRocketBitmap;
+    private final Bitmap m_rocketBitmap;
 
     private static final Tank kBlueTank = new Tank(BLUE, 100, 100, 0);
     private static final Tank kRedTank = new Tank(RED, 200, 200, 0);
@@ -46,15 +48,16 @@ public class MyCanvas extends View {
     public MyCanvas(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        rockets = new ArrayList<>();
+        m_rockets = new ArrayList<>();
 
         m_tanksHandler = new Handler(Looper.getMainLooper());
 
-        rocketsThread.start();
-        m_rocketsHandler = new Handler(rocketsThread.getLooper());
+        m_rocketsThread.start();
+        m_rocketsHandler = new Handler(m_rocketsThread.getLooper());
 
-        tankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_tank);
-        rocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_rocket);
+        m_tankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_tank);
+        m_fireRocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_firerocket);
+        m_rocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_rocket);
     }
 
     public void setTanksAmount(int tanksAmount) {
@@ -90,13 +93,13 @@ public class MyCanvas extends View {
         m_rocketsRunnable = () -> {
             boolean rocketMobilityX, rocketMobilityY;
             Rocket rocket;
-            for (int i = 0; i < rockets.size(); i++) {
-                rocket = rockets.get(i);
+            for (int i = 0; i < m_rockets.size(); i++) {
+                rocket = m_rockets.get(i);
                 rocketMobilityX = getMobilityX(rocket.getX(), rocket.getAngle(), ROCKET_AT_EDGE_ERROR);
                 rocketMobilityY = getMobilityY(rocket.getY(), rocket.getAngle(), ROCKET_AT_EDGE_ERROR);
                 rocket.move(rocketMobilityX, rocketMobilityY);
                 if (!(rocketMobilityX && rocketMobilityY)) {
-                    rockets.remove(i);
+                    m_rockets.remove(i);
                 }
             }
             invalidate();
@@ -122,7 +125,7 @@ public class MyCanvas extends View {
     }
 
     public void launchRocket(Rocket rocket) {
-        rockets.add(rocket);
+        m_rockets.add(rocket);
     }
 
     public double getTankX(int tankNumber) {
@@ -140,10 +143,17 @@ public class MyCanvas extends View {
     @Override
     public void onDraw(@NonNull Canvas canvas) {
         for (Tank tank : m_tanks) {
-            tank.draw(canvas, tankBitmap);
+            tank.draw(canvas, m_tankBitmap);
         }
-        for (Rocket rocket : rockets) {
-            rocket.draw(canvas, rocketBitmap);
+        for (Rocket rocket : m_rockets) {
+            if (rocket.checkTime()) {
+                rocket.draw(canvas, m_fireRocketBitmap);
+                Log.d("rocket", "true");
+            } else {
+                rocket.draw(canvas, m_rocketBitmap);
+                rocket.timer();
+                Log.d("rocket", "true");
+            }
         }
     }
 }
