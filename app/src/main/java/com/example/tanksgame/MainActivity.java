@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        canvas = findViewById(R.id.tanks);
+        canvas = findViewById(R.id.canvas);
         canvas.setTanksAmount(1);
 
         View moveButton = findViewById(R.id.moveButton);

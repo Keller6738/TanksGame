@@ -15,8 +15,6 @@ public class Tank extends CanvasComponent {
     private boolean isMoving = false;
     private boolean toggleTurningDirection = false;
 
-    private Bitmap tank;
-
     private static final int TURNING_RATE = 3;
 
     private static final float TANK_HEIGHT = 100; // Height of the tank body
@@ -63,7 +61,7 @@ public class Tank extends CanvasComponent {
         // Save the canvas state
         canvas.save();
 
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(tankBitmap, tankBitmap.getWidth() / 2, tankBitmap.getHeight() / 2, true);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(tankBitmap, tankBitmap.getWidth() / 3, tankBitmap.getHeight() / 3, true);
 
         int scaledWidth = scaledBitmap.getWidth(), scaledHeight = scaledBitmap.getHeight();
 
