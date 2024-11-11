@@ -107,6 +107,7 @@ public class MyCanvas extends View {
                 for (int i = 0; i < m_rockets.size(); i++) {
                     if (tank.getColor() != m_rockets.get(i).getColor() &&
                             tank.contains(m_rockets.get(i).getX(), m_rockets.get(i).getY())) {
+                        m_rockets.remove(i);
                         tank.destroy();
                         switch (tank.getColor()) {
                             case BLUE:
