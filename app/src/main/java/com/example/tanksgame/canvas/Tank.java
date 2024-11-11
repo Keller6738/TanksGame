@@ -16,12 +16,6 @@ public class Tank extends CanvasComponent {
 
     private static final int TURNING_RATE = 3;
 
-    private static final float TANK_HEIGHT = 100; // Height of the tank body
-    private static final float TANK_WIDTH = 45; // Width of the tank body
-    private static final float WHEEL_WIDTH = 20; // Width of the tank body
-    private static final float CANNON_LENGTH = 35; // Length of the cannon
-    private static final float CANNON_WIDTH = 20; // Width of the cannon
-
     public Tank(Color color, double initX, double initY, int initAngle) {
         super(true, color, initX, initY, initAngle);
 

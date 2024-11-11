@@ -16,6 +16,7 @@ public abstract class CanvasComponent {
     protected final boolean isTank;
     protected final Color kColor;
 
+    protected double m_width, m_height;
     protected double m_x, m_y;
     protected int m_angle;
 
@@ -66,6 +67,25 @@ public abstract class CanvasComponent {
 
     public int getAngle() {
         return m_angle;
+    }
+
+    public void setRectSides(double width, double height) {
+        m_width = width;
+        m_height = height;
+    }
+
+    public boolean contains(double x, double y) {
+        // Translate point to rectangle's coordinate system
+        double translatedX = x - m_x;
+        double translatedY = y - m_y;
+
+        double angleRadians = Math.toRadians(m_angle);
+        // Rotate the point in the opposite direction of the rectangle's rotation
+        double rotatedX = translatedX * Math.cos(-angleRadians) - translatedY * Math.sin(-angleRadians);
+        double rotatedY = translatedX * Math.sin(-angleRadians) + translatedY * Math.cos(-angleRadians);
+
+        // Check if the rotated point is within the bounds of an axis-aligned rectangle
+        return Math.abs(rotatedX) <= m_width / 2 && Math.abs(rotatedY) <= m_height / 2;
     }
 
     void move(boolean movableX, boolean movableY) {
