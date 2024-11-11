@@ -114,7 +114,7 @@ public class MyCanvas extends View {
                     tank.turn();
                 }
             }
-            m_tanksHandler.postDelayed(m_tanksRunnable, 10);
+            m_tanksHandler.postDelayed(m_tanksRunnable, 16);
         };
 
         m_tanksHandler.post(m_tanksRunnable);
@@ -132,7 +132,7 @@ public class MyCanvas extends View {
                 }
             }
             invalidate();
-            m_rocketsHandler.postDelayed(m_rocketsRunnable, 10);
+            m_rocketsHandler.postDelayed(m_rocketsRunnable, 16);
         };
 
         m_rocketsHandler.post(m_rocketsRunnable);
@@ -187,7 +187,9 @@ public class MyCanvas extends View {
                     break;
             }
         }
-        for (Rocket rocket : m_rockets) {
+        Rocket rocket;
+        for (int i = 0; i < m_rockets.size(); i++) {
+            rocket = m_rockets.get(i);
             switch (rocket.getColor()) {
                 case BLUE:
                     if (rocket.checkTime()) {
