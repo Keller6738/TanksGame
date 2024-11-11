@@ -1,16 +1,11 @@
 package com.example.tanksgame.canvas;
 
-import static android.graphics.Color.rgb;
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 
 import com.example.tanksgame.Color;
 
 public class Tank extends CanvasComponent {
-    private final Paint m_wheelsBrush;
-
     private boolean isMoving = false;
     private boolean toggleTurningDirection = false;
 
@@ -18,10 +13,6 @@ public class Tank extends CanvasComponent {
 
     public Tank(Color color, double initX, double initY, int initAngle) {
         super(true, color, initX, initY, initAngle);
-
-        m_wheelsBrush = new Paint();
-        m_wheelsBrush.setAntiAlias(true);
-        m_wheelsBrush.setColor(rgb(0, 0, 0));
     }
 
     public boolean isMoving() {

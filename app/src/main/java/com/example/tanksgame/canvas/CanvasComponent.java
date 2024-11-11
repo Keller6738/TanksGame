@@ -69,11 +69,6 @@ public abstract class CanvasComponent {
         return m_angle;
     }
 
-    public void setRectSides(double width, double height) {
-        m_width = width;
-        m_height = height;
-    }
-
     public boolean contains(double x, double y) {
         // Translate point to rectangle's coordinate system
         double translatedX = x - m_x;
