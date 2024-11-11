@@ -32,10 +32,10 @@ public class MyCanvas extends View {
     private final HandlerThread m_rocketsThread = new HandlerThread("rockets thread");
     private final Handler m_rocketsHandler;
 
-    private final Bitmap m_blueTankBitmap;
-    private final Bitmap m_redTankBitmap;
-    private final Bitmap m_greenTankBitmap;
-    private final Bitmap m_yellowTankBitmap;
+    private Bitmap m_blueTankBitmap;
+    private Bitmap m_redTankBitmap;
+    private Bitmap m_greenTankBitmap;
+    private Bitmap m_yellowTankBitmap;
 
     private final Bitmap m_blueFireRocketBitmap;
     private final Bitmap m_blueRocketBitmap;
@@ -104,13 +104,35 @@ public class MyCanvas extends View {
     public void startGame() {
         m_tanksRunnable = () -> {
             for (Tank tank : m_tanks) {
-                if (tank.isMoving()) {
-                    tank.move(
-                            getMobilityX(tank.getX(), tank.getAngle(), TANK_AT_EDGE_ERROR),
-                            getMobilityY(tank.getY(), tank.getAngle(), TANK_AT_EDGE_ERROR)
-                    );
-                } else {
-                    tank.turn();
+                for (int i = 0; i < m_rockets.size(); i++) {
+                    if (tank.getColor() != m_rockets.get(i).getColor() &&
+                            tank.contains(m_rockets.get(i).getX(), m_rockets.get(i).getY())) {
+                        tank.destroy();
+                        switch (tank.getColor()) {
+                            case BLUE:
+                                m_blueTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.died_tank);
+                                break;
+                            case RED:
+                                m_redTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.died_tank);
+                                break;
+                            case GREEN:
+                                m_greenTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.died_tank);
+                                break;
+                            case YELLOW:
+                                m_yellowTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.died_tank);
+                                break;
+                        }
+                    }
+                }
+                if (tank.isAlive()) {
+                    if (tank.isMoving()) {
+                        tank.move(
+                                getMobilityX(tank.getX(), tank.getAngle(), TANK_AT_EDGE_ERROR),
+                                getMobilityY(tank.getY(), tank.getAngle(), TANK_AT_EDGE_ERROR)
+                        );
+                    } else {
+                        tank.turn();
+                    }
                 }
             }
             m_tanksHandler.postDelayed(m_tanksRunnable, 16);
@@ -137,13 +159,13 @@ public class MyCanvas extends View {
         m_rocketsHandler.post(m_rocketsRunnable);
     }
 
-    public boolean getMobilityX(double x, int angle, int atEdgeError) {
+    boolean getMobilityX(double x, int angle, int atEdgeError) {
         return !((x - atEdgeError <= 0 && (angle > 90 && angle < 270)) ||
                 ((x + atEdgeError >= getWidth() && (angle < 90 || angle > 270))));
 
     }
 
-    public boolean getMobilityY(double y, int angle, int atEdgeError) {
+    boolean getMobilityY(double y, int angle, int atEdgeError) {
         return !((y - atEdgeError <= 0 && angle > 180) ||
                 (y + atEdgeError >= getHeight() && angle < 180));
     }

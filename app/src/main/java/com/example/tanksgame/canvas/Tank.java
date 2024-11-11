@@ -6,8 +6,9 @@ import android.graphics.Canvas;
 import com.example.tanksgame.Color;
 
 public class Tank extends CanvasComponent {
-    private boolean isMoving = false;
+    private boolean m_mobility = false;
     private boolean toggleTurningDirection = false;
+    private boolean isAlive = true;
 
     private static final int TURNING_RATE = 3;
 
@@ -16,7 +17,11 @@ public class Tank extends CanvasComponent {
     }
 
     public boolean isMoving() {
-        return isMoving;
+        return m_mobility;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
     }
 
     void turn() {
@@ -34,10 +39,14 @@ public class Tank extends CanvasComponent {
     }
 
     void toggleMobility() {
-        isMoving = !isMoving;
-        if (!isMoving) {
+        m_mobility = !m_mobility;
+        if (!m_mobility) {
             toggleTurningDirection = !toggleTurningDirection;
         }
+    }
+
+    void destroy() {
+        isAlive = false;
     }
 
     @Override
