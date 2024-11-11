@@ -148,24 +148,8 @@ public class MyCanvas extends View {
                 (y + atEdgeError >= getHeight() && angle < 180));
     }
 
-    public void toggleTankMobility(int tank) {
-        m_tanks[tank].toggleMobility();
-    }
-
-    public void launchRocket(Rocket rocket) {
+    void launchRocket(Rocket rocket) {
         m_rockets.add(rocket);
-    }
-
-    public double getTankX(int tankNumber) {
-        return m_tanks[tankNumber].getX();
-    }
-
-    public double getTankY(int tankNumber) {
-        return m_tanks[tankNumber].getY();
-    }
-
-    public int getTankAngle(int tankNumber) {
-        return m_tanks[tankNumber].getAngle();
     }
 
     @Override

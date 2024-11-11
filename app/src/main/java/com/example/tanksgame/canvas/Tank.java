@@ -48,6 +48,8 @@ public class Tank extends CanvasComponent {
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(tankBitmap, tankBitmap.getWidth() / 3, tankBitmap.getHeight() / 3, true);
 
         int scaledWidth = scaledBitmap.getWidth(), scaledHeight = scaledBitmap.getHeight();
+        m_width = scaledWidth;
+        m_height = scaledHeight;
 
         // Rotate the canvas around the center of the tank
         canvas.rotate(m_angle, (float) m_x, (float) m_y);
