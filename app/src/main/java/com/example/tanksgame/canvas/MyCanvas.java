@@ -49,10 +49,10 @@ public class MyCanvas extends View {
     private final Bitmap m_yellowFireRocketBitmap;
     private final Bitmap m_yellowRocketBitmap;
 
-    public static final Tank kBlueTank = new Tank(BLUE, 100, 100, 0);
-    public static final Tank kRedTank = new Tank(RED, 200, 200, 0);
-    public static final Tank kGreenTank = new Tank(GREEN, 300, 300, 0);
-    public static final Tank kYellowTank = new Tank(YELLOW, 400, 400, 0);
+    public static final Tank kBlueTank = new Tank(BLUE, 200, 200, 0);
+    public static final Tank kRedTank = new Tank(RED, 300, 200, 0);
+    public static final Tank kGreenTank = new Tank(GREEN, 400, 200, 0);
+    public static final Tank kYellowTank = new Tank(YELLOW, 500, 200, 0);
 
     public static final int TANK_AT_EDGE_ERROR = 25;
     private static final int ROCKET_AT_EDGE_ERROR = 25;
@@ -91,8 +91,6 @@ public class MyCanvas extends View {
         m_tanks[1] = kRedTank;
 
         switch (tanksAmount) {
-            case 2:
-                break; //TODO: remove this case
             case 4:
                 m_tanks[3] = kYellowTank;
             case 3:

@@ -37,8 +37,8 @@
 
     <ImageView
         android:id="@+id/redButton"
-        android:layout_width="42dp"
-        android:layout_height="53dp"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.043"
@@ -49,8 +49,8 @@
 
     <ImageView
         android:id="@+id/blueButton"
-        android:layout_width="42dp"
-        android:layout_height="53dp"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.956"
@@ -61,8 +61,8 @@
 
     <ImageView
         android:id="@+id/yellowButton"
-        android:layout_width="42dp"
-        android:layout_height="53dp"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.043"
@@ -73,8 +73,8 @@
 
     <ImageView
         android:id="@+id/greenButton"
-        android:layout_width="42dp"
-        android:layout_height="53dp"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.956"
