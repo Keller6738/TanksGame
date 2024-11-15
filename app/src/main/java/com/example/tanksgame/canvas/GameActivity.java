@@ -8,7 +8,6 @@ import static com.example.tanksgame.Color.BLUE;
 import static com.example.tanksgame.Color.GREEN;
 import static com.example.tanksgame.Color.RED;
 import static com.example.tanksgame.Color.YELLOW;
-import static com.example.tanksgame.canvas.MyCanvas.TANK_AT_EDGE_ERROR;
 import static com.example.tanksgame.canvas.MyCanvas.kBlueTank;
 import static com.example.tanksgame.canvas.MyCanvas.kGreenTank;
 import static com.example.tanksgame.canvas.MyCanvas.kRedTank;
@@ -63,8 +62,8 @@ public class GameActivity extends AppCompatActivity {
                             m_canvas.launchRocket(new Rocket(BLUE, kBlueTank.getX(), kBlueTank.getY(), kBlueTank.getAngle()));
                             kBlueTank.toggleMobility();
                             kBlueTank.move(
-                                    m_canvas.getMobilityX(kBlueTank.getX(), kBlueTank.getAngle(), TANK_AT_EDGE_ERROR),
-                                    m_canvas.getMobilityY(kBlueTank.getY(), kBlueTank.getAngle(), TANK_AT_EDGE_ERROR)
+                                    m_canvas.getMobilityX(kBlueTank),
+                                    m_canvas.getMobilityY(kBlueTank)
                             );
                             return true;
                         case ACTION_UP:
@@ -87,8 +86,8 @@ public class GameActivity extends AppCompatActivity {
                             m_canvas.launchRocket(new Rocket(RED, kRedTank.getX(), kRedTank.getY(), kRedTank.getAngle()));
                             kRedTank.toggleMobility();
                             kRedTank.move(
-                                    m_canvas.getMobilityX(kRedTank.getX(), kRedTank.getAngle(), TANK_AT_EDGE_ERROR),
-                                    m_canvas.getMobilityY(kRedTank.getY(), kRedTank.getAngle(), TANK_AT_EDGE_ERROR)
+                                    m_canvas.getMobilityX(kRedTank),
+                                    m_canvas.getMobilityY(kRedTank)
                             );
                             return true;
                         case ACTION_UP:
@@ -119,8 +118,8 @@ public class GameActivity extends AppCompatActivity {
                                     m_canvas.launchRocket(new Rocket(YELLOW, kYellowTank.getX(), kYellowTank.getY(), kYellowTank.getAngle()));
                                     kYellowTank.toggleMobility();
                                     kYellowTank.move(
-                                            m_canvas.getMobilityX(kYellowTank.getX(), kYellowTank.getAngle(), TANK_AT_EDGE_ERROR),
-                                            m_canvas.getMobilityY(kYellowTank.getY(), kYellowTank.getAngle(), TANK_AT_EDGE_ERROR)
+                                            m_canvas.getMobilityX(kYellowTank),
+                                            m_canvas.getMobilityY(kYellowTank)
                                     );
                                     return true;
                                 case ACTION_UP:
@@ -142,8 +141,8 @@ public class GameActivity extends AppCompatActivity {
                                     m_canvas.launchRocket(new Rocket(GREEN, kGreenTank.getX(), kGreenTank.getY(), kGreenTank.getAngle()));
                                     kGreenTank.toggleMobility();
                                     kGreenTank.move(
-                                            m_canvas.getMobilityX(kGreenTank.getX(), kGreenTank.getAngle(), TANK_AT_EDGE_ERROR),
-                                            m_canvas.getMobilityY(kGreenTank.getY(), kGreenTank.getAngle(), TANK_AT_EDGE_ERROR)
+                                            m_canvas.getMobilityX(kGreenTank),
+                                            m_canvas.getMobilityY(kGreenTank)
                                     );
                                     return true;
                                 case ACTION_UP:

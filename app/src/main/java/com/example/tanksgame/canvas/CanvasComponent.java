@@ -69,6 +69,10 @@ public abstract class CanvasComponent {
         return m_angle;
     }
 
+    public boolean isTank() {
+        return isTank;
+    }
+
     public boolean contains(double x, double y) {
         // Translate point to rectangle's coordinate system
         double translatedX = x - m_x;
@@ -81,6 +85,49 @@ public abstract class CanvasComponent {
 
         // Check if the rotated point is within the bounds of an axis-aligned rectangle
         return Math.abs(rotatedX) <= m_width / 2 && Math.abs(rotatedY) <= m_height / 2;
+    }
+
+    public boolean contains(CanvasComponent other) {
+        // Compute the corners of the other rectangle in world coordinates
+        double[][] otherCorners = getRotatedRectangleCorners(other);
+
+        // Check each corner
+        for (double[] corner : otherCorners) {
+            if (contains(corner[0], corner[1])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private double[][] getRotatedRectangleCorners(CanvasComponent other) {
+        double halfWidth = other.m_width / 2;
+        double halfHeight = other.m_height / 2;
+
+        // Define corners in local coordinates
+        double[][] localCorners = {
+                { -halfWidth, -halfHeight }, // Bottom-left
+                {  halfWidth, -halfHeight }, // Bottom-right
+                {  halfWidth,  halfHeight }, // Top-right
+                { -halfWidth,  halfHeight }  // Top-left
+        };
+
+        // Rotate and translate corners to world coordinates
+        double[][] worldCorners = new double[4][2];
+        for (int i = 0; i < 4; i++) {
+            double localX = localCorners[i][0];
+            double localY = localCorners[i][1];
+
+            // Rotate and translate
+            double worldX = localX * Math.cos(other.m_angle) - localY * Math.sin(other.m_angle) + other.m_x;
+            double worldY = localX * Math.sin(other.m_angle) + localY * Math.cos(other.m_angle) + other.m_y;
+
+            worldCorners[i][0] = worldX;
+            worldCorners[i][1] = worldY;
+        }
+
+        return worldCorners;
     }
 
     void move(boolean movableX, boolean movableY) {
