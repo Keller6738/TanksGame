@@ -25,15 +25,17 @@ public class Tank extends CanvasComponent {
     }
 
     void turn() {
-        if (!toggleTurningDirection) {
-            this.m_angle += TURNING_RATE;
-            if (m_angle >= 360) {
-                m_angle = 0; // Reset angle
-            }
-        } else {
-            this.m_angle -= TURNING_RATE;
-            if (m_angle <= 0) {
-                m_angle = 360; // Reset angle
+        if (isAlive) {
+            if (!toggleTurningDirection) {
+                this.m_angle += TURNING_RATE;
+                if (m_angle >= 360) {
+                    m_angle = 0; // Reset angle
+                }
+            } else {
+                this.m_angle -= TURNING_RATE;
+                if (m_angle <= 0) {
+                    m_angle = 360; // Reset angle
+                }
             }
         }
     }
