@@ -12,6 +12,9 @@ import android.graphics.Paint;
 
 import com.example.tanksgame.Color;
 
+/**
+ * A class represents a canvas component
+ */
 public abstract class CanvasComponent {
     protected final boolean isTank;
     protected final Color kColor;
@@ -22,6 +25,15 @@ public abstract class CanvasComponent {
 
     protected final Paint m_basicBrash;
 
+    /**
+     * A constructor that takes initial setup parameters
+     *
+     * @param tank A boolean value that checks if the component is tank
+     * @param color The color of the component
+     * @param initX The initial X pose of the component
+     * @param initY The initial Y pose of the component
+     * @param initAngle The initial angle of the component
+     */
     public CanvasComponent(boolean tank, Color color, double initX, double initY, int initAngle) {
         isTank = tank;
         kColor = color;
@@ -53,26 +65,48 @@ public abstract class CanvasComponent {
         }
     }
 
+    /**
+     * @return Component color
+     */
     public Color getColor() {
         return kColor;
     }
 
+    /**
+     * @return X pose of the component
+     */
     public double getX() {
         return m_x;
     }
 
+    /**
+     * @return Y pose of the component
+     */
     public double getY() {
         return m_y;
     }
 
+    /**
+     * @return Angle of the component
+     */
     public int getAngle() {
         return m_angle;
     }
 
+    /**
+     * @return Whether the component is tank
+     */
     public boolean isTank() {
         return isTank;
     }
 
+    /**
+     * A function that check whether the component contains a point
+     *
+     * @param x The X variable of the point
+     * @param y The Y variable of the point
+     * @return Whether the component contains the point
+     */
     public boolean contains(double x, double y) {
         // Translate point to rectangle's coordinate system
         double translatedX = x - m_x;
@@ -87,6 +121,12 @@ public abstract class CanvasComponent {
         return Math.abs(rotatedX) <= m_width / 2 && Math.abs(rotatedY) <= m_height / 2;
     }
 
+    /**
+     * A function that check whether the component contains another component or part of it
+     *
+     * @param other Other canvas component
+     * @return Whether the component contains the component or part of it
+     */
     public boolean contains(CanvasComponent other) {
         // Compute the corners of the other rectangle in world coordinates
         double[][] otherCorners = getRotatedRectangleCorners(other);
@@ -101,6 +141,12 @@ public abstract class CanvasComponent {
         return false;
     }
 
+    /**
+     * A function that rotates the corners of a canvas component
+     *
+     * @param other Other canvas component
+     * @return Rotated corners
+     */
     private double[][] getRotatedRectangleCorners(CanvasComponent other) {
         double halfWidth = other.m_width / 2;
         double halfHeight = other.m_height / 2;
@@ -130,6 +176,12 @@ public abstract class CanvasComponent {
         return worldCorners;
     }
 
+    /**
+     * A function that moves the tank
+     *
+     * @param movableX whether the component can move in X axis
+     * @param movableY whether the component can move in y axis
+     */
     void move(boolean movableX, boolean movableY) {
         // Convert the angle to radians for use with Math functions
         double angleInRadians = Math.toRadians(m_angle);
@@ -143,5 +195,9 @@ public abstract class CanvasComponent {
         }
     }
 
-    abstract void draw(Canvas canvas, Bitmap component);
+    /**
+     * @param canvas The canvas surface
+     * @param bitmap A bitmap represents the visualize of the component
+     */
+    abstract void draw(Canvas canvas, Bitmap bitmap);
 }
