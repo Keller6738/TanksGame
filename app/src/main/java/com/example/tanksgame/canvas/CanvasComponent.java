@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import com.example.tanksgame.Circle;
 import com.example.tanksgame.Color;
 
 /**
@@ -28,10 +29,10 @@ public abstract class CanvasComponent {
     /**
      * A constructor that takes initial setup parameters
      *
-     * @param tank A boolean value that checks if the component is tank
-     * @param color The color of the component
-     * @param initX The initial X pose of the component
-     * @param initY The initial Y pose of the component
+     * @param tank      A boolean value that checks if the component is tank
+     * @param color     The color of the component
+     * @param initX     The initial X pose of the component
+     * @param initY     The initial Y pose of the component
      * @param initAngle The initial angle of the component
      */
     public CanvasComponent(boolean tank, Color color, double initX, double initY, int initAngle) {
@@ -128,52 +129,14 @@ public abstract class CanvasComponent {
      * @return Whether the component contains the component or part of it
      */
     public boolean contains(CanvasComponent other) {
-        // Compute the corners of the other rectangle in world coordinates
-        double[][] otherCorners = getRotatedRectangleCorners(other);
+        double[] intersectionPoints = Circle.findIntersectionPoints(
+                new Circle(m_x, m_y,
+                        Math.sqrt(m_width * m_width + m_height * m_height) / 2),
+                new Circle(other.m_x, other.m_y,
+                        Math.sqrt(other.m_width * other.m_width + other.m_height * other.m_height) / 2)
+        );
 
-        // Check each corner
-        for (double[] corner : otherCorners) {
-            if (contains(corner[0], corner[1])) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * A function that rotates the corners of a canvas component
-     *
-     * @param other Other canvas component
-     * @return Rotated corners
-     */
-    private double[][] getRotatedRectangleCorners(CanvasComponent other) {
-        double halfWidth = other.m_width / 2;
-        double halfHeight = other.m_height / 2;
-
-        // Define corners in local coordinates
-        double[][] localCorners = {
-                { -halfWidth, -halfHeight }, // Bottom-left
-                {  halfWidth, -halfHeight }, // Bottom-right
-                {  halfWidth,  halfHeight }, // Top-right
-                { -halfWidth,  halfHeight }  // Top-left
-        };
-
-        // Rotate and translate corners to world coordinates
-        double[][] worldCorners = new double[4][2];
-        for (int i = 0; i < 4; i++) {
-            double localX = localCorners[i][0];
-            double localY = localCorners[i][1];
-
-            // Rotate and translate
-            double worldX = localX * Math.cos(other.m_angle) - localY * Math.sin(other.m_angle) + other.m_x;
-            double worldY = localX * Math.sin(other.m_angle) + localY * Math.cos(other.m_angle) + other.m_y;
-
-            worldCorners[i][0] = worldX;
-            worldCorners[i][1] = worldY;
-        }
-
-        return worldCorners;
+        return intersectionPoints.length != 0;
     }
 
     /**

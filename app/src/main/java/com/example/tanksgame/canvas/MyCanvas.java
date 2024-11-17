@@ -50,7 +50,7 @@ public class MyCanvas extends View {
     private final Bitmap m_yellowRocketBitmap;
 
     public static final Tank kBlueTank = new Tank(BLUE, 200, 200, 0);
-    public static final Tank kRedTank = new Tank(RED, 300, 200, 0);
+    public static final Tank kRedTank = new Tank(RED, 800, 200, 0);
     public static final Tank kGreenTank = new Tank(GREEN, 400, 200, 0);
     public static final Tank kYellowTank = new Tank(YELLOW, 500, 200, 0);
 
@@ -123,11 +123,20 @@ public class MyCanvas extends View {
                         }
                     }
                 }
+                boolean crashing = true;
+                for (Tank otherTank : m_tanks) {
+                    if (tank.getColor() != otherTank.getColor()) {
+                        crashing = tank.contains(otherTank);
+                    }
+                }
+
                 if (tank.isMoving()) {
-                    tank.move(
-                            getMobilityX(tank),
-                            getMobilityY(tank)
-                    );
+                    if (!crashing) {
+                        tank.move(
+                                getMobilityX(tank),
+                                getMobilityY(tank)
+                        );
+                    }
                 } else {
                     tank.turn();
                 }
@@ -169,6 +178,17 @@ public class MyCanvas extends View {
         return !((component.getY() - atEdgeError <= 0 && component.getAngle() > 180) ||
                 (component.getY() + atEdgeError >= getHeight() && component.getAngle() < 180));
     }
+
+//    boolean crashingTank(Tank tank) {
+//        boolean crashingTank;
+//        for (Tank otherTank : m_tanks) {
+//            if (otherTank.getColor().equals(tank.getColor())) {
+//                crashingTank = tank.contains(otherTank);
+//                if (crashingTank) return true;
+//            }
+//        }
+//        return false;
+//    }
 
     void launchRocket(Rocket rocket) {
         m_rockets.add(rocket);
