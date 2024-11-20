@@ -49,9 +49,9 @@ public class MyCanvas extends View {
     private final Bitmap m_yellowFireRocketBitmap;
     private final Bitmap m_yellowRocketBitmap;
 
-    public static final Tank kBlueTank = new Tank(BLUE, 200, 200, 0);
+    public static final Tank kBlueTank = new Tank(BLUE, 400, 800, 0);
     public static final Tank kRedTank = new Tank(RED, 800, 200, 0);
-    public static final Tank kGreenTank = new Tank(GREEN, 400, 200, 0);
+    public static final Tank kGreenTank = new Tank(GREEN, 400, 400, 0);
     public static final Tank kYellowTank = new Tank(YELLOW, 500, 200, 0);
 
     public static final int TANK_AT_EDGE_ERROR = 25;
@@ -123,10 +123,12 @@ public class MyCanvas extends View {
                         }
                     }
                 }
-                boolean crashing = true;
+
+                boolean crashing = false;
                 for (Tank otherTank : m_tanks) {
-                    if (tank.getColor() != otherTank.getColor()) {
-                        crashing = tank.contains(otherTank);
+                    crashing = tank.contains(otherTank);
+                    if (crashing) {
+                        break;
                     }
                 }
 
