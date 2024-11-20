@@ -181,17 +181,6 @@ public class MyCanvas extends View {
                 (component.getY() + atEdgeError >= getHeight() && component.getAngle() < 180));
     }
 
-//    boolean crashingTank(Tank tank) {
-//        boolean crashingTank;
-//        for (Tank otherTank : m_tanks) {
-//            if (otherTank.getColor().equals(tank.getColor())) {
-//                crashingTank = tank.contains(otherTank);
-//                if (crashingTank) return true;
-//            }
-//        }
-//        return false;
-//    }
-
     void launchRocket(Rocket rocket) {
         m_rockets.add(rocket);
     }

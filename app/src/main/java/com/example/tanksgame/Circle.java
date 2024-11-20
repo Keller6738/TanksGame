@@ -30,7 +30,7 @@ public class Circle {
         double d = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 
         //Check if there are no intersections
-        if (d > r1 + r2 || d < Math.abs(r1 - r2) || d == 0) {
+        if (d > r1 + r2 - 30 || d < Math.abs(r1 - r2) || d == 0) {
             return new double[0]; // No intersection
         }
 
