@@ -5,15 +5,17 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#2F333E"
     tools:context=".LoadingActivity">
 
     <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
+        android:id="@+id/title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/loading"
-        android:textColor="#ff5555"
+        android:text="@string/loading1"
+        android:fontFamily="casual"
+        android:textColor="#E3A830"
         android:textSize="50sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

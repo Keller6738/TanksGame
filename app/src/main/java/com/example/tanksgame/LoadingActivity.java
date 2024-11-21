@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,8 +17,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class LoadingActivity extends AppCompatActivity {
-    private final int TIME = 750;
+    private final int TIME = 600;
     private ImageView image1, image2, image3, image4;
+    private TextView loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class LoadingActivity extends AppCompatActivity {
         image3 = findViewById(R.id.img3);
         image4 = findViewById(R.id.img4);
 
+        loading = findViewById(R.id.title);
+
         image1.setVisibility(INVISIBLE);
         image2.setVisibility(INVISIBLE);
         image3.setVisibility(INVISIBLE);
@@ -42,11 +46,15 @@ public class LoadingActivity extends AppCompatActivity {
 
         new Handler(Looper.getMainLooper()).post(() -> image1.setVisibility(VISIBLE));
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> image1.setRotation(315), TIME);
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            image1.setRotation(315);
+            loading.setText(R.string.loading2);
+        }, TIME);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             image1.setVisibility(INVISIBLE);
             image2.setVisibility(VISIBLE);
+            loading.setText(R.string.loading3);
         }, 2 * TIME);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> image2.setRotation(45), 3 * TIME);
@@ -54,12 +62,17 @@ public class LoadingActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             image2.setVisibility(INVISIBLE);
             image3.setVisibility(VISIBLE);
+            loading.setText(R.string.loading1);
         }, 4 * TIME);
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> image3.setRotation(135), 5 * TIME);
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            image3.setRotation(135);
+            loading.setText(R.string.loading2);
+        }, 5 * TIME);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             image3.setVisibility(INVISIBLE);
+            loading.setText(R.string.loading3);
             image4.setVisibility(VISIBLE);
         }, 6 * TIME);
 
@@ -69,7 +82,6 @@ public class LoadingActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
             finish();
             startActivity(intent);
-        }, 9 * TIME);
+        }, 8 * TIME);
     }
-
 }
