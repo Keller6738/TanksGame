@@ -12,14 +12,14 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tanksgame.canvas.GameActivity;
 
-public class OpenActivity extends AppCompatActivity {
+public class MenuActivity extends AppCompatActivity {
     View startButton, exitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_menu);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
