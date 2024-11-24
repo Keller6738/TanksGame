@@ -4,15 +4,16 @@ import static android.view.MotionEvent.ACTION_CANCEL;
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_UP;
 import static android.view.View.INVISIBLE;
-import static com.example.tanksgame.Color.BLUE;
-import static com.example.tanksgame.Color.GREEN;
-import static com.example.tanksgame.Color.RED;
-import static com.example.tanksgame.Color.YELLOW;
+import static com.example.tanksgame.util.Color.BLUE;
+import static com.example.tanksgame.util.Color.GREEN;
+import static com.example.tanksgame.util.Color.RED;
+import static com.example.tanksgame.util.Color.YELLOW;
 import static com.example.tanksgame.canvas.MyCanvas.kBlueTank;
 import static com.example.tanksgame.canvas.MyCanvas.kGreenTank;
 import static com.example.tanksgame.canvas.MyCanvas.kRedTank;
 import static com.example.tanksgame.canvas.MyCanvas.kYellowTank;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +24,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.tanksgame.MenuActivity;
 import com.example.tanksgame.R;
 
 public class GameActivity extends AppCompatActivity {
@@ -30,10 +32,8 @@ public class GameActivity extends AppCompatActivity {
 
     private int tanksAmount;
 
-    private View m_blueButton;
-    private View m_redButton;
-    private View m_greenButton;
-    private View m_yellowButton;
+    private View m_blueButton, m_redButton, m_greenButton, m_yellowButton;
+    private View homeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,8 @@ public class GameActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        getWindow().getDecorView().setBackgroundResource(Math.random() < 0.5 ? R.drawable.metal_background : R.drawable.sand_background);
 
         tanksAmount = 4;
 
@@ -160,5 +162,12 @@ public class GameActivity extends AppCompatActivity {
         if (tanksAmount == 3) {
             m_yellowButton.setVisibility(INVISIBLE);
         }
+
+        homeButton = findViewById(R.id.btnHome);
+        homeButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, MenuActivity.class);
+            finish();
+            startActivity(intent);
+        });
     }
 }

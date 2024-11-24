@@ -1,5 +1,7 @@
 package com.example.tanksgame;
 
+import com.example.tanksgame.util.Color;
+
 public class Obstacle {
     private final Color kColor;
     private final int x, y;

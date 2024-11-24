@@ -1,9 +1,9 @@
 package com.example.tanksgame.canvas;
 
-import static com.example.tanksgame.Color.BLUE;
-import static com.example.tanksgame.Color.GREEN;
-import static com.example.tanksgame.Color.RED;
-import static com.example.tanksgame.Color.YELLOW;
+import static com.example.tanksgame.util.Color.BLUE;
+import static com.example.tanksgame.util.Color.GREEN;
+import static com.example.tanksgame.util.Color.RED;
+import static com.example.tanksgame.util.Color.YELLOW;
 
 import android.content.Context;
 import android.graphics.Bitmap;

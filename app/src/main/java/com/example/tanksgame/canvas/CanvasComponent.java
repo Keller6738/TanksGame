@@ -11,7 +11,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 import com.example.tanksgame.Circle;
-import com.example.tanksgame.Color;
+import com.example.tanksgame.util.Color;
 
 /**
  * A class represents a canvas component

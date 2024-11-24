@@ -3,7 +3,7 @@ package com.example.tanksgame.canvas;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.example.tanksgame.Color;
+import com.example.tanksgame.util.Color;
 
 public class Tank extends CanvasComponent {
     private boolean m_mobility = false;

@@ -3,7 +3,7 @@ package com.example.tanksgame.canvas;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.example.tanksgame.Color;
+import com.example.tanksgame.util.Color;
 
 public class Rocket extends CanvasComponent {
     private int m_timer;

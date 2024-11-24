@@ -1,4 +1,4 @@
-package com.example.tanksgame;
+package com.example.tanksgame.util;
 
 public enum Color {
     BLUE,
