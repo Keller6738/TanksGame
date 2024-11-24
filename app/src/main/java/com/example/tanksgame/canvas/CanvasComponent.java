@@ -12,6 +12,7 @@ import android.graphics.Paint;
 
 import com.example.tanksgame.Circle;
 import com.example.tanksgame.util.Color;
+import com.example.tanksgame.util.Vector2d;
 
 /**
  * A class represents a canvas component
@@ -23,6 +24,8 @@ public abstract class CanvasComponent {
     protected double m_width, m_height;
     protected double m_x, m_y;
     protected int m_angle;
+
+    protected Vector2d moveVector;
 
     protected final Paint m_basicBrash;
 
@@ -146,15 +149,13 @@ public abstract class CanvasComponent {
      * @param movableY whether the component can move in y axis
      */
     void move(boolean movableX, boolean movableY) {
-        // Convert the angle to radians for use with Math functions
-        double angleInRadians = Math.toRadians(m_angle);
+        moveVector = Vector2d.fromPollar(isTank? 3 : 7, Math.toRadians(m_angle));
 
-        // Calculate movement based purely on angle
         if (movableX) {
-            this.m_x += (isTank ? 3 : 7) * Math.cos(angleInRadians);
+            this.m_x += moveVector.getX();
         }
         if (movableY) {
-            this.m_y += (isTank ? 3 : 7) * Math.sin(angleInRadians);
+            this.m_y += moveVector.getY();
         }
     }
 
