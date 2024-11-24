@@ -29,6 +29,9 @@ public abstract class CanvasComponent {
 
     protected final Paint m_basicBrash;
 
+    public static final int TANK_AT_EDGE_ERROR = 25;
+    private static final int ROCKET_AT_EDGE_ERROR = 25;
+
     /**
      * A constructor that takes initial setup parameters
      *
@@ -145,18 +148,61 @@ public abstract class CanvasComponent {
     /**
      * A function that moves the tank
      *
-     * @param movableX whether the component can move in X axis
-     * @param movableY whether the component can move in y axis
+     * @param screenWidth  the width of the screen
+     * @param screenHeight the height of the screen
      */
-    void move(boolean movableX, boolean movableY) {
-        moveVector = Vector2d.fromPollar(isTank? 3 : 7, Math.toRadians(m_angle));
+    boolean move(int screenWidth, int screenHeight) {
+        return move(screenWidth, screenHeight, null);
+    }
 
-        if (movableX) {
-            this.m_x += moveVector.getX();
+    /**
+     * A function that moves the tank if crashing crashing
+     *
+     * @param screenWidth       the width of the screen
+     * @param screenHeight      the height of the screen
+     * @param crashingComponent the CanvasComponent which this component crashing into
+     * @return whether the component moved in two axes
+     */
+    boolean move(int screenWidth, int screenHeight, CanvasComponent crashingComponent) {
+        moveVector = Vector2d.fromPollar(isTank ? 3 : 7, Math.toRadians(m_angle));
+        if (crashingComponent != null) {
+            if (isTank) {
+            } else {
+                if (crashingComponent.isTank) {
+                    Tank tank = (Tank) crashingComponent;
+                    tank.destroy();
+                } else {
+                    return false;
+                }
+            }
+        } else {
+            if (getMobilityX(screenWidth)) {
+                this.m_x += moveVector.getX();
+            } else {
+                return false;
+            }
+            if (getMobilityY(screenHeight)) {
+                this.m_y += moveVector.getY();
+            } else {
+                return false;
+            }
         }
-        if (movableY) {
-            this.m_y += moveVector.getY();
-        }
+
+        return true;
+    }
+
+    boolean getMobilityX(int width) {
+        int atEdgeError = isTank ? TANK_AT_EDGE_ERROR : ROCKET_AT_EDGE_ERROR;
+
+        return !((m_x - atEdgeError <= 0 && (m_angle > 90 && m_angle < 270)) ||
+                ((m_x + atEdgeError >= width && (m_y < 90 || m_angle > 270))));
+    }
+
+    boolean getMobilityY(int height) {
+        int atEdgeError = isTank ? TANK_AT_EDGE_ERROR : ROCKET_AT_EDGE_ERROR;
+
+        return !((m_y - atEdgeError <= 0 && m_angle > 180) ||
+                (m_y + atEdgeError >= height && m_angle < 180));
     }
 
     /**

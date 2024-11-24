@@ -54,9 +54,6 @@ public class MyCanvas extends View {
     public static final Tank kGreenTank = new Tank(GREEN, 400, 400, 0);
     public static final Tank kYellowTank = new Tank(YELLOW, 500, 200, 0);
 
-    public static final int TANK_AT_EDGE_ERROR = 25;
-    private static final int ROCKET_AT_EDGE_ERROR = 25;
-
     public MyCanvas(Context context, AttributeSet attrs) {
         super(context, attrs);
 
@@ -134,10 +131,7 @@ public class MyCanvas extends View {
 
                 if (tank.isMoving()) {
                     if (!crashing) {
-                        tank.move(
-                                getMobilityX(tank),
-                                getMobilityY(tank)
-                        );
+                        tank.move(getWidth(), getHeight());
                     }
                 } else {
                     tank.turn();
@@ -149,14 +143,11 @@ public class MyCanvas extends View {
         m_tanksHandler.post(m_tanksRunnable);
 
         m_rocketsRunnable = () -> {
-            boolean rocketMobilityX, rocketMobilityY;
             Rocket rocket;
             for (int i = 0; i < m_rockets.size(); i++) {
                 rocket = m_rockets.get(i);
-                rocketMobilityX = getMobilityX(rocket);
-                rocketMobilityY = getMobilityY(rocket);
-                rocket.move(rocketMobilityX, rocketMobilityY);
-                if (!(rocketMobilityX && rocketMobilityY)) {
+                boolean canMove = rocket.move(getWidth(), getHeight());
+                if (!canMove) {
                     m_rockets.remove(i);
                 }
             }
@@ -165,20 +156,6 @@ public class MyCanvas extends View {
         };
 
         m_rocketsHandler.post(m_rocketsRunnable);
-    }
-
-    boolean getMobilityX(CanvasComponent component) {
-        int atEdgeError = component.isTank() ? TANK_AT_EDGE_ERROR : ROCKET_AT_EDGE_ERROR;
-
-        return !((component.getX() - atEdgeError <= 0 && (component.getAngle() > 90 && component.getAngle() < 270)) ||
-                ((component.getX() + atEdgeError >= getWidth() && (component.getY() < 90 || component.getAngle() > 270))));
-    }
-
-    boolean getMobilityY(CanvasComponent component) {
-        int atEdgeError = component.isTank() ? TANK_AT_EDGE_ERROR : ROCKET_AT_EDGE_ERROR;
-
-        return !((component.getY() - atEdgeError <= 0 && component.getAngle() > 180) ||
-                (component.getY() + atEdgeError >= getHeight() && component.getAngle() < 180));
     }
 
     void launchRocket(Rocket rocket) {

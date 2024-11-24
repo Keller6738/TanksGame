@@ -4,16 +4,17 @@ import static android.view.MotionEvent.ACTION_CANCEL;
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_UP;
 import static android.view.View.INVISIBLE;
-import static com.example.tanksgame.util.Color.BLUE;
-import static com.example.tanksgame.util.Color.GREEN;
-import static com.example.tanksgame.util.Color.RED;
-import static com.example.tanksgame.util.Color.YELLOW;
 import static com.example.tanksgame.canvas.MyCanvas.kBlueTank;
 import static com.example.tanksgame.canvas.MyCanvas.kGreenTank;
 import static com.example.tanksgame.canvas.MyCanvas.kRedTank;
 import static com.example.tanksgame.canvas.MyCanvas.kYellowTank;
+import static com.example.tanksgame.util.Color.BLUE;
+import static com.example.tanksgame.util.Color.GREEN;
+import static com.example.tanksgame.util.Color.RED;
+import static com.example.tanksgame.util.Color.YELLOW;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,6 +35,9 @@ public class GameActivity extends AppCompatActivity {
 
     private View m_blueButton, m_redButton, m_greenButton, m_yellowButton;
     private View homeButton;
+
+    private final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +67,7 @@ public class GameActivity extends AppCompatActivity {
                         case ACTION_DOWN:
                             m_canvas.launchRocket(new Rocket(BLUE, kBlueTank.getX(), kBlueTank.getY(), kBlueTank.getAngle()));
                             kBlueTank.toggleMobility();
-                            kBlueTank.move(
-                                    m_canvas.getMobilityX(kBlueTank),
-                                    m_canvas.getMobilityY(kBlueTank)
-                            );
+                            kBlueTank.move(screenWidth, screenHeight);
                             return true;
                         case ACTION_UP:
                         case ACTION_CANCEL:
@@ -87,10 +88,7 @@ public class GameActivity extends AppCompatActivity {
                         case ACTION_DOWN:
                             m_canvas.launchRocket(new Rocket(RED, kRedTank.getX(), kRedTank.getY(), kRedTank.getAngle()));
                             kRedTank.toggleMobility();
-                            kRedTank.move(
-                                    m_canvas.getMobilityX(kRedTank),
-                                    m_canvas.getMobilityY(kRedTank)
-                            );
+                            kRedTank.move(screenWidth, screenHeight);
                             return true;
                         case ACTION_UP:
                         case ACTION_CANCEL:
@@ -119,10 +117,7 @@ public class GameActivity extends AppCompatActivity {
                                 case ACTION_DOWN:
                                     m_canvas.launchRocket(new Rocket(YELLOW, kYellowTank.getX(), kYellowTank.getY(), kYellowTank.getAngle()));
                                     kYellowTank.toggleMobility();
-                                    kYellowTank.move(
-                                            m_canvas.getMobilityX(kYellowTank),
-                                            m_canvas.getMobilityY(kYellowTank)
-                                    );
+                                    kYellowTank.move(screenWidth, screenHeight);
                                     return true;
                                 case ACTION_UP:
                                 case ACTION_CANCEL:
@@ -142,10 +137,7 @@ public class GameActivity extends AppCompatActivity {
                                 case ACTION_DOWN:
                                     m_canvas.launchRocket(new Rocket(GREEN, kGreenTank.getX(), kGreenTank.getY(), kGreenTank.getAngle()));
                                     kGreenTank.toggleMobility();
-                                    kGreenTank.move(
-                                            m_canvas.getMobilityX(kGreenTank),
-                                            m_canvas.getMobilityY(kGreenTank)
-                                    );
+                                    kGreenTank.move(screenWidth, screenHeight);
                                     return true;
                                 case ACTION_UP:
                                 case ACTION_CANCEL:
