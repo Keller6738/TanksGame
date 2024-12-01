@@ -54,7 +54,7 @@ public class Vector2d {
         return new Vector2d(m_x * scalar, m_y * scalar);
     }
 
-    public Vector2d rotate(double deltaDirection) {
+    public Vector2d rotateBy(double deltaDirection) {
         return new Vector2d(getDistance(), getDirection() + deltaDirection);
     }
 

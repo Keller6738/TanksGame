@@ -22,7 +22,8 @@ import com.example.tanksgame.R;
 import java.util.ArrayList;
 
 public class MyCanvas extends View {
-    private Tank[] m_tanks;
+    private ArrayList<Tank> m_tanks;
+    private ArrayList<Tank> m_destroyedTanks;
     private final ArrayList<Rocket> m_rockets;
 
     private Runnable m_tanksRunnable;
@@ -83,15 +84,17 @@ public class MyCanvas extends View {
     }
 
     public void setTanksAmount(int tanksAmount) {
-        m_tanks = new Tank[tanksAmount];
-        m_tanks[0] = kBlueTank;
-        m_tanks[1] = kRedTank;
+        m_tanks = new ArrayList<>();
+        m_tanks.add(kBlueTank);
+        m_tanks.add(kRedTank);
+
+        m_destroyedTanks = new ArrayList<>();
 
         switch (tanksAmount) {
             case 4:
-                m_tanks[3] = kYellowTank;
+                m_tanks.add(kYellowTank);
             case 3:
-                m_tanks[2] = kGreenTank;
+                m_tanks.add(kGreenTank);
                 break;
         }
     }
@@ -104,28 +107,36 @@ public class MyCanvas extends View {
                             tank.contains(m_rockets.get(i).getX(), m_rockets.get(i).getY())) {
                         m_rockets.remove(i);
                         tank.destroy();
+
                         switch (tank.getColor()) {
                             case BLUE:
                                 m_blueTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.died_tank);
+                                m_destroyedTanks.add(kBlueTank);
                                 break;
                             case RED:
                                 m_redTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.died_tank);
+                                m_destroyedTanks.add(kRedTank);
                                 break;
                             case GREEN:
                                 m_greenTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.died_tank);
+                                m_destroyedTanks.add(kGreenTank);
                                 break;
                             case YELLOW:
                                 m_yellowTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.died_tank);
+                                m_destroyedTanks.add(kYellowTank);
                                 break;
                         }
                     }
                 }
 
                 boolean crashing = false;
-                for (Tank otherTank : m_tanks) {
-                    crashing = tank.contains(otherTank);
-                    if (crashing) {
-                        break;
+                if (!m_destroyedTanks.isEmpty()) {
+                    for (Tank otherTank : m_destroyedTanks) {
+                        crashing = tank.contains(otherTank);
+                        if (crashing) {
+                            tank.move(getWidth(), getHeight(), otherTank);
+                            break;
+                        }
                     }
                 }
 
@@ -167,16 +178,16 @@ public class MyCanvas extends View {
         for (Tank tank : m_tanks) {
             switch (tank.getColor()) {
                 case BLUE:
-                    m_tanks[0].draw(canvas, m_blueTankBitmap);
+                    kBlueTank.draw(canvas, m_blueTankBitmap);
                     break;
                 case RED:
-                    m_tanks[1].draw(canvas, m_redTankBitmap);
+                    kRedTank.draw(canvas, m_redTankBitmap);
                     break;
                 case GREEN:
-                    m_tanks[2].draw(canvas, m_greenTankBitmap);
+                    kGreenTank.draw(canvas, m_greenTankBitmap);
                     break;
                 case YELLOW:
-                    m_tanks[3].draw(canvas, m_yellowTankBitmap);
+                    kYellowTank.draw(canvas, m_yellowTankBitmap);
                     break;
             }
         }

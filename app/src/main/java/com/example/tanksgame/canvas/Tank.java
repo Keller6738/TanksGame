@@ -48,6 +48,7 @@ public class Tank extends CanvasComponent {
     }
 
     void destroy() {
+        m_mobility = false;
         isAlive = false;
     }
 

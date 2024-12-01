@@ -165,8 +165,19 @@ public abstract class CanvasComponent {
      */
     boolean move(int screenWidth, int screenHeight, CanvasComponent crashingComponent) {
         moveVector = Vector2d.fromPollar(isTank ? 3 : 7, Math.toRadians(m_angle));
+        boolean mobilityX = getMobilityX(screenWidth), mobilityY = getMobilityY(screenHeight);
+
         if (crashingComponent != null) {
             if (isTank) {
+                int deltaAngle = crashingComponent.m_angle - m_angle;
+                if (deltaAngle == 90) {
+                    moveVector = new Vector2d(0, 0);
+                } else {
+                    int rotation = crashingComponent.m_angle - (crashingComponent.m_angle - 90);
+                    moveVector = moveVector.rotateBy(rotation);
+                    moveVector = new Vector2d(0, moveVector.getY());
+                    moveVector = moveVector.rotateBy(rotation);
+                }
             } else {
                 if (crashingComponent.isTank) {
                     Tank tank = (Tank) crashingComponent;
@@ -175,18 +186,22 @@ public abstract class CanvasComponent {
                     return false;
                 }
             }
-        } else {
-            if (getMobilityX(screenWidth)) {
-                this.m_x += moveVector.getX();
-            } else {
-                return false;
-            }
-            if (getMobilityY(screenHeight)) {
-                this.m_y += moveVector.getY();
-            } else {
-                return false;
-            }
         }
+        if (!mobilityX) {
+            if (!isTank) {
+                return false;
+            }
+            moveVector = new Vector2d(0, moveVector.getY());
+        }
+        if (!mobilityY) {
+            if (!isTank) {
+                return false;
+            }
+            moveVector = new Vector2d(moveVector.getX(), 0);
+        }
+
+        this.m_x += moveVector.getX();
+        this.m_y += moveVector.getY();
 
         return true;
     }

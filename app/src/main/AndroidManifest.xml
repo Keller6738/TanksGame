@@ -16,10 +16,10 @@
             android:name=".MenuActivity"
             android:exported="false" />
         <activity
-            android:name=".canvas.GameActivity"
+            android:name=".LoadingActivity"
             android:exported="false" />
         <activity
-            android:name=".LoadingActivity"
+            android:name=".canvas.GameActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
