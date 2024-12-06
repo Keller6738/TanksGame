@@ -1,14 +1,7 @@
 package com.example.tanksgame.canvas;
 
-import static android.graphics.Color.BLACK;
-import static android.graphics.Color.BLUE;
-import static android.graphics.Color.GREEN;
-import static android.graphics.Color.RED;
-import static android.graphics.Color.YELLOW;
-
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 
 import com.example.tanksgame.Circle;
 import com.example.tanksgame.util.Color;
@@ -26,8 +19,6 @@ public abstract class CanvasComponent {
     protected int m_angle;
 
     protected Vector2d moveVector;
-
-    protected final Paint m_basicBrash;
 
     public static final int TANK_AT_EDGE_ERROR = 25;
     private static final int ROCKET_AT_EDGE_ERROR = 25;
@@ -47,29 +38,6 @@ public abstract class CanvasComponent {
         m_x = initX;
         m_y = initY;
         m_angle = initAngle;
-
-        m_basicBrash = new Paint();
-        m_basicBrash.setAntiAlias(true);
-        configurePaintColor();
-    }
-
-    private void configurePaintColor() {
-        switch (kColor) {
-            case BLUE:
-                m_basicBrash.setColor(BLUE);
-                break;
-            case RED:
-                m_basicBrash.setColor(RED);
-                break;
-            case GREEN:
-                m_basicBrash.setColor(GREEN);
-                break;
-            case YELLOW:
-                m_basicBrash.setColor(YELLOW);
-                break;
-            default:
-                m_basicBrash.setColor(BLACK);
-        }
     }
 
     /**
@@ -176,7 +144,7 @@ public abstract class CanvasComponent {
                     int rotation = -(crashingComponent.m_angle - (crashingComponent.m_angle - 90));
                     moveVector = moveVector.rotateBy(rotation);
                     moveVector = new Vector2d(0, moveVector.getY());
-                    moveVector = moveVector.rotateBy(rotation);
+                    moveVector = moveVector.rotateBy(-rotation);
                 }
             } else {
                 if (crashingComponent.isTank) {
