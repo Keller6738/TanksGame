@@ -173,7 +173,7 @@ public abstract class CanvasComponent {
                 if (deltaAngle == 90) {
                     moveVector = new Vector2d(0, 0);
                 } else {
-                    int rotation = crashingComponent.m_angle - (crashingComponent.m_angle - 90);
+                    int rotation = -(crashingComponent.m_angle - (crashingComponent.m_angle - 90));
                     moveVector = moveVector.rotateBy(rotation);
                     moveVector = new Vector2d(0, moveVector.getY());
                     moveVector = moveVector.rotateBy(rotation);

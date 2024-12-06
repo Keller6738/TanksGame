@@ -55,11 +55,15 @@ public class Vector2d {
     }
 
     public Vector2d rotateBy(double deltaDirection) {
-        return new Vector2d(getDistance(), getDirection() + deltaDirection);
+        return Vector2d.fromPollar(getDistance(), getDirection() + deltaDirection);
     }
 
     public Vector2d withDistance(double newDistance) {
-        double direction = getDirection();
-        return new Vector2d(newDistance * Math.cos(direction), newDistance * Math.sin(direction));
+        return Vector2d.fromPollar(newDistance, getDirection());
+    }
+
+    @Override
+    public String toString() {
+        return getDistance() + ", " + getDirection();
     }
 }
