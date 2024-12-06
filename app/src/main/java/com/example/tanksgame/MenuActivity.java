@@ -35,8 +35,6 @@ public class MenuActivity extends AppCompatActivity {
             finish();
         });
 
-        exitButton.setOnClickListener(view -> {
-            finish();
-        });
+        exitButton.setOnClickListener(view -> finish());
     }
 }

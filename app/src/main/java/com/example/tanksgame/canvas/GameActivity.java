@@ -50,7 +50,7 @@ public class GameActivity extends AppCompatActivity {
             return insets;
         });
 
-        getWindow().getDecorView().setBackgroundResource(Math.random() < 0.5 ? R.drawable.metal_background : R.drawable.sand_background);
+        getWindow().getDecorView().setBackgroundResource(Math.random() <= 0.5 ? R.drawable.metal_background : R.drawable.sand_background);
 
         tanksAmount = 4;
 

@@ -50,10 +50,10 @@ public class MyCanvas extends View {
     private final Bitmap m_yellowFireRocketBitmap;
     private final Bitmap m_yellowRocketBitmap;
 
-    public static final Tank kBlueTank = new Tank(BLUE, 400, 800, 0);
-    public static final Tank kRedTank = new Tank(RED, 800, 200, 0);
-    public static final Tank kGreenTank = new Tank(GREEN, 400, 400, 0);
-    public static final Tank kYellowTank = new Tank(YELLOW, 500, 200, 0);
+    public static Tank kBlueTank;
+    public static Tank kRedTank;
+    public static Tank kGreenTank;
+    public static Tank kYellowTank;
 
     public MyCanvas(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -81,6 +81,11 @@ public class MyCanvas extends View {
 
         m_yellowFireRocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_firerocket);
         m_yellowRocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_rocket);
+
+        kBlueTank = new Tank(BLUE, 400, 800, 0);
+        kRedTank = new Tank(RED, 800, 200, 0);
+        kGreenTank = new Tank(GREEN, 400, 400, 0);
+        kYellowTank = new Tank(YELLOW, 500, 200, 0);
     }
 
     public void setTanksAmount(int tanksAmount) {
