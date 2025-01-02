@@ -1,5 +1,7 @@
 package com.example.tanksgame.canvas;
 
+import static com.example.tanksgame.util.Rectangle.Type.ROCKET;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
@@ -9,7 +11,7 @@ public class Rocket extends CanvasComponent {
     private int m_timer;
 
     public Rocket(Color color, double initX, double initY, int initAngle) {
-        super(false, color, initX, initY, initAngle);
+        super(ROCKET, color, initX, initY, initAngle);
 
         m_timer = 0;
     }

@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.AttributeSet;
 import android.view.View;
@@ -23,20 +22,20 @@ import java.util.ArrayList;
 
 public class MyCanvas extends View {
     private ArrayList<Tank> m_tanks;
-    private ArrayList<Tank> m_destroyedTanks;
+    private ArrayList<Tank> m_tanksToRemove;
+    private ArrayList<DiedTank> m_diedTanks;
+
     private final ArrayList<Rocket> m_rockets;
+    private final ArrayList<Rocket> m_rocketsToRemove;
 
-    private Runnable m_tanksRunnable;
-    private final Handler m_tanksHandler;
+    private Runnable m_runnable;
+    private final Handler m_handler;
 
-    private Runnable m_rocketsRunnable;
-    private final HandlerThread m_rocketsThread = new HandlerThread("rockets thread");
-    private final Handler m_rocketsHandler;
-
-    private Bitmap m_blueTankBitmap;
-    private Bitmap m_redTankBitmap;
-    private Bitmap m_greenTankBitmap;
-    private Bitmap m_yellowTankBitmap;
+    private final Bitmap m_blueTankBitmap;
+    private final Bitmap m_redTankBitmap;
+    private final Bitmap m_greenTankBitmap;
+    private final Bitmap m_yellowTankBitmap;
+    private final Bitmap m_diedTankBitmap;
 
     private final Bitmap m_blueFireRocketBitmap;
     private final Bitmap m_blueRocketBitmap;
@@ -59,16 +58,15 @@ public class MyCanvas extends View {
         super(context, attrs);
 
         m_rockets = new ArrayList<>();
+        m_rocketsToRemove = new ArrayList<>();
 
-        m_tanksHandler = new Handler(Looper.getMainLooper());
-
-        m_rocketsThread.start();
-        m_rocketsHandler = new Handler(m_rocketsThread.getLooper());
+        m_handler = new Handler(Looper.getMainLooper());
 
         m_blueTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_tank);
         m_redTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.red_tank);
         m_greenTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.green_tank);
         m_yellowTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_tank);
+        m_diedTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.died_tank);
 
         m_blueFireRocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_firerocket);
         m_blueRocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_rocket);
@@ -93,7 +91,8 @@ public class MyCanvas extends View {
         m_tanks.add(kBlueTank);
         m_tanks.add(kRedTank);
 
-        m_destroyedTanks = new ArrayList<>();
+        m_diedTanks = new ArrayList<>();
+        m_tanksToRemove = new ArrayList<>();
 
         switch (tanksAmount) {
             case 4:
@@ -105,73 +104,66 @@ public class MyCanvas extends View {
     }
 
     public void startGame() {
-        m_tanksRunnable = () -> {
-            for (Tank tank : m_tanks) {
-                for (int i = 0; i < m_rockets.size(); i++) {
-                    if (tank.getColor() != m_rockets.get(i).getColor() &&
-                            tank.contains(m_rockets.get(i).getX(), m_rockets.get(i).getY())) {
-                        m_rockets.remove(i);
-                        tank.destroy();
+        m_runnable = () -> {
+            for (Rocket rocket : m_rockets) {
+                rocket.move(getWidth(), getHeight());
+                if (!(rocket.getMobilityX(getWidth()) && rocket.getMobilityY(getHeight()))) {
+                    m_rocketsToRemove.add(rocket);
+                }
+            }
 
-                        switch (tank.getColor()) {
-                            case BLUE:
-                                m_blueTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.died_tank);
-                                m_destroyedTanks.add(kBlueTank);
-                                break;
-                            case RED:
-                                m_redTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.died_tank);
-                                m_destroyedTanks.add(kRedTank);
-                                break;
-                            case GREEN:
-                                m_greenTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.died_tank);
-                                m_destroyedTanks.add(kGreenTank);
-                                break;
-                            case YELLOW:
-                                m_yellowTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.died_tank);
-                                m_destroyedTanks.add(kYellowTank);
-                                break;
-                        }
+            for (DiedTank tank : m_diedTanks) {
+                for (Rocket rocket : m_rockets) {
+                    if (rocket.checkCollision(tank)) {
+                        m_rocketsToRemove.add(rocket);
                     }
                 }
+            }
 
+            for (Tank tank : m_tanks) {
                 boolean crashing = false;
-                if (!m_destroyedTanks.isEmpty()) {
-                    for (Tank otherTank : m_destroyedTanks) {
-                        crashing = tank.contains(otherTank);
+                /*if (!m_diedTanks.isEmpty()) {
+                    for (DiedTank diedTank : m_diedTanks) {
+                        crashing = tank.checkCollision(diedTank);
                         if (crashing) {
-                            tank.move(getWidth(), getHeight(), otherTank);
+                            tank.move(getWidth(), getHeight(), diedTank);
                             break;
                         }
                     }
-                }
+                }*/
 
-                if (tank.isMoving()) {
-                    if (!crashing) {
-                        tank.move(getWidth(), getHeight());
-                    }
+                if (tank.isMoving() && !crashing) {
+                    tank.move(getWidth(), getHeight());
                 } else {
                     tank.turn();
                 }
-            }
-            m_tanksHandler.postDelayed(m_tanksRunnable, 16);
-        };
 
-        m_tanksHandler.post(m_tanksRunnable);
-
-        m_rocketsRunnable = () -> {
-            Rocket rocket;
-            for (int i = 0; i < m_rockets.size(); i++) {
-                rocket = m_rockets.get(i);
-                boolean canMove = rocket.move(getWidth(), getHeight());
-                if (!canMove) {
-                    m_rockets.remove(i);
+                for (Rocket rocket : m_rockets) {
+                    if (rocket.checkCollision(tank) && tank.getColor() != rocket.getColor()) {
+                        m_rocketsToRemove.add(rocket);
+                        m_tanksToRemove.add(tank);
+                    }
                 }
             }
+
+            for (Tank tank : m_tanksToRemove) {
+                tank.kill();
+                m_diedTanks.add(new DiedTank(tank.getX(), tank.getY(), tank.getAngle()));
+                m_tanks.remove(tank);
+            }
+            m_tanksToRemove = new ArrayList<>();
+
+            for (Rocket rocket : m_rocketsToRemove) {
+                m_rockets.remove(rocket);
+            }
+            m_tanksToRemove = new ArrayList<>();
+
             invalidate();
-            m_rocketsHandler.postDelayed(m_rocketsRunnable, 16);
+
+            m_handler.postDelayed(m_runnable, 16);
         };
 
-        m_rocketsHandler.post(m_rocketsRunnable);
+        m_handler.post(m_runnable);
     }
 
     void launchRocket(Rocket rocket) {
@@ -196,9 +188,12 @@ public class MyCanvas extends View {
                     break;
             }
         }
-        Rocket rocket;
-        for (int i = 0; i < m_rockets.size(); i++) {
-            rocket = m_rockets.get(i);
+
+        for (DiedTank tank : m_diedTanks) {
+            tank.draw(canvas, m_diedTankBitmap);
+        }
+
+        for (Rocket rocket : m_rockets) {
             switch (rocket.getColor()) {
                 case BLUE:
                     if (rocket.checkTime()) {

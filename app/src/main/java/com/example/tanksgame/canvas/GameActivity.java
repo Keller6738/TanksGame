@@ -16,7 +16,6 @@ import static com.example.tanksgame.util.Color.YELLOW;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -59,45 +58,39 @@ public class GameActivity extends AppCompatActivity {
         m_canvas.startGame();
 
         m_blueButton = findViewById(R.id.blueButton);
-        m_blueButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                if (kBlueTank.isAlive()) {
-                    switch (event.getAction()) {
-                        case ACTION_DOWN:
-                            m_canvas.launchRocket(new Rocket(BLUE, kBlueTank.getX(), kBlueTank.getY(), kBlueTank.getAngle()));
-                            kBlueTank.toggleMobility();
-                            kBlueTank.move(screenWidth, screenHeight);
-                            return true;
-                        case ACTION_UP:
-                        case ACTION_CANCEL:
-                            kBlueTank.toggleMobility();
-                            return true; // Consume event
-                    }
+        m_blueButton.setOnTouchListener((view, event) -> {
+            if (kBlueTank.isAlive()) {
+                switch (event.getAction()) {
+                    case ACTION_DOWN:
+                        m_canvas.launchRocket(new Rocket(BLUE, kBlueTank.getX(), kBlueTank.getY(), kBlueTank.getAngle()));
+                        kBlueTank.toggleMobility();
+                        view.performClick();
+                        return true;
+                    case ACTION_UP:
+                    case ACTION_CANCEL:
+                        kBlueTank.toggleMobility();
+                        return true; // Consume event
                 }
-                return false;
             }
+            return false;
         });
 
         m_redButton = findViewById(R.id.redButton);
-        m_redButton.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                if (kRedTank.isAlive()) {
-                    switch (event.getAction()) {
-                        case ACTION_DOWN:
-                            m_canvas.launchRocket(new Rocket(RED, kRedTank.getX(), kRedTank.getY(), kRedTank.getAngle()));
-                            kRedTank.toggleMobility();
-                            kRedTank.move(screenWidth, screenHeight);
-                            return true;
-                        case ACTION_UP:
-                        case ACTION_CANCEL:
-                            kRedTank.toggleMobility();
-                            return true; // Consume event
-                    }
+        m_redButton.setOnTouchListener((view, event) -> {
+            if (kRedTank.isAlive()) {
+                switch (event.getAction()) {
+                    case ACTION_DOWN:
+                        m_canvas.launchRocket(new Rocket(RED, kRedTank.getX(), kRedTank.getY(), kRedTank.getAngle()));
+                        kRedTank.toggleMobility();
+                        view.performClick();
+                        return true;
+                    case ACTION_UP:
+                    case ACTION_CANCEL:
+                        kRedTank.toggleMobility();
+                        return true; // Consume event
                 }
-                return false;
             }
+            return false;
         });
 
         m_greenButton = findViewById(R.id.greenButton);
@@ -109,44 +102,38 @@ public class GameActivity extends AppCompatActivity {
                 m_yellowButton.setVisibility(INVISIBLE);
                 break;
             case 4:
-                m_yellowButton.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent event) {
-                        if (kYellowTank.isAlive()) {
-                            switch (event.getAction()) {
-                                case ACTION_DOWN:
-                                    m_canvas.launchRocket(new Rocket(YELLOW, kYellowTank.getX(), kYellowTank.getY(), kYellowTank.getAngle()));
-                                    kYellowTank.toggleMobility();
-                                    kYellowTank.move(screenWidth, screenHeight);
-                                    return true;
-                                case ACTION_UP:
-                                case ACTION_CANCEL:
-                                    kYellowTank.toggleMobility();
-                                    return true; // Consume event
-                            }
+                m_yellowButton.setOnTouchListener((view, event) -> {
+                    if (kYellowTank.isAlive()) {
+                        switch (event.getAction()) {
+                            case ACTION_DOWN:
+                                m_canvas.launchRocket(new Rocket(YELLOW, kYellowTank.getX(), kYellowTank.getY(), kYellowTank.getAngle()));
+                                kYellowTank.toggleMobility();
+                                view.performClick();
+                                return true;
+                            case ACTION_UP:
+                            case ACTION_CANCEL:
+                                kYellowTank.toggleMobility();
+                                return true; // Consume event
                         }
-                        return false;
                     }
+                    return false;
                 });
             case 3:
-                m_greenButton.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent event) {
-                        if (kGreenTank.isAlive()) {
-                            switch (event.getAction()) {
-                                case ACTION_DOWN:
-                                    m_canvas.launchRocket(new Rocket(GREEN, kGreenTank.getX(), kGreenTank.getY(), kGreenTank.getAngle()));
-                                    kGreenTank.toggleMobility();
-                                    kGreenTank.move(screenWidth, screenHeight);
-                                    return true;
-                                case ACTION_UP:
-                                case ACTION_CANCEL:
-                                    kGreenTank.toggleMobility();
-                                    return true; // Consume event
-                            }
+                m_greenButton.setOnTouchListener((view, event) -> {
+                    if (kGreenTank.isAlive()) {
+                        switch (event.getAction()) {
+                            case ACTION_DOWN:
+                                m_canvas.launchRocket(new Rocket(GREEN, kGreenTank.getX(), kGreenTank.getY(), kGreenTank.getAngle()));
+                                kGreenTank.toggleMobility();
+                                view.performClick();
+                                return true;
+                            case ACTION_UP:
+                            case ACTION_CANCEL:
+                                kGreenTank.toggleMobility();
+                                return true; // Consume event
                         }
-                        return false;
                     }
+                    return false;
                 });
                 break;
         }

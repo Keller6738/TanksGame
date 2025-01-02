@@ -1,5 +1,7 @@
 package com.example.tanksgame.canvas;
 
+import static com.example.tanksgame.util.Rectangle.Type.TANK;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
@@ -13,7 +15,7 @@ public class Tank extends CanvasComponent {
     private static final int TURNING_RATE = 3;
 
     public Tank(Color color, double initX, double initY, int initAngle) {
-        super(true, color, initX, initY, initAngle);
+        super(TANK, color, initX, initY, initAngle);
     }
 
     public boolean isMoving() {
@@ -22,6 +24,10 @@ public class Tank extends CanvasComponent {
 
     public boolean isAlive() {
         return isAlive;
+    }
+
+    void kill() {
+        isAlive = false;
     }
 
     void turn() {
@@ -45,11 +51,6 @@ public class Tank extends CanvasComponent {
         if (!m_mobility) {
             toggleTurningDirection = !toggleTurningDirection;
         }
-    }
-
-    void destroy() {
-        m_mobility = false;
-        isAlive = false;
     }
 
     @Override
