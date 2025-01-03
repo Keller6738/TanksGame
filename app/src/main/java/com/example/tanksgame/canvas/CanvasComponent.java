@@ -14,6 +14,7 @@ import com.example.tanksgame.util.Vector2d;
  */
 public abstract class CanvasComponent extends Rectangle {
     protected final Color kColor;
+    protected Bitmap m_bitmap;
 
     protected Vector2d moveVector;
 
@@ -28,9 +29,10 @@ public abstract class CanvasComponent extends Rectangle {
      * @param initY     The initial Y pose of the component
      * @param initAngle The initial angle of the component
      */
-    public CanvasComponent(Type type, Color color, double initX, double initY, int initAngle) {
+    public CanvasComponent(Type type, Color color, double initX, double initY, int initAngle, Bitmap bitmap) {
         super(type, initX, initY, initAngle);
         kColor = color;
+        m_bitmap = bitmap;
     }
 
     /**
@@ -92,7 +94,7 @@ public abstract class CanvasComponent extends Rectangle {
         int atEdgeError = m_type == TANK ? TANK_AT_EDGE_ERROR : ROCKET_AT_EDGE_ERROR;
 
         return !((m_x - atEdgeError <= 0 && (m_angle > 90 && m_angle < 270)) ||
-                ((m_x + atEdgeError >= width && (m_y < 90 || m_angle > 270))));
+                ((m_x + atEdgeError >= width && (m_angle < 90 || m_angle > 270))));
     }
 
     boolean getMobilityY(int height) {
@@ -104,7 +106,6 @@ public abstract class CanvasComponent extends Rectangle {
 
     /**
      * @param canvas The canvas surface
-     * @param bitmap A bitmap represents the visualize of the component
      */
-    abstract void draw(Canvas canvas, Bitmap bitmap);
+    abstract void draw(Canvas canvas);
 }

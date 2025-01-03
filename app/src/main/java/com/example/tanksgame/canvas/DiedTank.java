@@ -16,8 +16,8 @@ public class DiedTank extends CanvasComponent {
      * @param initY     The initial Y pose of the component
      * @param initAngle The initial angle of the component
      */
-    public DiedTank(double initX, double initY, int initAngle) {
-        super(DIED_TANK, BLACK, initX, initY, initAngle);
+    public DiedTank(double initX, double initY, int initAngle, Bitmap bitmap) {
+        super(DIED_TANK, BLACK, initX, initY, initAngle, bitmap);
     }
 
     @Override
@@ -28,11 +28,11 @@ public class DiedTank extends CanvasComponent {
     @Override
     void move(int screenWidth, int screenHeight, Rectangle crashingComponent) {}
 
-    void draw(Canvas canvas, Bitmap tankBitmap) {
+    void draw(Canvas canvas) {
         // Save the canvas state
         canvas.save();
 
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(tankBitmap, tankBitmap.getWidth() / 3, tankBitmap.getHeight() / 3, true);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(m_bitmap, m_bitmap.getWidth() / 3, m_bitmap.getHeight() / 3, true);
 
         int scaledWidth = scaledBitmap.getWidth(), scaledHeight = scaledBitmap.getHeight();
 

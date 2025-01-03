@@ -62,7 +62,7 @@ public class GameActivity extends AppCompatActivity {
             if (kBlueTank.isAlive()) {
                 switch (event.getAction()) {
                     case ACTION_DOWN:
-                        m_canvas.launchRocket(new Rocket(BLUE, kBlueTank.getX(), kBlueTank.getY(), kBlueTank.getAngle()));
+                        m_canvas.launchRocket(BLUE);
                         kBlueTank.toggleMobility();
                         view.performClick();
                         return true;
@@ -80,7 +80,7 @@ public class GameActivity extends AppCompatActivity {
             if (kRedTank.isAlive()) {
                 switch (event.getAction()) {
                     case ACTION_DOWN:
-                        m_canvas.launchRocket(new Rocket(RED, kRedTank.getX(), kRedTank.getY(), kRedTank.getAngle()));
+                        m_canvas.launchRocket(RED);
                         kRedTank.toggleMobility();
                         view.performClick();
                         return true;
@@ -106,7 +106,7 @@ public class GameActivity extends AppCompatActivity {
                     if (kYellowTank.isAlive()) {
                         switch (event.getAction()) {
                             case ACTION_DOWN:
-                                m_canvas.launchRocket(new Rocket(YELLOW, kYellowTank.getX(), kYellowTank.getY(), kYellowTank.getAngle()));
+                                m_canvas.launchRocket(YELLOW);
                                 kYellowTank.toggleMobility();
                                 view.performClick();
                                 return true;
@@ -123,7 +123,7 @@ public class GameActivity extends AppCompatActivity {
                     if (kGreenTank.isAlive()) {
                         switch (event.getAction()) {
                             case ACTION_DOWN:
-                                m_canvas.launchRocket(new Rocket(GREEN, kGreenTank.getX(), kGreenTank.getY(), kGreenTank.getAngle()));
+                                m_canvas.launchRocket(GREEN);
                                 kGreenTank.toggleMobility();
                                 view.performClick();
                                 return true;

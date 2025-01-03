@@ -12,11 +12,13 @@ import android.graphics.Canvas;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import com.example.tanksgame.R;
+import com.example.tanksgame.util.Color;
 
 import java.util.ArrayList;
 
@@ -26,28 +28,28 @@ public class MyCanvas extends View {
     private ArrayList<DiedTank> m_diedTanks;
 
     private final ArrayList<Rocket> m_rockets;
-    private final ArrayList<Rocket> m_rocketsToRemove;
+    private ArrayList<Rocket> m_rocketsToRemove;
 
     private Runnable m_runnable;
     private final Handler m_handler;
 
-    private final Bitmap m_blueTankBitmap;
-    private final Bitmap m_redTankBitmap;
-    private final Bitmap m_greenTankBitmap;
-    private final Bitmap m_yellowTankBitmap;
-    private final Bitmap m_diedTankBitmap;
+    public static Bitmap BLUE_TANK_BITMAP;
+    public static Bitmap RED_TANK_BITMAP;
+    public static Bitmap GREEN_TANK_BITMAP;
+    public static Bitmap YELLOW_TANK_BITMAP;
+    public static Bitmap DIED_TANK_BITMAP;
 
-    private final Bitmap m_blueFireRocketBitmap;
-    private final Bitmap m_blueRocketBitmap;
+    public static Bitmap BLUE_FIRE_ROCKET_BITMAP;
+    public static Bitmap BLUE_ROCKET_BITMAP;
 
-    private final Bitmap m_redFireRocketBitmap;
-    private final Bitmap m_redRocketBitmap;
+    public static Bitmap RED_FIRE_ROCKET_BITMAP;
+    public static Bitmap RED_ROCKET_BITMAP;
 
-    private final Bitmap m_greenFireRocketBitmap;
-    private final Bitmap m_greenRocketBitmap;
+    public static Bitmap GREEN_FIRE_ROCKET_BITMAP;
+    public static Bitmap GREEN_ROCKET_BITMAP;
 
-    private final Bitmap m_yellowFireRocketBitmap;
-    private final Bitmap m_yellowRocketBitmap;
+    public static Bitmap YELLOW_FIRE_ROCKET_BITMAP;
+    public static Bitmap YELLOW_ROCKET_BITMAP;
 
     public static Tank kBlueTank;
     public static Tank kRedTank;
@@ -62,28 +64,28 @@ public class MyCanvas extends View {
 
         m_handler = new Handler(Looper.getMainLooper());
 
-        m_blueTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_tank);
-        m_redTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.red_tank);
-        m_greenTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.green_tank);
-        m_yellowTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_tank);
-        m_diedTankBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.died_tank);
+        BLUE_TANK_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.blue_tank);
+        RED_TANK_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.red_tank);
+        GREEN_TANK_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.green_tank);
+        YELLOW_TANK_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_tank);
+        DIED_TANK_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.died_tank);
 
-        m_blueFireRocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_firerocket);
-        m_blueRocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.blue_rocket);
+        BLUE_FIRE_ROCKET_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.blue_firerocket);
+        BLUE_ROCKET_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.blue_rocket);
 
-        m_redFireRocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.red_firerocket);
-        m_redRocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.red_rocket);
+        RED_FIRE_ROCKET_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.red_firerocket);
+        RED_ROCKET_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.red_rocket);
 
-        m_greenFireRocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.green_firerocket);
-        m_greenRocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.green_rocket);
+        GREEN_FIRE_ROCKET_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.green_firerocket);
+        GREEN_ROCKET_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.green_rocket);
 
-        m_yellowFireRocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_firerocket);
-        m_yellowRocketBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_rocket);
+        YELLOW_FIRE_ROCKET_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_firerocket);
+        YELLOW_ROCKET_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_rocket);
 
-        kBlueTank = new Tank(BLUE, 400, 800, 0);
-        kRedTank = new Tank(RED, 800, 200, 0);
-        kGreenTank = new Tank(GREEN, 400, 400, 0);
-        kYellowTank = new Tank(YELLOW, 500, 200, 0);
+        kBlueTank = new Tank(BLUE, 400, 800, 0, BLUE_TANK_BITMAP);
+        kRedTank = new Tank(RED, 800, 200, 0, RED_TANK_BITMAP);
+        kGreenTank = new Tank(GREEN, 400, 400, 0, GREEN_TANK_BITMAP);
+        kYellowTank = new Tank(YELLOW, 500, 200, 0, YELLOW_TANK_BITMAP);
     }
 
     public void setTanksAmount(int tanksAmount) {
@@ -119,6 +121,8 @@ public class MyCanvas extends View {
                     }
                 }
             }
+            Log.d("aaa", !m_rocketsToRemove.isEmpty() ? m_rocketsToRemove.get(0).getColor() + "" : "");
+            Log.d("bbb", kRedTank.getX() + ", " + kRedTank.getY());
 
             for (Tank tank : m_tanks) {
                 boolean crashing = false;
@@ -148,7 +152,7 @@ public class MyCanvas extends View {
 
             for (Tank tank : m_tanksToRemove) {
                 tank.kill();
-                m_diedTanks.add(new DiedTank(tank.getX(), tank.getY(), tank.getAngle()));
+                m_diedTanks.add(new DiedTank(tank.getX(), tank.getY(), tank.getAngle(), DIED_TANK_BITMAP));
                 m_tanks.remove(tank);
             }
             m_tanksToRemove = new ArrayList<>();
@@ -156,7 +160,7 @@ public class MyCanvas extends View {
             for (Rocket rocket : m_rocketsToRemove) {
                 m_rockets.remove(rocket);
             }
-            m_tanksToRemove = new ArrayList<>();
+            m_rocketsToRemove = new ArrayList<>();
 
             invalidate();
 
@@ -166,8 +170,17 @@ public class MyCanvas extends View {
         m_handler.post(m_runnable);
     }
 
-    void launchRocket(Rocket rocket) {
-        m_rockets.add(rocket);
+    void launchRocket(Color tankColor) {
+        Tank tank = null;
+        for (Tank tank1 : m_tanks) {
+            if (tank1.getColor() == tankColor) {
+                tank = tank1;
+            }
+        }
+
+        if (tank != null) {
+            m_rockets.add(tank.getRocket());
+        }
     }
 
     @Override
@@ -175,59 +188,56 @@ public class MyCanvas extends View {
         for (Tank tank : m_tanks) {
             switch (tank.getColor()) {
                 case BLUE:
-                    kBlueTank.draw(canvas, m_blueTankBitmap);
+                    kBlueTank.draw(canvas);
                     break;
                 case RED:
-                    kRedTank.draw(canvas, m_redTankBitmap);
+                    kRedTank.draw(canvas);
                     break;
                 case GREEN:
-                    kGreenTank.draw(canvas, m_greenTankBitmap);
+                    kGreenTank.draw(canvas);
                     break;
                 case YELLOW:
-                    kYellowTank.draw(canvas, m_yellowTankBitmap);
+                    kYellowTank.draw(canvas);
                     break;
             }
         }
 
         for (DiedTank tank : m_diedTanks) {
-            tank.draw(canvas, m_diedTankBitmap);
+            tank.draw(canvas);
         }
 
         for (Rocket rocket : m_rockets) {
             switch (rocket.getColor()) {
                 case BLUE:
                     if (rocket.checkTime()) {
-                        rocket.draw(canvas, m_blueFireRocketBitmap);
+                        rocket.changeBitmap(BLUE_FIRE_ROCKET_BITMAP);
                     } else {
-                        rocket.draw(canvas, m_blueRocketBitmap);
                         rocket.timer();
                     }
                     break;
                 case RED:
                     if (rocket.checkTime()) {
-                        rocket.draw(canvas, m_redFireRocketBitmap);
+                        rocket.changeBitmap(RED_FIRE_ROCKET_BITMAP);
                     } else {
-                        rocket.draw(canvas, m_redRocketBitmap);
                         rocket.timer();
                     }
                     break;
                 case GREEN:
                     if (rocket.checkTime()) {
-                        rocket.draw(canvas, m_greenFireRocketBitmap);
+                        rocket.changeBitmap(GREEN_FIRE_ROCKET_BITMAP);
                     } else {
-                        rocket.draw(canvas, m_greenRocketBitmap);
                         rocket.timer();
                     }
                     break;
                 case YELLOW:
                     if (rocket.checkTime()) {
-                        rocket.draw(canvas, m_yellowFireRocketBitmap);
+                        rocket.changeBitmap(YELLOW_FIRE_ROCKET_BITMAP);
                     } else {
-                        rocket.draw(canvas, m_yellowRocketBitmap);
                         rocket.timer();
                     }
                     break;
             }
+            rocket.draw(canvas);
         }
     }
 }

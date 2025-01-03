@@ -10,8 +10,8 @@ import com.example.tanksgame.util.Color;
 public class Rocket extends CanvasComponent {
     private int m_timer;
 
-    public Rocket(Color color, double initX, double initY, int initAngle) {
-        super(ROCKET, color, initX, initY, initAngle);
+    public Rocket(Color color, double initX, double initY, int initAngle, Bitmap bitmap) {
+        super(ROCKET, color, initX, initY, initAngle, bitmap);
 
         m_timer = 0;
     }
@@ -24,12 +24,16 @@ public class Rocket extends CanvasComponent {
         return m_timer >= 150;
     }
 
+    void changeBitmap(Bitmap newBitmap) {
+        m_bitmap = newBitmap;
+    }
+
     @Override
-    void draw(Canvas canvas, Bitmap rocketBitmap) {
+    void draw(Canvas canvas) {
         // Save the canvas state
         canvas.save();
 
-        Bitmap scaledBitmap = Bitmap.createScaledBitmap(rocketBitmap, rocketBitmap.getWidth() / 4, rocketBitmap.getHeight() / 4, true);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(m_bitmap, m_bitmap.getWidth() / 4, m_bitmap.getHeight() / 4, true);
 
         int scaledWidth = scaledBitmap.getWidth(), scaledHeight = scaledBitmap.getHeight();
 
