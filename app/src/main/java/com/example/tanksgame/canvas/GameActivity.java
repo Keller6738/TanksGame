@@ -14,8 +14,9 @@ import static com.example.tanksgame.util.Color.RED;
 import static com.example.tanksgame.util.Color.YELLOW;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -33,10 +34,10 @@ public class GameActivity extends AppCompatActivity {
     private int tanksAmount;
 
     private View m_blueButton, m_redButton, m_greenButton, m_yellowButton;
-    private View homeButton;
+    private View m_homeButton;
+    private View m_redStart, m_blueStart, m_greenStart, m_yellowStart;
 
-    private final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+    private Runnable m_runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +54,35 @@ public class GameActivity extends AppCompatActivity {
 
         tanksAmount = 4;
 
+        m_redStart = findViewById(R.id.redStart);
+        m_blueStart = findViewById(R.id.blueStart);
+        m_greenStart = findViewById(R.id.greenStart);
+        m_yellowStart = findViewById(R.id.yellowStart);
+
         m_canvas = findViewById(R.id.canvas);
         m_canvas.setTanksAmount(tanksAmount);
+
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        m_runnable = () -> {
+            try {
+                if (tanksAmount == 3) {
+                    m_yellowStart.setVisibility(INVISIBLE);
+                }
+
+                Thread.sleep(750);
+
+                m_redStart.setVisibility(INVISIBLE);
+                m_blueStart.setVisibility(INVISIBLE);
+                m_yellowStart.setVisibility(INVISIBLE);
+                m_greenStart.setVisibility(INVISIBLE);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        };
+
+        handler.post(m_runnable);
+
         m_canvas.startGame();
 
         m_blueButton = findViewById(R.id.blueButton);
@@ -142,8 +170,8 @@ public class GameActivity extends AppCompatActivity {
             m_yellowButton.setVisibility(INVISIBLE);
         }
 
-        homeButton = findViewById(R.id.btnHome);
-        homeButton.setOnClickListener(view -> {
+        m_homeButton = findViewById(R.id.btnHome);
+        m_homeButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, MenuActivity.class);
             finish();
             startActivity(intent);

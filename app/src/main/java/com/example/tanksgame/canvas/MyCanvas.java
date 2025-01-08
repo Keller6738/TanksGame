@@ -82,10 +82,10 @@ public class MyCanvas extends View {
         YELLOW_FIRE_ROCKET_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_firerocket);
         YELLOW_ROCKET_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_rocket);
 
-        kBlueTank = new Tank(BLUE, 400, 800, 0, BLUE_TANK_BITMAP);
-        kRedTank = new Tank(RED, 800, 200, 0, RED_TANK_BITMAP);
-        kGreenTank = new Tank(GREEN, 400, 400, 0, GREEN_TANK_BITMAP);
-        kYellowTank = new Tank(YELLOW, 500, 200, 0, YELLOW_TANK_BITMAP);
+        kBlueTank = new Tank(BLUE, 830, 250, 0, BLUE_TANK_BITMAP);
+        kRedTank = new Tank(RED, 250, 1950, 0, RED_TANK_BITMAP);
+        kGreenTank = new Tank(GREEN, 830, 1950, 0, GREEN_TANK_BITMAP);
+        kYellowTank = new Tank(YELLOW, 250, 250, 0, YELLOW_TANK_BITMAP);
     }
 
     public void setTanksAmount(int tanksAmount) {
@@ -164,10 +164,15 @@ public class MyCanvas extends View {
 
             invalidate();
 
-            m_handler.postDelayed(m_runnable, 16);
+            if (!checkWin()) {
+                m_handler.postDelayed(m_runnable, 16);
+            }
+
         };
 
         m_handler.post(m_runnable);
+
+
     }
 
     void launchRocket(Color tankColor) {
@@ -181,6 +186,10 @@ public class MyCanvas extends View {
         if (tank != null) {
             m_rockets.add(tank.getRocket());
         }
+    }
+
+    boolean checkWin() {
+        return m_tanks.size() == 1;
     }
 
     @Override
