@@ -40,7 +40,7 @@ public class GameActivity extends AppCompatActivity {
     private View m_blueWinner, m_redWinner, m_greenWinner, m_yellowWinner;
     private View m_homeButton, m_restartButton;
 
-    private Runnable m_endGameRunnable;
+    private Runnable m_runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class GameActivity extends AppCompatActivity {
 
         getWindow().getDecorView().setBackgroundResource(Math.random() <= 0.5 ? R.drawable.metal_background : R.drawable.sand_background);
 
-        m_tanksAmount = 2;
+        m_tanksAmount = 4;
 
         m_redStart = findViewById(R.id.redStart);
         m_blueStart = findViewById(R.id.blueStart);
@@ -76,11 +76,11 @@ public class GameActivity extends AppCompatActivity {
 
         m_restartButton = findViewById(R.id.btnRestart);
 
-        startGame();
 
         Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(this::startGame);
 
-        m_endGameRunnable = () -> {
+        m_runnable = () -> {
             if (m_canvas.checkWin()) {
                 m_blueButton.setOnTouchListener(GameActivity::onTouch);
                 m_redButton.setOnTouchListener(GameActivity::onTouch);
@@ -113,10 +113,10 @@ public class GameActivity extends AppCompatActivity {
 //                m_restartButton.setOnClickListener(view -> startGame());
             }
 
-            handler.postDelayed(m_endGameRunnable, 16);
+            handler.postDelayed(m_runnable, 16);
         };
 
-        handler.post(m_endGameRunnable);
+        handler.post(m_runnable);
     }
 
     private static boolean onTouch(View view, MotionEvent event) {
@@ -136,7 +136,7 @@ public class GameActivity extends AppCompatActivity {
 
         Handler handler = new Handler(Looper.getMainLooper());
 
-        m_endGameRunnable = () -> {
+        m_runnable = () -> {
             try {
                 Thread.sleep(750);
             } catch (InterruptedException e) {
@@ -149,7 +149,7 @@ public class GameActivity extends AppCompatActivity {
             m_greenStart.setVisibility(INVISIBLE);
         };
 
-        handler.post(m_endGameRunnable);
+        handler.post(m_runnable);
 
         m_canvas.game();
 

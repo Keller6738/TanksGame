@@ -31,8 +31,8 @@ public class MenuActivity extends AppCompatActivity {
 
         startButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, GameActivity.class);
-            startActivity(intent);
             finish();
+            startActivity(intent);
         });
 
         exitButton.setOnClickListener(view -> finish());
