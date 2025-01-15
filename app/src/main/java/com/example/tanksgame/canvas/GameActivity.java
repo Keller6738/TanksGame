@@ -4,6 +4,7 @@ import static android.view.MotionEvent.ACTION_CANCEL;
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_UP;
 import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 import static com.example.tanksgame.canvas.MyCanvas.kBlueTank;
 import static com.example.tanksgame.canvas.MyCanvas.kGreenTank;
 import static com.example.tanksgame.canvas.MyCanvas.kRedTank;
@@ -17,6 +18,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -31,13 +33,14 @@ import com.example.tanksgame.R;
 public class GameActivity extends AppCompatActivity {
     private MyCanvas m_canvas;
 
-    private int tanksAmount;
+    private int m_tanksAmount, m_timer = 0;
 
     private View m_blueButton, m_redButton, m_greenButton, m_yellowButton;
-    private View m_homeButton;
     private View m_redStart, m_blueStart, m_greenStart, m_yellowStart;
+    private View m_blueWinner, m_redWinner, m_greenWinner, m_yellowWinner;
+    private View m_homeButton, m_restartButton;
 
-    private Runnable m_runnable;
+    private Runnable m_endGameRunnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,38 +55,103 @@ public class GameActivity extends AppCompatActivity {
 
         getWindow().getDecorView().setBackgroundResource(Math.random() <= 0.5 ? R.drawable.metal_background : R.drawable.sand_background);
 
-        tanksAmount = 4;
+        m_tanksAmount = 2;
 
         m_redStart = findViewById(R.id.redStart);
         m_blueStart = findViewById(R.id.blueStart);
         m_greenStart = findViewById(R.id.greenStart);
         m_yellowStart = findViewById(R.id.yellowStart);
 
-        m_canvas = findViewById(R.id.canvas);
-        m_canvas.setTanksAmount(tanksAmount);
+        m_blueWinner = findViewById(R.id.blueWinner);
+        m_redWinner = findViewById(R.id.redWinner);
+        m_greenWinner = findViewById(R.id.greenWinner);
+        m_yellowWinner = findViewById(R.id.yellowWinner);
+
+        m_homeButton = findViewById(R.id.btnHome);
+        m_homeButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, MenuActivity.class);
+            finish();
+            startActivity(intent);
+        });
+
+        m_restartButton = findViewById(R.id.btnRestart);
+
+        startGame();
 
         Handler handler = new Handler(Looper.getMainLooper());
 
-        m_runnable = () -> {
-            try {
-                if (tanksAmount == 3) {
-                    m_yellowStart.setVisibility(INVISIBLE);
+        m_endGameRunnable = () -> {
+            if (m_canvas.checkWin()) {
+                m_blueButton.setOnTouchListener(GameActivity::onTouch);
+                m_redButton.setOnTouchListener(GameActivity::onTouch);
+                m_greenButton.setOnTouchListener(GameActivity::onTouch);
+                m_yellowButton.setOnTouchListener(GameActivity::onTouch);
+
+                switch (m_canvas.getWinnerColor()) {
+                    case RED:
+                        m_redWinner.setVisibility(VISIBLE);
+                        break;
+                    case BLUE:
+                        m_blueWinner.setVisibility(VISIBLE);
+                        break;
+                    case GREEN:
+                        m_greenWinner.setVisibility(VISIBLE);
+                        break;
+                    case YELLOW:
+                        m_yellowWinner.setVisibility(VISIBLE);
+                        break;
                 }
 
-                Thread.sleep(750);
+                m_timer += 1;
 
-                m_redStart.setVisibility(INVISIBLE);
-                m_blueStart.setVisibility(INVISIBLE);
-                m_yellowStart.setVisibility(INVISIBLE);
-                m_greenStart.setVisibility(INVISIBLE);
+                if (m_timer == 200) {
+                    Intent intent = new Intent(this, MenuActivity.class);
+                    finish();
+                    startActivity(intent);
+                }
+//                m_restartButton.setVisibility(VISIBLE);
+//                m_restartButton.setOnClickListener(view -> startGame());
+            }
+
+            handler.postDelayed(m_endGameRunnable, 16);
+        };
+
+        handler.post(m_endGameRunnable);
+    }
+
+    private static boolean onTouch(View view, MotionEvent event) {
+        return false;
+    }
+
+    private void startGame() {
+        m_canvas = findViewById(R.id.canvas);
+        m_canvas.setTanksAmount(m_tanksAmount);
+
+        if (m_tanksAmount == 3) {
+            m_greenStart.setVisibility(VISIBLE);
+        }
+        if (m_tanksAmount == 4) {
+            m_yellowStart.setVisibility(VISIBLE);
+        }
+
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        m_endGameRunnable = () -> {
+            try {
+                Thread.sleep(750);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+
+            m_redStart.setVisibility(INVISIBLE);
+            m_blueStart.setVisibility(INVISIBLE);
+            m_yellowStart.setVisibility(INVISIBLE);
+            m_greenStart.setVisibility(INVISIBLE);
         };
 
-        handler.post(m_runnable);
+        handler.post(m_endGameRunnable);
 
-        m_canvas.startGame();
+        m_canvas.game();
 
         m_blueButton = findViewById(R.id.blueButton);
         m_blueButton.setOnTouchListener((view, event) -> {
@@ -124,7 +192,7 @@ public class GameActivity extends AppCompatActivity {
         m_greenButton = findViewById(R.id.greenButton);
         m_yellowButton = findViewById(R.id.yellowButton);
 
-        switch (tanksAmount) {
+        switch (m_tanksAmount) {
             case 2:
                 m_greenButton.setVisibility(INVISIBLE);
                 m_yellowButton.setVisibility(INVISIBLE);
@@ -166,15 +234,10 @@ public class GameActivity extends AppCompatActivity {
                 break;
         }
 
-        if (tanksAmount == 3) {
+        if (m_tanksAmount == 3) {
             m_yellowButton.setVisibility(INVISIBLE);
         }
 
-        m_homeButton = findViewById(R.id.btnHome);
-        m_homeButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, MenuActivity.class);
-            finish();
-            startActivity(intent);
-        });
+        m_restartButton.setVisibility(INVISIBLE);
     }
 }

@@ -12,7 +12,6 @@ import android.graphics.Canvas;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -27,10 +26,12 @@ public class MyCanvas extends View {
     private ArrayList<Tank> m_tanksToRemove;
     private ArrayList<DiedTank> m_diedTanks;
 
+    private int m_tanksAmount;
+
     private final ArrayList<Rocket> m_rockets;
     private ArrayList<Rocket> m_rocketsToRemove;
 
-    private Runnable m_runnable;
+    private Runnable m_gameRunnable, m_winRunnable;
     private final Handler m_handler;
 
     public static Bitmap BLUE_TANK_BITMAP;
@@ -81,14 +82,14 @@ public class MyCanvas extends View {
 
         YELLOW_FIRE_ROCKET_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_firerocket);
         YELLOW_ROCKET_BITMAP = BitmapFactory.decodeResource(getResources(), R.drawable.yellow_rocket);
+    }
 
+    public void setTanksAmount(int tanksAmount) {
         kBlueTank = new Tank(BLUE, 830, 250, 0, BLUE_TANK_BITMAP);
         kRedTank = new Tank(RED, 250, 1950, 0, RED_TANK_BITMAP);
         kGreenTank = new Tank(GREEN, 830, 1950, 0, GREEN_TANK_BITMAP);
         kYellowTank = new Tank(YELLOW, 250, 250, 0, YELLOW_TANK_BITMAP);
-    }
 
-    public void setTanksAmount(int tanksAmount) {
         m_tanks = new ArrayList<>();
         m_tanks.add(kBlueTank);
         m_tanks.add(kRedTank);
@@ -103,10 +104,12 @@ public class MyCanvas extends View {
                 m_tanks.add(kGreenTank);
                 break;
         }
+
+        m_tanksAmount = tanksAmount;
     }
 
-    public void startGame() {
-        m_runnable = () -> {
+    void game() {
+        m_gameRunnable = () -> {
             for (Rocket rocket : m_rockets) {
                 rocket.move(getWidth(), getHeight());
                 if (!(rocket.getMobilityX(getWidth()) && rocket.getMobilityY(getHeight()))) {
@@ -121,8 +124,6 @@ public class MyCanvas extends View {
                     }
                 }
             }
-            Log.d("aaa", !m_rocketsToRemove.isEmpty() ? m_rocketsToRemove.get(0).getColor() + "" : "");
-            Log.d("bbb", kRedTank.getX() + ", " + kRedTank.getY());
 
             for (Tank tank : m_tanks) {
                 boolean crashing = false;
@@ -165,14 +166,14 @@ public class MyCanvas extends View {
             invalidate();
 
             if (!checkWin()) {
-                m_handler.postDelayed(m_runnable, 16);
+                m_handler.postDelayed(m_gameRunnable, 16);
+            } else {
+                m_handler.removeCallbacks(m_gameRunnable);
+                win();
             }
-
         };
 
-        m_handler.post(m_runnable);
-
-
+        m_handler.post(m_gameRunnable);
     }
 
     void launchRocket(Color tankColor) {
@@ -190,6 +191,46 @@ public class MyCanvas extends View {
 
     boolean checkWin() {
         return m_tanks.size() == 1;
+    }
+
+    void win() {
+        m_winRunnable = () -> {
+            for (Rocket rocket : m_rockets) {
+                rocket.move(getWidth(), getHeight());
+                if (!(rocket.getMobilityX(getWidth()) && rocket.getMobilityY(getHeight()))) {
+                    m_rocketsToRemove.add(rocket);
+                }
+            }
+
+            for (DiedTank tank : m_diedTanks) {
+                for (Rocket rocket : m_rockets) {
+                    if (rocket.checkCollision(tank)) {
+                        m_rocketsToRemove.add(rocket);
+                    }
+                }
+            }
+
+            for (Rocket rocket : m_rocketsToRemove) {
+                m_rockets.remove(rocket);
+            }
+            m_rocketsToRemove = new ArrayList<>();
+
+            m_tanks.get(0).turn();
+
+            invalidate();
+
+            m_handler.postDelayed(m_winRunnable, 16);
+        };
+
+        m_handler.post(m_winRunnable);
+    }
+
+    public int getTanksAmount() {
+        return m_tanksAmount;
+    }
+
+    public Color getWinnerColor() {
+        return checkWin() ? m_tanks.get(0).getColor() : null;
     }
 
     @Override

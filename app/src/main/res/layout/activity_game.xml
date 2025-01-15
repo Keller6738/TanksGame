@@ -85,10 +85,24 @@
         app:srcCompat="@drawable/home" />
 
     <ImageView
+        android:id="@+id/btnRestart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/restart" />
+
+    <ImageView
         android:id="@+id/yellowStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:rotation="135"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.128"
@@ -129,6 +143,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:rotation="315"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.877"
@@ -137,5 +152,60 @@
         app:layout_constraintVertical_bias="0.884"
         app:srcCompat="@drawable/green_start" />
 
+    <ImageView
+        android:id="@+id/blueWinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rotation="225"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.115"
+        app:srcCompat="@drawable/blue_winner" />
+
+    <ImageView
+        android:id="@+id/redWinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rotation="45"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.884"
+        app:srcCompat="@drawable/red_winner" />
+
+    <ImageView
+        android:id="@+id/yellowWinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rotation="135"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.115"
+        app:srcCompat="@drawable/yellow_winner" />
+
+    <ImageView
+        android:id="@+id/greenWinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rotation="315"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.884"
+        app:srcCompat="@drawable/green_winner" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
