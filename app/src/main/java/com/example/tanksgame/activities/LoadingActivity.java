@@ -1,4 +1,4 @@
-package com.example.tanksgame;
+package com.example.tanksgame.activities;
 
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.tanksgame.R;
 
 public class LoadingActivity extends AppCompatActivity {
     private final int TIME = 600;

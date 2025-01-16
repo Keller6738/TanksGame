@@ -1,4 +1,4 @@
-package com.example.tanksgame;
+package com.example.tanksgame.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.tanksgame.R;
 import com.example.tanksgame.canvas.GameActivity;
 
 public class MenuActivity extends AppCompatActivity {
