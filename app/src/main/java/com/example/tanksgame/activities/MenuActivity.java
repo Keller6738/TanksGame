@@ -11,7 +11,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tanksgame.R;
-import com.example.tanksgame.canvas.GameActivity;
 
 public class MenuActivity extends AppCompatActivity {
     View startButton, exitButton;
@@ -31,7 +30,7 @@ public class MenuActivity extends AppCompatActivity {
         exitButton = findViewById(R.id.btnExit);
 
         startButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, GameActivity.class);
+            Intent intent = new Intent(this, GameConfigActivity.class);
             finish();
             startActivity(intent);
         });

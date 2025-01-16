@@ -56,7 +56,13 @@ public class GameActivity extends AppCompatActivity {
 
         getWindow().getDecorView().setBackgroundResource(Math.random() <= 0.5 ? R.drawable.metal_background : R.drawable.sand_background);
 
-        m_tanksAmount = 4;
+        Intent intent = getIntent();
+        Bundle extras;
+
+        if (intent != null && intent.getExtras() != null) {
+            extras = intent.getExtras();
+            m_tanksAmount = extras.getInt("players");
+        }
 
         m_redStart = findViewById(R.id.redStart);
         m_blueStart = findViewById(R.id.blueStart);
@@ -70,9 +76,9 @@ public class GameActivity extends AppCompatActivity {
 
         m_homeButton = findViewById(R.id.btnHome);
         m_homeButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, MenuActivity.class);
+            Intent changeActivityIntent = new Intent(this, MenuActivity.class);
             finish();
-            startActivity(intent);
+            startActivity(changeActivityIntent);
         });
 
         m_restartButton = findViewById(R.id.btnRestart);
