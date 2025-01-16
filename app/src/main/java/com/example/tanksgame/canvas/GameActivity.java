@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -105,18 +106,17 @@ public class GameActivity extends AppCompatActivity {
                 m_timer += 1;
 
                 if (m_timer == 200) {
-                    Intent intent = new Intent(this, MenuActivity.class);
-                    finish();
-                    startActivity(intent);
+                    m_restartButton.setVisibility(VISIBLE);
+                    m_restartButton.setOnClickListener(view -> {
+                        finish();
+                        startActivity(getIntent());
+                    });
                 }
-//                m_restartButton.setVisibility(VISIBLE);
-//                m_restartButton.setOnClickListener(view -> startGame());
             }
 
+            Log.d("aaa", "456");
             handler.postDelayed(m_runnable, 16);
         };
-
-        handler.post(m_runnable);
     }
 
     private static boolean onTouch(View view, MotionEvent event) {
@@ -136,7 +136,7 @@ public class GameActivity extends AppCompatActivity {
 
         Handler handler = new Handler(Looper.getMainLooper());
 
-        m_runnable = () -> {
+        handler.post(() -> {
             try {
                 Thread.sleep(750);
             } catch (InterruptedException e) {
@@ -147,9 +147,7 @@ public class GameActivity extends AppCompatActivity {
             m_blueStart.setVisibility(INVISIBLE);
             m_yellowStart.setVisibility(INVISIBLE);
             m_greenStart.setVisibility(INVISIBLE);
-        };
-
-        handler.post(m_runnable);
+        });
 
         m_canvas.game();
 
@@ -239,5 +237,8 @@ public class GameActivity extends AppCompatActivity {
         }
 
         m_restartButton.setVisibility(INVISIBLE);
+        Log.d("aaa", "123");
+
+        handler.post(m_runnable);
     }
 }
