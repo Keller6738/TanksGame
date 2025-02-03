@@ -16,7 +16,7 @@ public abstract class CanvasComponent extends Rectangle {
     protected final Color kColor;
     protected Bitmap m_bitmap;
 
-    protected Vector2d moveVector;
+    protected Vector2d m_moveVector;
 
     private static final int TANK_AT_EDGE_ERROR = 25;
     private static final int ROCKET_AT_EDGE_ERROR = 25;
@@ -43,51 +43,24 @@ public abstract class CanvasComponent extends Rectangle {
     }
 
     /**
-     * A function that moves the tank
-     *
-     * @param screenWidth  the width of the screen
-     * @param screenHeight the height of the screen
-     */
-    void move(int screenWidth, int screenHeight) {
-        move(screenWidth, screenHeight, null);
-    }
-
-    /**
      * A function that moves the tank if crashing
      *
      * @param screenWidth       the width of the screen
      * @param screenHeight      the height of the screen
-     * @param crashingComponent the CanvasComponent which this component crashing into
      */
-    void move(int screenWidth, int screenHeight, Rectangle crashingComponent) {
-        moveVector = Vector2d.fromPollar(m_type == TANK ? 3 : 7, Math.toRadians(m_angle));
+    void move(int screenWidth, int screenHeight) {
+        m_moveVector = Vector2d.fromPollar(m_type == TANK ? 3 : 7, Math.toRadians(m_angle));
         boolean mobilityX = getMobilityX(screenWidth), mobilityY = getMobilityY(screenHeight);
 
-        /*if (crashingComponent != null) {
-            if (m_type == TANK) {
-                if (crashingComponent.getType() == TANK) {
-                    int deltaAngle = crashingComponent.getAngle() - m_angle;
-                    if (deltaAngle == 90) {
-                        moveVector = new Vector2d(0, 0);
-                    } else {
-                        int rotation = -(crashingComponent.getAngle() - (crashingComponent.getAngle() - 90));
-                        moveVector = moveVector.rotateBy(rotation);
-                        moveVector = new Vector2d(0, moveVector.getY());
-                        moveVector = moveVector.rotateBy(-rotation);
-                    }
-                }
-            }
-        }*/
-
         if (!mobilityX) {
-            moveVector = new Vector2d(0, moveVector.getY());
+            m_moveVector = new Vector2d(0, m_moveVector.getY());
         }
         if (!mobilityY) {
-            moveVector = new Vector2d(moveVector.getX(), 0);
+            m_moveVector = new Vector2d(m_moveVector.getX(), 0);
         }
 
-        this.m_x += moveVector.getX();
-        this.m_y += moveVector.getY();
+        this.m_x += m_moveVector.getX();
+        this.m_y += m_moveVector.getY();
     }
 
     boolean getMobilityX(int width) {

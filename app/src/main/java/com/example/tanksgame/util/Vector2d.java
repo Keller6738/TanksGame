@@ -19,7 +19,7 @@ public class Vector2d {
      * and a Rotation2D representing the angle:
      *
      * @param magnitude The distance from the origin
-     * @param direction The angle of the Vector
+     * @param direction The angle of the Vector in radians
      */
     public static Vector2d fromPollar(double magnitude, double direction) {
         return new Vector2d(magnitude * Math.cos(direction), magnitude * Math.sin(direction));
