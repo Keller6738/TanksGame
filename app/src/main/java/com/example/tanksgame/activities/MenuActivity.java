@@ -11,9 +11,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tanksgame.R;
+import com.example.tanksgame.music.MusicManager;
 
 public class MenuActivity extends AppCompatActivity {
-    View startButton, exitButton;
+    View m_startButton, m_exitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +27,21 @@ public class MenuActivity extends AppCompatActivity {
             return insets;
         });
 
-        startButton = findViewById(R.id.btnStart);
-        exitButton = findViewById(R.id.btnExit);
+        // Keep the music playing
+        MusicManager.startMusic(this);
 
-        startButton.setOnClickListener(view -> {
+        m_startButton = findViewById(R.id.btnStart);
+        m_exitButton = findViewById(R.id.btnExit);
+
+        m_startButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, GameConfigActivity.class);
             finish();
             startActivity(intent);
         });
 
-        exitButton.setOnClickListener(view -> finish());
+        m_exitButton.setOnClickListener(view -> {
+            MusicManager.stopMusic();
+            finish();
+        });
     }
 }
