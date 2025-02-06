@@ -6,8 +6,6 @@ import static com.example.tanksgame.util.Rectangle.Type.DIED_TANK;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-import com.example.tanksgame.util.Rectangle;
-
 public class DiedTank extends CanvasComponent {
     /**
      * A constructor that takes initial setup parameters
@@ -22,11 +20,7 @@ public class DiedTank extends CanvasComponent {
 
     @Override
     void move(int screenWidth, int screenHeight) {
-        move(screenWidth, screenHeight, null);
     }
-
-    @Override
-    void move(int screenWidth, int screenHeight, Rectangle crashingComponent) {}
 
     void draw(Canvas canvas) {
         // Save the canvas state

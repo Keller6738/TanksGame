@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tanksgame.R;
 import com.example.tanksgame.canvas.GameActivity;
+import com.example.tanksgame.music.MusicManager;
 
 public class GameConfigActivity extends AppCompatActivity {
     private View m_2pButton, m_3pButton, m_4pButton;
@@ -27,6 +28,9 @@ public class GameConfigActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Keep the music playing
+        MusicManager.startMusic(this);
 
         m_2pButton = findViewById(R.id.twoPBtn);
         m_3pButton = findViewById(R.id.threePBtn);

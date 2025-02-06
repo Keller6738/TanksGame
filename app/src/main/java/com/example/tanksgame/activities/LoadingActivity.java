@@ -17,11 +17,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tanksgame.R;
+import com.example.tanksgame.music.MusicManager;
 
 public class LoadingActivity extends AppCompatActivity {
     private final int TIME = 600;
-    private ImageView image1, image2, image3, image4;
-    private TextView loading;
+    private ImageView m_image1, m_image2, m_image3, m_image4;
+    private TextView m_loadingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,51 +35,54 @@ public class LoadingActivity extends AppCompatActivity {
             return insets;
         });
 
-        image1 = findViewById(R.id.img1);
-        image2 = findViewById(R.id.img2);
-        image3 = findViewById(R.id.img3);
-        image4 = findViewById(R.id.img4);
+        // Start background music when the app launches
+        MusicManager.startMusic(this);
 
-        loading = findViewById(R.id.title);
+        m_image1 = findViewById(R.id.img1);
+        m_image2 = findViewById(R.id.img2);
+        m_image3 = findViewById(R.id.img3);
+        m_image4 = findViewById(R.id.img4);
 
-        image1.setVisibility(INVISIBLE);
-        image2.setVisibility(INVISIBLE);
-        image3.setVisibility(INVISIBLE);
-        image4.setVisibility(INVISIBLE);
+        m_loadingView = findViewById(R.id.title);
 
-        new Handler(Looper.getMainLooper()).post(() -> image1.setVisibility(VISIBLE));
+        m_image1.setVisibility(INVISIBLE);
+        m_image2.setVisibility(INVISIBLE);
+        m_image3.setVisibility(INVISIBLE);
+        m_image4.setVisibility(INVISIBLE);
+
+        new Handler(Looper.getMainLooper()).post(() -> m_image1.setVisibility(VISIBLE));
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            image1.setRotation(315);
-            loading.setText(R.string.loading2);
+            m_image1.setRotation(315);
+            m_loadingView.setText(R.string.loading2);
         }, TIME);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            image1.setVisibility(INVISIBLE);
-            image2.setVisibility(VISIBLE);
-            loading.setText(R.string.loading3);
+            m_image1.setVisibility(INVISIBLE);
+            m_image2.setVisibility(VISIBLE);
+            m_loadingView.setText(R.string.loading3);
         }, 2 * TIME);
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> image2.setRotation(45), 3 * TIME);
+        new Handler(Looper.getMainLooper()).postDelayed(() -> m_image2.setRotation(45), 3 * TIME);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            image2.setVisibility(INVISIBLE);
-            image3.setVisibility(VISIBLE);
-            loading.setText(R.string.loading1);
+            m_image2.setVisibility(INVISIBLE);
+            m_image3.setVisibility(VISIBLE);
+            m_loadingView.setText(R.string.loading1);
         }, 4 * TIME);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            image3.setRotation(135);
-            loading.setText(R.string.loading2);
+            m_image3.setRotation(135);
+            m_loadingView.setText(R.string.loading2);
         }, 5 * TIME);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            image3.setVisibility(INVISIBLE);
-            loading.setText(R.string.loading3);
-            image4.setVisibility(VISIBLE);
+            m_image3.setVisibility(INVISIBLE);
+            m_loadingView.setText(R.string.loading3);
+            m_image4.setVisibility(VISIBLE);
         }, 6 * TIME);
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> image4.setRotation(225), 7 * TIME);
+        new Handler(Looper.getMainLooper()).postDelayed(() -> m_image4.setRotation(225), 7 * TIME);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             Intent intent = new Intent(getApplicationContext(), MenuActivity.class);

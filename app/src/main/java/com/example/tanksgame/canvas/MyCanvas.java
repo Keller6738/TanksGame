@@ -126,18 +126,7 @@ public class MyCanvas extends View {
             }
 
             for (Tank tank : m_tanks) {
-                boolean crashing = false;
-                /*if (!m_diedTanks.isEmpty()) {
-                    for (DiedTank diedTank : m_diedTanks) {
-                        crashing = tank.checkCollision(diedTank);
-                        if (crashing) {
-                            tank.move(getWidth(), getHeight(), diedTank);
-                            break;
-                        }
-                    }
-                }*/
-
-                if (tank.isMoving() && !crashing) {
+                if (tank.isMoving()) {
                     tank.move(getWidth(), getHeight());
                 } else {
                     tank.turn();

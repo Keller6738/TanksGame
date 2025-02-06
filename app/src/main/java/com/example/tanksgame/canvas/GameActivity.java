@@ -28,8 +28,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.tanksgame.activities.MenuActivity;
 import com.example.tanksgame.R;
+import com.example.tanksgame.activities.MenuActivity;
+import com.example.tanksgame.music.MusicManager;
 
 public class GameActivity extends AppCompatActivity {
     private MyCanvas m_canvas;
@@ -53,6 +54,9 @@ public class GameActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Keep the music playing
+        MusicManager.startMusic(this);
 
         getWindow().getDecorView().setBackgroundResource(Math.random() <= 0.5 ? R.drawable.metal_background : R.drawable.sand_background);
 
@@ -120,7 +124,6 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
 
-            Log.d("aaa", "456");
             handler.postDelayed(m_runnable, 16);
         };
     }
@@ -243,7 +246,6 @@ public class GameActivity extends AppCompatActivity {
         }
 
         m_restartButton.setVisibility(INVISIBLE);
-        Log.d("aaa", "123");
 
         handler.post(m_runnable);
     }
