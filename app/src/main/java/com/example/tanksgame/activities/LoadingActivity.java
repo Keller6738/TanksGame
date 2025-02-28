@@ -85,7 +85,7 @@ public class LoadingActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(() -> m_image4.setRotation(225), 7 * TIME);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             finish();
             startActivity(intent);
         }, 8 * TIME);
