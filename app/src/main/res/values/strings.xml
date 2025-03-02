@@ -15,7 +15,7 @@
     <string name="please_fill_all_fields">Please fill all fields</string>
     <string name="invalid_email_format">Invalid email format. Email must contain \'@\' and \'.com\'</string>
     <string name="registration_successful">Registration successful</string>
-    <string name="registration_failed">Registration failed user/main exist</string>
+    <string name="registration_failed">Registration failed user/mail exist</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
     <string name="sign_in">Sign in</string>

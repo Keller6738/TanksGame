@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,12 +24,12 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     // for login / register players card
     private Dialog dialog;
     private EditText editdUsername, editDEmail, editDPassword;
-    private Button btnDlogin,btnDRegister;
-    private TextView tvUserName,tvDMessage;
+    private Button btnDlogin, btnDRegister;
+    private TextView tvDMessage;
 
     // **** SQLite database
     public DatabaseHelper dbHelper;
-    private Button btnLogin,btnRegister, btnExit;
+    private Button btnLogin, btnRegister, btnExit;
 
     //SharedPreferences save user name in this phone
     private SharedPreferences sharedPreferences;
@@ -41,6 +43,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
         // **** SQLite database
         dbHelper = new DatabaseHelper(this);
+//        dbHelper.deleteAllUsers();
 
         // Retrieve the username from SharedPreferences
         this.sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
@@ -51,13 +54,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
         btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(this);
 
-        tvUserName = findViewById(R.id.tvUserName);
         if (this.savedUsername.equals("DefaultUser")) {
-            tvUserName.setText("");
-            this.btnLogin.setText("Login ");
-        }
-        else {
-            tvUserName.setText(String.format("welcome %s! ", this.savedUsername));
+            this.btnLogin.setText(R.string.login);
+        } else {
             this.btnRegister.setText(R.string.sign_in);
         }
 
@@ -67,7 +66,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     @Override
     public void onClick(View v) {
-        Intent intent;
         if (v.getId() == btnRegister.getId()) {
             createRegistrationDialog();
         }
@@ -100,7 +98,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             String password = editDPassword.getText().toString().trim();
 
             // Validate fields
-            if (username.isEmpty() ||password.isEmpty()) {
+            if (username.isEmpty() || password.isEmpty()) {
                 tvDMessage.setVisibility(View.VISIBLE);
                 tvDMessage.setText(R.string.please_fill_all_fields);
 
@@ -171,8 +169,10 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             tvDMessage.setVisibility(View.VISIBLE);
             if (isRegistered) {
                 tvDMessage.setText(R.string.registration_successful);
-
-                // Optionally, navigate to LoginActivity here.
+                new Handler(Looper.getMainLooper()).postDelayed(
+                        () -> startActivity(new Intent(this, MenuActivity.class)),
+                        1000
+                );
             } else {
                 tvDMessage.setText(R.string.registration_failed);
             }

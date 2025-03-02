@@ -78,4 +78,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return result;
     }
+
+    public boolean deleteUser(String username) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int deletedRows = db.delete(TABLE_USERS, COLUMN_USERNAME + "=?", new String[]{username});
+        db.close();
+        return deletedRows > 0; // Returns true if at least one row was deleted
+    }
+
+    public void deleteAllUsers() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_USERS, null, null);
+        db.close();
+    }
+
+    public void deleteDatabase(Context context) {
+        context.deleteDatabase(DATABASE_NAME);
+    }
 }
