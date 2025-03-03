@@ -1,7 +1,10 @@
 package com.example.tanksgame.activities;
 
+import static android.content.Intent.ACTION_BATTERY_CHANGED;
+
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +19,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tanksgame.R;
+import com.example.tanksgame.util.BatteryCheck;
 import com.example.tanksgame.util.DatabaseHelper;
 
 public class LoginActivity extends AppCompatActivity implements OnClickListener {
@@ -34,6 +38,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     //SharedPreferences save user name in this phone
     private SharedPreferences sharedPreferences;
     private String savedUsername;
+
+    private static boolean isFirstTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +68,14 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
         btnExit = findViewById(R.id.btnExit);
         btnExit.setOnClickListener(this);
+
+        //battery
+        if (isFirstTime) {
+            //battery check
+            registerReceiver(new BatteryCheck(), new IntentFilter(ACTION_BATTERY_CHANGED));
+            isFirstTime = false;
+        }
+
     }
 
     @Override
