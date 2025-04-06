@@ -12,7 +12,7 @@ import android.os.Looper;
 import androidx.appcompat.app.AlertDialog;
 
 public class BatteryCheck extends BroadcastReceiver {
-    private static final int LOW_BATTERY = 30;
+    private static final int LOW_BATTERY = 95;
 
     @Override
     public void onReceive(Context context, Intent intent) {

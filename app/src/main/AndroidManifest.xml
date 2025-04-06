@@ -35,7 +35,7 @@
         </activity>
 
         <receiver
-            android:name=".BatteryCheck"
+            android:name=".util.BatteryCheck"
             android:enabled="true"
             android:exported="true" />
     </application>

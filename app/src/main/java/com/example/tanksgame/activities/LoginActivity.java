@@ -75,7 +75,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             registerReceiver(new BatteryCheck(), new IntentFilter(ACTION_BATTERY_CHANGED));
             isFirstTime = false;
         }
-
     }
 
     @Override
@@ -135,6 +134,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 intent.putExtra("USERNAME", username);
 
                 startActivity(intent);
+                finish();
             } else {
                 tvDMessage.setText(R.string.login_failed);
             }
@@ -184,7 +184,10 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             if (isRegistered) {
                 tvDMessage.setText(R.string.registration_successful);
                 new Handler(Looper.getMainLooper()).postDelayed(
-                        () -> startActivity(new Intent(this, MenuActivity.class)),
+                        () -> {
+                            startActivity(new Intent(this, MenuActivity.class));
+                            finish();
+                        },
                         1000
                 );
             } else {

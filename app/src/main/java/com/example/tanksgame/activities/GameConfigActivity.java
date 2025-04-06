@@ -12,7 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tanksgame.R;
 import com.example.tanksgame.canvas.GameActivity;
-import com.example.tanksgame.music.MusicManager;
+import com.example.tanksgame.util.MusicManager;
 
 public class GameConfigActivity extends AppCompatActivity {
     private View m_2pButton, m_3pButton, m_4pButton;

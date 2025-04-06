@@ -18,7 +18,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -30,7 +29,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tanksgame.R;
 import com.example.tanksgame.activities.MenuActivity;
-import com.example.tanksgame.music.MusicManager;
+import com.example.tanksgame.util.MusicManager;
 
 public class GameActivity extends AppCompatActivity {
     private MyCanvas m_canvas;

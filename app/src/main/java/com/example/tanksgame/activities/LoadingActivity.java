@@ -17,7 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tanksgame.R;
-import com.example.tanksgame.music.MusicManager;
+import com.example.tanksgame.util.MusicManager;
 
 public class LoadingActivity extends AppCompatActivity {
     private final int TIME = 600;
