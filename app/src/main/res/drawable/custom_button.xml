@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Shadow Layer for Depth -->
+    <item android:top="6dp" android:left="6dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="12dp"/>
+            <solid android:color="#145A32"/>  <!-- Darker Green Shadow -->
+        </shape>
+    </item>
+
+    <!-- Main Button Layer -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="12dp"/>
+            <gradient
+                android:angle="90"
+                android:startColor="#a1d740"
+                android:endColor="#4eaa40"/>
+            <padding android:left="16dp" android:right="16dp" android:top="16dp" android:bottom="16dp"/>
+        </shape>
+    </item>
+</layer-list>

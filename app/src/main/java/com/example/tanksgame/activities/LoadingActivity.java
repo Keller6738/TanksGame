@@ -17,7 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tanksgame.R;
-import com.example.tanksgame.music.MusicManager;
+import com.example.tanksgame.util.MusicManager;
 
 public class LoadingActivity extends AppCompatActivity {
     private final int TIME = 600;
@@ -85,7 +85,7 @@ public class LoadingActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(() -> m_image4.setRotation(225), 7 * TIME);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             finish();
             startActivity(intent);
         }, 8 * TIME);

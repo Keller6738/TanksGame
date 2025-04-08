@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+    <!-- Registration Section -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:paddingBottom="16dp" />
+
+    <EditText
+        android:id="@+id/editUsername"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:hint="Username"
+        android:padding="8dp"
+        android:background="@android:drawable/edit_text" />
+
+    <EditText
+        android:id="@+id/editEmail"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:hint="Email"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:drawable/edit_text" />
+
+    <EditText
+        android:id="@+id/editPassword"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:drawable/edit_text" />
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:layout_gravity="center"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="16dp"
+        android:padding="12dp" />
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:padding="8dp"
+        android:background="@android:drawable/edit_text" />
+</LinearLayout>

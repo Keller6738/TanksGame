@@ -1,4 +1,4 @@
-package com.example.tanksgame.music;
+package com.example.tanksgame.util;
 
 import android.content.Context;
 import android.media.MediaPlayer;
