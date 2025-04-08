@@ -14,7 +14,8 @@ import com.example.tanksgame.R;
 import com.example.tanksgame.util.MusicManager;
 
 public class MenuActivity extends AppCompatActivity {
-    View m_startButton, m_exitButton, m_signOutButton;
+    View m_startButton, m_exitButton, m_signOutButton, m_muteButton;
+    boolean mute = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class MenuActivity extends AppCompatActivity {
         m_startButton = findViewById(R.id.btnStart);
         m_exitButton = findViewById(R.id.btnExit);
         m_signOutButton = findViewById(R.id.btnSignOut);
+        m_muteButton = findViewById(R.id.btnMute);
 
         m_startButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, GameConfigActivity.class);
@@ -49,6 +51,17 @@ public class MenuActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
+        });
+
+        m_muteButton.setOnClickListener(view -> {
+            if (!mute) {
+                MusicManager.stopMusic();
+                m_muteButton.setBackgroundResource(R.drawable.unmute);
+            } else{
+                MusicManager.startMusic(this);
+                m_muteButton.setBackgroundResource(R.drawable.mute);
+            }
+            mute = !mute;
         });
     }
 }
