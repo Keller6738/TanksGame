@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Looper;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -27,6 +26,6 @@ public class BatteryCheck extends BroadcastReceiver {
     }
 
     public void timerDelayRemoveDialog(long time, final Dialog dialog) {
-        new Handler(Looper.getMainLooper()).postDelayed(dialog::dismiss, time);
+        new Handler().postDelayed(dialog::dismiss, time);
     }
 }
