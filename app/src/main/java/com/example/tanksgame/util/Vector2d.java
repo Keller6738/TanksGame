@@ -41,27 +41,6 @@ public class Vector2d {
         return Math.atan2(m_y, m_x);
     }
 
-    public Vector2d plus(Vector2d other) {
-        return new Vector2d(m_x + other.m_x, m_y + other.m_y);
-    }
-
-    /**
-     * A function that multiplies the Vector by a scalar
-     *
-     * @return a new Vector2D that represents the product of the Vectors
-     */
-    public Vector2d mul(double scalar) {
-        return new Vector2d(m_x * scalar, m_y * scalar);
-    }
-
-    public Vector2d rotateBy(double deltaDirection) {
-        return Vector2d.fromPollar(getDistance(), getDirection() + deltaDirection);
-    }
-
-    public Vector2d withDistance(double newDistance) {
-        return Vector2d.fromPollar(newDistance, getDirection());
-    }
-
     @Override
     public String toString() {
         return getDistance() + ", " + getDirection();

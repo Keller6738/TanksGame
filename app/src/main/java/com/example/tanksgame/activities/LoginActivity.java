@@ -173,7 +173,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             }
 
             // Validate email format (contains '@' and '.com')
-            if (!email.contains("@") || !email.contains(".com")) {
+            if (!email.contains("@")) {
                 tvDMessage.setVisibility(View.VISIBLE);
                 tvDMessage.setText(R.string.invalid_email_format);
                 return;
