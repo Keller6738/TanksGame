@@ -1,0 +1,227 @@
+@startuml
+class com.example.tanksgame.canvas.Rocket {
+- int m_timer
+~ void timer()
+~ boolean checkTime()
+~ void changeBitmap(Bitmap)
+~ void draw(Canvas)
+}
+
+
+class com.example.tanksgame.canvas.Tank {
+- boolean m_mobility
+- boolean toggleTurningDirection
+- boolean isAlive
+- {static} int TURNING_RATE
++ boolean isMoving()
++ boolean isAlive()
+~ void kill()
+~ void turn()
+~ void toggleMobility()
+~ Rocket getRocket()
+~ void draw(Canvas)
+}
+
+
+class com.example.tanksgame.activities.MenuActivity {
+~ View m_startButton
+~ boolean mute
+# void onCreate(Bundle)
+}
+
+
+abstract class com.example.tanksgame.util.Rectangle {
+# double m_width
+# double m_height
+# double m_x
+# double m_y
+# int m_angle
+# Type m_type
++ double getWidth()
++ double getHeight()
++ double getX()
++ double getY()
++ int getAngle()
++ Type getType()
++ boolean checkCollision(Rectangle)
+}
+
+
+enum com.example.tanksgame.util.Type {
++  RECTANGLE
++  TANK
++  DIED_TANK
++  ROCKET
+}
+
+class com.example.tanksgame.canvas.GameActivity {
+- MyCanvas m_canvas
+- int m_tanksAmount
+- View m_blueButton
+- View m_redStart
+- View m_blueWinner
+- View m_homeButton
+- Runnable m_runnable
+# void onCreate(Bundle)
+- {static} boolean onTouch(View,MotionEvent)
+- void startGame()
+}
+
+
+class com.example.tanksgame.util.BatteryCheck {
+- {static} int LOW_BATTERY
++ void onReceive(Context,Intent)
++ void timerDelayRemoveDialog(long,Dialog)
+}
+
+
+class com.example.tanksgame.canvas.DiedTank {
+~ void move(int,int)
+~ void draw(Canvas)
+}
+
+abstract class com.example.tanksgame.canvas.CanvasComponent {
+# Color kColor
+# Bitmap m_bitmap
+# Vector2d m_moveVector
+- {static} int TANK_AT_EDGE_ERROR
+- {static} int ROCKET_AT_EDGE_ERROR
++ Color getColor()
+~ void move(int,int)
+~ boolean getMobilityX(int)
+~ boolean getMobilityY(int)
+~ {abstract}void draw(Canvas)
+}
+
+
+enum com.example.tanksgame.util.Color {
++  BLUE
++  RED
++  GREEN
++  YELLOW
++  BLACK
+}
+
+class com.example.tanksgame.activities.GameConfigActivity {
+- View m_2pButton
+- View m_homeButton
+# void onCreate(Bundle)
+}
+
+
+class com.example.tanksgame.util.MusicManager {
+- {static} MediaPlayer mediaPlayer
+- {static} boolean isPlaying
++ {static} void startMusic(Context)
++ {static} void stopMusic()
+}
+
+
+class com.example.tanksgame.util.Vector2d {
+- double m_x
++ {static} Vector2d fromPollar(double,double)
++ double getX()
++ double getY()
++ double getDistance()
++ double getDirection()
++ String toString()
+}
+
+
+class com.example.tanksgame.activities.LoadingActivity {
+- int TIME
+- ImageView m_image1
+- TextView m_loadingView
+# void onCreate(Bundle)
+}
+
+
+class com.example.tanksgame.util.DatabaseHelper {
+- {static} String DATABASE_NAME
+- {static} int DATABASE_VERSION
+- {static} String TABLE_USERS
+- {static} String COLUMN_ID
+- {static} String COLUMN_USERNAME
+- {static} String COLUMN_EMAIL
+- {static} String COLUMN_PASSWORD
++ void onCreate(SQLiteDatabase)
++ void onUpgrade(SQLiteDatabase,int,int)
++ boolean registerUser(String,String,String)
++ boolean loginUserByUsername(String,String)
++ boolean deleteUser(String)
++ void deleteAllUsers()
++ void deleteDatabase(Context)
+}
+
+
+class com.example.tanksgame.activities.LoginActivity {
+~ Intent intent
+- Dialog dialog
+- EditText editdUsername
+- Button btnDlogin
+- TextView tvDMessage
++ DatabaseHelper dbHelper
+- Button btnLogin
+- SharedPreferences sharedPreferences
+- String savedUsername
+- {static} boolean isFirstTime
+# void onCreate(Bundle)
++ void onClick(View)
++ void createLoginDialog()
++ void createRegistrationDialog()
+}
+
+
+class com.example.tanksgame.canvas.MyCanvas {
+- ArrayList<Tank> m_tanks
+- ArrayList<Tank> m_tanksToRemove
+- ArrayList<DiedTank> m_diedTanks
+- int m_tanksAmount
+- ArrayList<Rocket> m_rockets
+- ArrayList<Rocket> m_rocketsToRemove
+- Runnable m_gameRunnable
+- Handler m_handler
++ {static} Bitmap BLUE_TANK_BITMAP
++ {static} Bitmap RED_TANK_BITMAP
++ {static} Bitmap GREEN_TANK_BITMAP
++ {static} Bitmap YELLOW_TANK_BITMAP
++ {static} Bitmap DIED_TANK_BITMAP
++ {static} Bitmap BLUE_FIRE_ROCKET_BITMAP
++ {static} Bitmap BLUE_ROCKET_BITMAP
++ {static} Bitmap RED_FIRE_ROCKET_BITMAP
++ {static} Bitmap RED_ROCKET_BITMAP
++ {static} Bitmap GREEN_FIRE_ROCKET_BITMAP
++ {static} Bitmap GREEN_ROCKET_BITMAP
++ {static} Bitmap YELLOW_FIRE_ROCKET_BITMAP
++ {static} Bitmap YELLOW_ROCKET_BITMAP
++ {static} Tank kBlueTank
++ {static} Tank kRedTank
++ {static} Tank kGreenTank
++ {static} Tank kYellowTank
++ void setTanksAmount(int)
+~ void game()
+~ void launchRocket(Color)
+~ boolean checkWin()
+~ void win()
++ int getTanksAmount()
++ Color getWinnerColor()
++ void onDraw(Canvas)
+}
+
+
+
+
+com.example.tanksgame.canvas.CanvasComponent <|-- com.example.tanksgame.canvas.Rocket
+com.example.tanksgame.canvas.CanvasComponent <|-- com.example.tanksgame.canvas.Tank
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tanksgame.activities.MenuActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tanksgame.canvas.GameActivity
+android.content.BroadcastReceiver <|-- com.example.tanksgame.util.BatteryCheck
+com.example.tanksgame.canvas.CanvasComponent <|-- com.example.tanksgame.canvas.DiedTank
+com.example.tanksgame.util.Rectangle <|-- com.example.tanksgame.canvas.CanvasComponent
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tanksgame.activities.GameConfigActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tanksgame.activities.LoadingActivity
+android.database.sqlite.SQLiteOpenHelper <|-- com.example.tanksgame.util.DatabaseHelper
+android.view.View.OnClickListener <|.. com.example.tanksgame.activities.LoginActivity
+androidx.appcompat.app.AppCompatActivity <|-- com.example.tanksgame.activities.LoginActivity
+android.view.View <|-- com.example.tanksgame.canvas.MyCanvas
+@enduml
