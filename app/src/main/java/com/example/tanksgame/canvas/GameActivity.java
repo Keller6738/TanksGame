@@ -20,16 +20,22 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tanksgame.R;
+import com.example.tanksgame.activities.LoginActivity;
 import com.example.tanksgame.activities.MenuActivity;
 import com.example.tanksgame.util.MusicManager;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameActivity extends AppCompatActivity {
     private MyCanvas m_canvas;
@@ -125,6 +131,30 @@ public class GameActivity extends AppCompatActivity {
 
             handler.postDelayed(m_runnable, 16);
         };
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            private boolean firstTime = true;
+            private Timer timer = new Timer();
+
+            @Override
+            public void handleOnBackPressed() {
+                if (firstTime) {
+                    // Custom action when the back button is pressed
+                    Toast.makeText(GameActivity.this, R.string.exit_message, Toast.LENGTH_LONG).show();
+                    firstTime = false;
+
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            firstTime = true;
+                        }
+                    }, 5000);
+                } else {
+                    // Optionally, you can finish the activity if needed
+                    finish();
+                }
+            }
+        });
     }
 
     private static boolean onTouch(View view, MotionEvent event) {

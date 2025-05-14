@@ -20,4 +20,5 @@
     <string name="login">Login</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_out">Sign Out\n</string>
+    <string name="exit_message">Press again to exit</string>
 </resources>

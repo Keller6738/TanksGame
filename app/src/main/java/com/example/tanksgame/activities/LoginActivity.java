@@ -14,13 +14,18 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tanksgame.R;
 import com.example.tanksgame.util.BatteryCheck;
 import com.example.tanksgame.util.DatabaseHelper;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LoginActivity extends AppCompatActivity implements OnClickListener {
     Intent intent;
@@ -75,6 +80,30 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
             registerReceiver(new BatteryCheck(), new IntentFilter(ACTION_BATTERY_CHANGED));
             isFirstTime = false;
         }
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            private boolean firstTime = true;
+            private Timer timer = new Timer();
+
+            @Override
+            public void handleOnBackPressed() {
+                if (firstTime) {
+                    // Custom action when the back button is pressed
+                    Toast.makeText(LoginActivity.this, R.string.exit_message, Toast.LENGTH_LONG).show();
+                    firstTime = false;
+
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            firstTime = true;
+                        }
+                    }, 5000);
+                } else {
+                    // Optionally, you can finish the activity if needed
+                     finish();
+                }
+            }
+        });
     }
 
     @Override

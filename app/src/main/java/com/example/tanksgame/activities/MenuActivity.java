@@ -3,8 +3,10 @@ package com.example.tanksgame.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -12,6 +14,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.tanksgame.R;
 import com.example.tanksgame.util.MusicManager;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MenuActivity extends AppCompatActivity {
     View m_startButton, m_exitButton, m_signOutButton, m_muteButton;
@@ -62,6 +67,30 @@ public class MenuActivity extends AppCompatActivity {
                 m_muteButton.setBackgroundResource(R.drawable.mute);
             }
             mute = !mute;
+        });
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            private boolean firstTime = true;
+            private Timer timer = new Timer();
+
+            @Override
+            public void handleOnBackPressed() {
+                if (firstTime) {
+                    // Custom action when the back button is pressed
+                    Toast.makeText(MenuActivity.this, R.string.exit_message, Toast.LENGTH_LONG).show();
+                    firstTime = false;
+
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            firstTime = true;
+                        }
+                    }, 5000);
+                } else {
+                    // Optionally, you can finish the activity if needed
+                    finish();
+                }
+            }
         });
     }
 }
