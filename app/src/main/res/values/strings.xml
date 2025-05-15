@@ -21,4 +21,7 @@
     <string name="sign_in">Sign in</string>
     <string name="sign_out">Sign Out\n</string>
     <string name="exit_message">Press again to exit</string>
+    <string name="leader_board">Leader Board</string>
+    <string name="no_data">No Data</string>
+    <string name="leaderboard">Leaderboard</string>
 </resources>

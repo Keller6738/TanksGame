@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
     private TextView tvDMessage;
 
     // **** SQLite database
-    public DatabaseHelper dbHelper;
+    public static DatabaseHelper dbHelper;
     private Button btnLogin, btnRegister, btnExit;
 
     //SharedPreferences save user name in this phone
@@ -104,6 +104,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 }
             }
         });
+
+//        dbHelper.deleteDatabase(getApplicationContext());
     }
 
     @Override
@@ -214,7 +216,9 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
                 tvDMessage.setText(R.string.registration_successful);
                 new Handler(Looper.getMainLooper()).postDelayed(
                         () -> {
-                            startActivity(new Intent(this, MenuActivity.class));
+                            intent = new Intent(this, MenuActivity.class);
+                            intent.putExtra("USERNAME", username);
+                            startActivity(intent);
                             finish();
                         },
                         1000

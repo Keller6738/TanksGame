@@ -34,8 +34,10 @@ public class GameConfigActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Keep the music playing
-        MusicManager.startMusic(this);
+        if (!MenuActivity.mute) {
+            // Keep the music playing
+            MusicManager.startMusic(this);
+        }
 
         m_2pButton = findViewById(R.id.twoPBtn);
         m_3pButton = findViewById(R.id.threePBtn);
@@ -44,26 +46,30 @@ public class GameConfigActivity extends AppCompatActivity {
         m_homeButton = findViewById(R.id.btnHome);
         m_homeButton.setOnClickListener(view -> {
             Intent changeActivityIntent = new Intent(this, MenuActivity.class);
+            changeActivityIntent.putExtra("USERNAME", getIntent().getExtras().getString("USERNAME", ""));
             finish();
             startActivity(changeActivityIntent);
         });
 
-        Intent intent =new Intent(this, GameActivity.class);
+        Intent intent = new Intent(this, GameActivity.class);
 
         m_2pButton.setOnClickListener(view -> {
             intent.putExtra("players", 2);
+            intent.putExtra("USERNAME", getIntent().getExtras().getString("USERNAME", ""));
             finish();
             startActivity(intent);
         });
 
         m_3pButton.setOnClickListener(view -> {
             intent.putExtra("players", 3);
+            intent.putExtra("USERNAME", getIntent().getExtras().getString("USERNAME", ""));
             finish();
             startActivity(intent);
         });
 
         m_4pButton.setOnClickListener(view -> {
             intent.putExtra("players", 4);
+            intent.putExtra("USERNAME", getIntent().getExtras().getString("USERNAME", ""));
             finish();
             startActivity(intent);
         });

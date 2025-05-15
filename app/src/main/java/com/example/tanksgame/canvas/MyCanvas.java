@@ -34,6 +34,8 @@ public class MyCanvas extends View {
     private Runnable m_gameRunnable, m_winRunnable;
     private final Handler m_handler;
 
+    private int timer = 0;
+
     public static Bitmap BLUE_TANK_BITMAP;
     public static Bitmap RED_TANK_BITMAP;
     public static Bitmap GREEN_TANK_BITMAP;
@@ -155,6 +157,7 @@ public class MyCanvas extends View {
             invalidate();
 
             if (!checkWin()) {
+                timer += 16;
                 m_handler.postDelayed(m_gameRunnable, 16);
             } else {
                 m_handler.removeCallbacks(m_gameRunnable);
@@ -212,6 +215,10 @@ public class MyCanvas extends View {
         };
 
         m_handler.post(m_winRunnable);
+    }
+
+    int getGameTime() {
+        return timer;
     }
 
     public int getTanksAmount() {

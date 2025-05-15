@@ -49,6 +49,9 @@ public class GameActivity extends AppCompatActivity {
 
     private Runnable m_runnable;
 
+    private Bundle extras;
+    private String username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,17 +63,19 @@ public class GameActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Keep the music playing
-        MusicManager.startMusic(this);
+        if (!MenuActivity.mute) {
+            // Keep the music playing
+            MusicManager.startMusic(this);
+        }
 
         getWindow().getDecorView().setBackgroundResource(Math.random() <= 0.5 ? R.drawable.metal_background : R.drawable.sand_background);
 
         Intent intent = getIntent();
-        Bundle extras;
 
         if (intent != null && intent.getExtras() != null) {
             extras = intent.getExtras();
             m_tanksAmount = extras.getInt("players");
+            username = extras.getString("USERNAME");
         }
 
         m_redStart = findViewById(R.id.redStart);
@@ -86,6 +91,7 @@ public class GameActivity extends AppCompatActivity {
         m_homeButton = findViewById(R.id.btnHome);
         m_homeButton.setOnClickListener(view -> {
             Intent changeActivityIntent = new Intent(this, MenuActivity.class);
+            changeActivityIntent.putExtra("USERNAME", username);
             finish();
             startActivity(changeActivityIntent);
         });
@@ -126,6 +132,8 @@ public class GameActivity extends AppCompatActivity {
                         finish();
                         startActivity(getIntent());
                     });
+                    LoginActivity.dbHelper.updateRecord(extras.getString("USERNAME"), (int) (m_canvas.getGameTime() * Math.pow(10, -3)));
+                    handler.removeCallbacks(m_runnable);
                 }
             }
 

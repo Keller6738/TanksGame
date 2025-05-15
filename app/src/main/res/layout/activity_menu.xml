@@ -88,6 +88,23 @@
         app:layout_constraintVertical_bias="0.304" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLeaderboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_button"
+        android:fontFamily="casual"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="@string/leaderboard"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSignOut"
         android:layout_width="96dp"
         android:layout_height="31dp"
@@ -122,7 +139,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.487" />
+        app:layout_constraintVertical_bias="0.704" />
 
     <ImageView
         android:id="@+id/btnMute"

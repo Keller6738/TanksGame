@@ -2,6 +2,7 @@ package com.example.tanksgame.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,8 +20,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MenuActivity extends AppCompatActivity {
-    View m_startButton, m_exitButton, m_signOutButton, m_muteButton;
-    boolean mute = false;
+    private View m_startButton, m_exitButton, m_signOutButton, m_muteButton, m_leaderboardButton;
+    public static boolean mute = false;
+    private String username = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,15 @@ public class MenuActivity extends AppCompatActivity {
             return insets;
         });
 
+        Intent intent = getIntent();
+        Bundle extras;
+        if (intent != null && intent.getExtras() != null) {
+            extras = intent.getExtras();
+            username = extras.getString("USERNAME");
+        }
+
+        Log.d("database", "" + username);
+
         // Keep the music playing
         MusicManager.startMusic(this);
 
@@ -40,10 +51,12 @@ public class MenuActivity extends AppCompatActivity {
         m_exitButton = findViewById(R.id.btnExit);
         m_signOutButton = findViewById(R.id.btnSignOut);
         m_muteButton = findViewById(R.id.btnMute);
+        m_leaderboardButton = findViewById(R.id.btnLeaderboard);
 
         m_startButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, GameConfigActivity.class);
-            startActivity(intent);
+            Intent changeActivityIntent = new Intent(this, GameConfigActivity.class);
+            changeActivityIntent.putExtra("USERNAME", username);
+            startActivity(changeActivityIntent);
             finish();
         });
 
@@ -53,8 +66,8 @@ public class MenuActivity extends AppCompatActivity {
         });
 
         m_signOutButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
+            Intent changeActivityIntent = new Intent(this, LoginActivity.class);
+            startActivity(changeActivityIntent);
             finish();
         });
 
@@ -62,11 +75,18 @@ public class MenuActivity extends AppCompatActivity {
             if (!mute) {
                 MusicManager.stopMusic();
                 m_muteButton.setBackgroundResource(R.drawable.unmute);
-            } else{
+            } else {
                 MusicManager.startMusic(this);
                 m_muteButton.setBackgroundResource(R.drawable.mute);
             }
             mute = !mute;
+        });
+
+        m_leaderboardButton.setOnClickListener((view) -> {
+            Intent changeActivityIntent = new Intent(this, LeaderboardActivity.class);
+            changeActivityIntent.putExtra("USERNAME", username);
+            finish();
+            startActivity(changeActivityIntent);
         });
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
