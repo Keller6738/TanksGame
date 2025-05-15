@@ -2,7 +2,6 @@ package com.example.tanksgame.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -48,9 +47,6 @@ public class LeaderboardActivity extends AppCompatActivity {
             extras = intent.getExtras();
             username = extras.getString("USERNAME");
         }
-
-        Log.d("database", "" + username);
-
 
         btnHome = findViewById(R.id.btnHome);
         btnHome.setOnClickListener((view) -> {

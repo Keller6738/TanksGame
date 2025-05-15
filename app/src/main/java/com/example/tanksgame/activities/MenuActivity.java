@@ -2,7 +2,6 @@ package com.example.tanksgame.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -41,8 +40,6 @@ public class MenuActivity extends AppCompatActivity {
             extras = intent.getExtras();
             username = extras.getString("USERNAME");
         }
-
-        Log.d("database", "" + username);
 
         // Keep the music playing
         MusicManager.startMusic(this);
