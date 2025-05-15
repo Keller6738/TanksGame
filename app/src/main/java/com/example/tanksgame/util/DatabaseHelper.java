@@ -142,15 +142,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return players;
     }
 
-    public String getUsernameRecord(String username) {
+    public int getUsernameRecord(String username) {
         SQLiteDatabase db = this.getReadableDatabase();  // Changed to readable
-        String record = "No data found!";
+        int record = 0;
 
         Cursor cursor = db.query(TABLE_USERS, new String[]{COLUMN_LONGEST_TIME},
                 "username = ?", new String[]{username}, null, null, null);
 
         if (cursor != null && cursor.moveToFirst()) {
-            record = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_LONGEST_TIME));
+            record = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_LONGEST_TIME));
             Log.d("database", "User record for " + username + ": " + record);
             cursor.close();
         }

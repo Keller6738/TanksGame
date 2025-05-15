@@ -104,6 +104,16 @@ public class GameActivity extends AppCompatActivity {
 
         m_runnable = () -> {
             if (m_canvas.checkWin()) {
+                if (m_timer == 0) {
+                    LoginActivity.dbHelper.updateRecord(
+                            username,
+                            Math.max(
+                                    LoginActivity.dbHelper.getUsernameRecord(username),
+                                    ((int) (m_canvas.getGameTime() * Math.pow(10, -3)))
+                            )
+                    );
+                }
+
                 m_blueButton.setOnTouchListener(GameActivity::onTouch);
                 m_redButton.setOnTouchListener(GameActivity::onTouch);
                 m_greenButton.setOnTouchListener(GameActivity::onTouch);
@@ -132,7 +142,6 @@ public class GameActivity extends AppCompatActivity {
                         finish();
                         startActivity(getIntent());
                     });
-                    LoginActivity.dbHelper.updateRecord(extras.getString("USERNAME"), (int) (m_canvas.getGameTime() * Math.pow(10, -3)));
                     handler.removeCallbacks(m_runnable);
                 }
             }
