@@ -126,7 +126,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<String> players = new ArrayList<String>();
 
         // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_USERS;
+        String selectQuery = "SELECT * FROM " + TABLE_USERS + " ORDER BY " + COLUMN_LONGEST_TIME + " DESC";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
